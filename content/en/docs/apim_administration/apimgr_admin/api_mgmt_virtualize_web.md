@@ -76,53 +76,41 @@ The following shows an example:
 
 Configure the following to enable API key authentication:
 
-API key field name
-: Enter a required name used to store the API key field in the inbound request. Defaults to `KeyId`.
+**API key field name**: Enter a required name used to store the API key field in the inbound request. Defaults to `KeyId`.
 
-API key location
-: Select the required location of the API key in the inbound request (`Request Headers` or `Query string/form body`). Defaults to `Request Headers`.
+**API key location**: Select the required location of the API key in the inbound request (`Request Headers` or `Query string/form body`). Defaults to `Request Headers`.
 
-Scopes must match
-: Select whether the scopes configured in the next setting must match `Any` or `All` of the scopes registered for client applications.
+**Scopes must match**: Select whether the scopes configured in the next setting must match `Any` or `All` of the scopes registered for client applications.
 
-Scopes
-: Enter the scopes configured for this API, which are used for client application authorization. These scopes define a set of authorizations (for example, all read methods) that can be assigned to specific client applications. You can enter a single scope (for example, `app.all`, `app.read`, or `app.write`) or a comma-separated list of scopes.
+**Scopes**: Enter the scopes configured for this API, which are used for client application authorization. These scopes define a set of authorizations (for example, all read methods) that can be assigned to specific client applications. You can enter a single scope (for example, `app.all`, `app.read`, or `app.write`) or a comma-separated list of scopes.
 
-Remove credentials on success
-: Select whether to remove the user credentials from the message after successful authentication. This is selected by default. If you disable this option, an inbound request authorization header is forwarded to the back-end. To use another authentication and authorization mechanism to secure the connection to the back-end, you must remove the inbound authorization header using a custom routing policy.
+**Remove credentials on success**: Select whether to remove the user credentials from the message after successful authentication. This is selected by default. If you disable this option, an inbound request authorization header is forwarded to the back-end. To use another authentication and authorization mechanism to secure the connection to the back-end, you must remove the inbound authorization header using a custom routing policy.
 
 #### AWS Signing (Authorization Header)
 
 Configure the following to enable access to the API using an Amazon Web Services authorization header:
 
-Name
-: Enter a required name for the device. Defaults to `AWS Signing Device (Authorization Header)`.
+**Name**: Enter a required name for the device. Defaults to `AWS Signing Device (Authorization Header)`.
 
-Remove credentials on success
-: Select whether to remove the user credentials from the message after successful authentication. This is selected by default. If you disable this option, an inbound request authorization header is forwarded to the back-end. To use another authentication and authorization mechanism to secure the connection to the back-end, you must remove the inbound authorization header using a custom routing policy.
+**Remove credentials on success**: Select whether to remove the user credentials from the message after successful authentication. This is selected by default. If you disable this option, an inbound request authorization header is forwarded to the back-end. To use another authentication and authorization mechanism to secure the connection to the back-end, you must remove the inbound authorization header using a custom routing policy.
 
 #### AWS Signing (Query String)
 
 Configure the following to enable access to the API using an Amazon Web Services query string:
 
-Name
-: Enter a required name for the device. Defaults to `AWS Signing Device (Query String)`.
+**Name**: Enter a required name for the device. Defaults to `AWS Signing Device (Query String)`.
 
-API key field name
-: Enter a required name of the query-string parameter used to store the API key field in the inbound request. Defaults to `AWSAccessKeyId`.
+**API key field name**: Enter a required name of the query-string parameter used to store the API key field in the inbound request. Defaults to `AWSAccessKeyId`.
 
 #### HTTP Basic
 
 Configure the following to enable HTTP Basic authentication:
 
-Name
-: Enter a required name for the device. Defaults to `HTTP Basic Device`.
+**Name**: Enter a required name for the device. Defaults to `HTTP Basic Device`.
 
-Realm
-: Enter the realm required for HTTP basic authentication purposes (for example, `Flickr`). This enables clients to identify the zone that they are accessing. For example, the browser can then cache user credentials on a per-realm basis. The realm is required for all authentication schemes that issue an authentication challenge.
+**Realm**: Enter the realm required for HTTP basic authentication purposes (for example, `Flickr`). This enables clients to identify the zone that they are accessing. For example, the browser can then cache user credentials on a per-realm basis. The realm is required for all authentication schemes that issue an authentication challenge.
 
-Remove credentials on success
-: Select whether to remove the user credentials from the message after successful authentication. This is selected by default. If you disable this option, an inbound request authorization header is forwarded to the back-end. To use another authentication and authorization mechanism to secure the connection to the back-end, you must remove the inbound authorization header using a custom routing policy.
+**Remove credentials on success**: Select whether to remove the user credentials from the message after successful authentication. This is selected by default. If you disable this option, an inbound request authorization header is forwarded to the back-end. To use another authentication and authorization mechanism to secure the connection to the back-end, you must remove the inbound authorization header using a custom routing policy.
 
 {{< alert title="Note" color="primary" >}}When using HTTP basic authentication, the client application invoking the API must use the API key as username and the API secret as password, formatted as `Base64Encode("APIKey:APISecret")`.{{< /alert >}}
 
@@ -130,25 +118,20 @@ Remove credentials on success
 
 Configure the following to use a custom authentication policy:
 
-Name
-: Enter the name of the custom security device. Defaults to `Invoke Policy`.
+**Name**: Enter the name of the custom security device. Defaults to `Invoke Policy`.
 
-Policy to invoke
-: Select the authentication policy that this security device invokes. This lists policies already configured in Policy Studio in **Environment Configuration > Server Settings > API Manager > Inbound Security Policies**.
+**Policy to invoke**: Select the authentication policy that this security device invokes. This lists policies already configured in Policy Studio in **Environment Configuration > Server Settings > API Manager > Inbound Security Policies**.
 
-Use client registry
-: Select whether the `authentication.subject.id` identifier must match one of the application's external credentials in the Client Registry in API Manager. This setting is selected by default, and is required for API Manager to check if the organization has access to the API. If you do not select this setting, API Manager will not check the organization access.
+**Use client registry**: Select whether the `authentication.subject.id` identifier must match one of the application's external credentials in the Client Registry in API Manager. This setting is selected by default, and is required for API Manager to check if the organization has access to the API. If you do not select this setting, API Manager will not check the organization access.
 
-Traffic Monitor subject
-: If **Use client registry** is not selected, the API has no client information, and API Manager does not check organization access to the API. In this case, you can enter the subject name to display in the Traffic tab in API Gateway Manager. Defaults to `${authentication.subject.id}`.
+**Traffic Monitor subject**: If **Use client registry** is not selected, the API has no client information, and API Manager does not check organization access to the API. In this case, you can enter the subject name to display in the Traffic tab in API Gateway Manager. Defaults to `${authentication.subject.id}`.
 
-Description
-: Select where the Markdown description for this security device is located. For details on writing documentation with Markdown, see <http://daringfireball.net/projects/markdown/>.
-: Select one of the following:
-    * **Use original policy description**: Use the policy description specified when creating the policy in Policy Studio.
-    * **Use manual description**: Get the description from the contents of a field. Enter the description in the Manual Description field.
-    * **Use markdown file location**: Get the description from a file located on the server. Enter the path to this file in the Markdown file location field. For security reasons, this file must start with an environmentalized variable and cannot attempt directory traversal. For example, the following path is valid: `${env.DOCUMENTS}/markdown/api.md`. The following paths are invalid: `/opt/documents/api.md`, `${env.DOCUMENTS}/../markdown/api.md`.
-    * **Use external URL**: Get the description from an external URL. Enter the URL in the External URL location field.
+**Description**: Select where the [Markdown](http://daringfireball.net/projects/markdown/) description for this security device is located. Select one of the following:
+
+* **Use original policy description**: Use the policy description specified when creating the policy in Policy Studio.
+* **Use manual description**: Get the description from the contents of a field. Enter the description in the Manual Description field.
+* **Use markdown file location**: Get the description from a file located on the server. Enter the path to this file in the Markdown file location field. For security reasons, this file must start with an environmentalized variable and cannot attempt directory traversal. For example, the following path is valid: `${env.DOCUMENTS}/markdown/api.md`. The following paths are invalid: `/opt/documents/api.md`, `${env.DOCUMENTS}/../markdown/api.md`.
+* **Use external URL**: Get the description from an external URL. Enter the URL in the **External URL location** field.
 
 {{< alert title="Note" color="primary" >}}Invoke Policy security devices generate an Authentication section in the API Catalog that displays the description entered when creating the security device.{{< /alert >}}
 
@@ -158,56 +141,41 @@ Configure the following to enable OAuth authorization for access tokens issued b
 
 ##### General OAuth settings
 
-Access token store
-: Select a required OAuth access token store from the list. For details on how to add OAuth access token stores to this list, see [Configure API Manager settings in Policy Studio](/docs/apim_administration/apimgr_admin/api_mgmt_config_ps/).
+**Access token store**: Select a required OAuth access token store from the list. For details on how to add OAuth access token stores to this list, see [Configure API Manager settings in Policy Studio](/docs/apim_administration/apimgr_admin/api_mgmt_config_ps/).
 
-Scopes must match
-: Select whether the OAuth scopes match `Any` or `All` of the OAuth scopes configured in the next field. OAuth scopes are used to control how access tokens are accepted.
+**Scopes must match**: Select whether the OAuth scopes match `Any` or `All` of the OAuth scopes configured in the next field. OAuth scopes are used to control how access tokens are accepted.
 
-Scopes
-: Enter a comma-separated list of scopes used to manage how access tokens are accepted. In addition, these tokens are used as default scopes for applications that use this API and do not send the `scope` parameter in the access token request. You can also configure additional default scopes for an application if enabled in **Settings > API Manager Settings > General settings > Enable application scopes**. For details, see [API Manager settings](/docs/apim_reference/api_mgmt_config_web/#api-manager-settings). Defaults to `resource.WRITE, resource.READ`.
+**Scopes**: Enter a comma-separated list of scopes used to manage how access tokens are accepted. In addition, these tokens are used as default scopes for applications that use this API and do not send the `scope` parameter in the access token request. You can also configure additional default scopes for an application if enabled in **Settings > API Manager Settings > General settings > Enable application scopes**. For details, see [API Manager settings](/docs/apim_reference/api_mgmt_config_web/#api-manager-settings). Defaults to `resource.WRITE, resource.READ`.
 
-Remove credentials on success
-: Select whether to remove the user credentials from the message after successful authentication. This is selected by default. If you disable this option, an inbound request authorization header is forwarded to the back-end. To use another authentication and authorization mechanism to secure the connection to the back-end, you must remove the inbound authorization header using a custom routing policy.
+**Remove credentials on success**: Select whether to remove the user credentials from the message after successful authentication. This is selected by default. If you disable this option, an inbound request authorization header is forwarded to the back-end. To use another authentication and authorization mechanism to secure the connection to the back-end, you must remove the inbound authorization header using a custom routing policy.
 
 ##### OAuth authorization settings
 
-Access token location
-: Select the required location of the OAuth access token in the inbound request (`Request Header` or `Query string/form body`). Defaults to `Request Header`.
+**Access token location**: Select the required location of the OAuth access token in the inbound request (`Request Header` or `Query string/form body`). Defaults to `Request Header`.
 
-Authorization header prefix
-: Select the header prefix used to authorize the request (`Bearer` or `OAuth`). Defaults to `Bearer`.
+**Authorization header prefix**: Select the header prefix used to authorize the request (`Bearer` or `OAuth`). Defaults to `Bearer`.
 
 ##### Grant type implicit
 
-Enabled
-: Select whether to enable this simplified authorization code flow optimized for browser-based clients. Enabling advertises this grant type in the API Catalog. It is the role of the OAuth authorization server to support it. Disabling excludes this grant type from the API Catalog.
+**Enabled**: Select whether to enable this simplified authorization code flow optimized for browser-based clients. Enabling advertises this grant type in the API Catalog. It is the role of the OAuth authorization server to support it. Disabling excludes this grant type from the API Catalog.
 
-Login endpoint URL
-: Enter the authorization endpoint where resource owners can interact with the OAuth service to authorize access for the client application. This is the URL where client applications will redirect end users. Defaults to `http://localhost:8089/api/oauth/authorize`.
+**Login endpoint URL**: Enter the authorization endpoint where resource owners can interact with the OAuth service to authorize access for the client application. This is the URL where client applications will redirect end users. Defaults to `http://localhost:8089/api/oauth/authorize`.
 
-Login token name
-: Enter the response parameter name that will contain the access token. Defaults to `access_token`.
+**Login token name**: Enter the response parameter name that will contain the access token. Defaults to `access_token`.
 
 ##### Grant type authorization code
 
-Enabled
-: Select whether the authorization code is obtained using an authorization server as an intermediary between the client and resource owner. Enabling advertises this grant type in the API Catalog. It is the role of the OAuth authorization server to support it. Disabling excludes this grant type from the API Catalog.
+**Enabled**: Select whether the authorization code is obtained using an authorization server as an intermediary between the client and resource owner. Enabling advertises this grant type in the API Catalog. It is the role of the OAuth authorization server to support it. Disabling excludes this grant type from the API Catalog.
 
-Request endpoint URL
-: Enter the authorization endpoint where resource owners can interact with the OAuth service to authorize access for client application. This is the URL where client application will redirect end users. Defaults to `http://localhost:8089/api/oauth/authorize`.
+**Request endpoint URL**: Enter the authorization endpoint where resource owners can interact with the OAuth service to authorize access for client application. This is the URL where client application will redirect end users. Defaults to `http://localhost:8089/api/oauth/authorize`.
 
-Request client ID name
-: Enter the name of the request parameter that will contain the client application ID. Defaults to `client_id`.
+**Request client ID name**: Enter the name of the request parameter that will contain the client application ID. Defaults to `client_id`.
 
-Request client secret name
-: Enter the name of the request parameter that will contain the client application secret. Defaults to `client_secret`.
+**Request client secret name**: Enter the name of the request parameter that will contain the client application secret. Defaults to `client_secret`.
 
-Token URL
-: Enter the token endpoint URL where the client application will exchange an authorization code for an access token. Defaults to `http://localhost:8089/api/oauth/token`.
+**Token URL**: Enter the token endpoint URL where the client application will exchange an authorization code for an access token. Defaults to `http://localhost:8089/api/oauth/token`.
 
-Token name
-: Enter the request parameter name that will contain the access code. Defaults to `access_token`.
+**Token name**: Enter the request parameter name that will contain the access code. Defaults to `access_token`.
 
 #### OAuth (External)
 
@@ -215,30 +183,23 @@ Configure the following to enable OAuth authorization for access tokens issued b
 
 ##### General OAuth (external) settings
 
-Token information policy
-: Select a required OAuth token information policy from the list. This is a custom policy used to obtain and extract token information from the external OAuth provider. For details on how to add OAuth token information policies to the list, see [Configure API Manager settings in Policy Studio](/docs/apim_administration/apimgr_admin/api_mgmt_config_ps/).
+**Token information policy**: Select a required OAuth token information policy from the list. This is a custom policy used to obtain and extract token information from the external OAuth provider. For details on how to add OAuth token information policies to the list, see [Configure API Manager settings in Policy Studio](/docs/apim_administration/apimgr_admin/api_mgmt_config_ps/).
 
-Scopes must match
-: Select whether the OAuth scopes match Any or All of the OAuth scopes configured in the next field. OAuth scopes are used to control how access tokens are accepted.
+**Scopes must match**: Select whether the OAuth scopes match Any or All of the OAuth scopes configured in the next field. OAuth scopes are used to control how access tokens are accepted.
 
-Scopes
-: Enter a comma-separated list of OAuth scopes used to manage how access tokens are accepted. Defaults to `resource.WRITE, resource.READ`.
+**Scopes**: Enter a comma-separated list of OAuth scopes used to manage how access tokens are accepted. Defaults to `resource.WRITE, resource.READ`.
 
-Remove credentials on success
-: Select whether to remove the user credentials from the message after successful authentication. This is selected by default. If you disable this option, an inbound request authorization header is forwarded to the back-end. To use another authentication and authorization mechanism to secure the connection to the back-end, you must remove the inbound authorization header using a custom routing policy.
+**Remove credentials on success**: Select whether to remove the user credentials from the message after successful authentication. This is selected by default. If you disable this option, an inbound request authorization header is forwarded to the back-end. To use another authentication and authorization mechanism to secure the connection to the back-end, you must remove the inbound authorization header using a custom routing policy.
 
-Use client registry
-: Select this option so that API Manager can use the external provided client ID (with either configured API keys, OAuth credentials, or external credentials) to identify the configured client application in API Manager client registry, which allows it to apply quotas and assign a subject identifier for traffic monitoring. If this is not selected, the API effectively is pass-through and the client registry does not apply API access or enforce quotas. This is not selected by default because external OAuth providers typically use their own client registries.
+**Use client registry**: Select this option so that API Manager can use the external provided client ID (with either configured API keys, OAuth credentials, or external credentials) to identify the configured client application in API Manager client registry, which allows it to apply quotas and assign a subject identifier for traffic monitoring. If this is not selected, the API effectively is pass-through and the client registry does not apply API access or enforce quotas. This is not selected by default because external OAuth providers typically use their own client registries.
 
-Traffic monitor subject
-: Enter the identifier name used for clients from the external OAuth provider, which is displayed on the Traffic tab in the API Gateway Manager console. This value can be a selector. Defaults to `${oauth.token.client_id}`.
+**Traffic monitor subject**: Enter the identifier name used for clients from the external OAuth provider, which is displayed on the Traffic tab in the API Gateway Manager console. This value can be a selector. Defaults to `${oauth.token.client_id}`.
 
-Extract token attributes
-: Click the add button to specify OAuth token attributes to be extracted from the configured Token information policy and copied to the message whiteboard. For example, these can then be passed to request, response, or routing policies downstream. Specifying attributes ensures their values are retained on the whiteboard after invoking the policy.
-: By default, the following attributes are extracted:
-    * `oauth.token.client_id`
-    * `oauth.token.scopes`
-    * `oauth.token.valid`
+**Extract token attributes**: Click the add button to specify OAuth token attributes to be extracted from the configured Token information policy and copied to the message whiteboard. For example, these can then be passed to request, response, or routing policies downstream. Specifying attributes ensures their values are retained on the whiteboard after invoking the policy. By default, the following attributes are extracted:
+
+* `oauth.token.client_id`
+* `oauth.token.scopes`
+* `oauth.token.valid`
 
 For authorization, grant type implicit, and grant type authorization code settings, see the OAuth security device settings.
 
@@ -246,11 +207,9 @@ For authorization, grant type implicit, and grant type authorization code settin
 
 Configure the following to enable pass-through authentication where the API Gateway passes the user credentials through to an authenticating server:
 
-Name
-: Enter a required name for the device. Defaults to `Pass Through Device`.
+**Name**: Enter a required name for the device. Defaults to `Pass Through Device`.
 
-Subject ID
-: Enter a required authentication subject ID. Defaults to `Pass Through`. This will be displayed in the Traffic view in the API Gateway Manager when the API is invoked using this device.
+**Subject ID**: Enter a required authentication subject ID. Defaults to `Pass Through`. This will be displayed in the Traffic view in the API Gateway Manager when the API is invoked using this device.
 
 {{< alert title="Note" color="primary" >}}When you enable pass-through authentication, there is no client application context so application quotas cannot be enforced.{{< /alert >}}
 
@@ -268,24 +227,20 @@ By default, the provided client certificate must contain a Subject Common Name (
 
 Configure the following settings:
 
-Name
-: Enter a required name for the device. Defaults to `Two-way SSL Device`.
+**Name**: Enter a required name for the device. Defaults to `Two-way SSL Device`.
 
-API key field
-: Enter the name of the selector used to look up the KPS to retrieve and validate the API key and application details. Defaults to `${certificate.subject.CN}`.
+**API key field**: Enter the name of the selector used to look up the KPS to retrieve and validate the API key and application details. Defaults to `${certificate.subject.CN}`.
 
 ### Advanced inbound settings
 
-Monitor API usage
-: Select whether to enable monitoring metrics for the REST API in the **Monitoring > API Usage** view.
+**Monitor API usage**: Select whether to enable monitoring metrics for the REST API in the **Monitoring > API Usage** view.
 
-Enable CORS from all domains
-: Select whether to enable Cross Origin Resource Sharing (CORS) from all domains. When enabled, this means that requests to this API are allowed from all domains (which corresponds to a CORS setting of `*`). To add more advanced CORS configuration (for example, allowed or exposed headers), disable this setting, and add a specific CORS profile for this API. For more details, see [Configure CORS profiles](#configure-cors-profiles).
+**Enable CORS from all domains**: Select whether to enable Cross Origin Resource Sharing (CORS) from all domains. When enabled, this means that requests to this API are allowed from all domains (which corresponds to a CORS setting of `*`). To add more advanced CORS configuration (for example, allowed or exposed headers), disable this setting, and add a specific CORS profile for this API. For more details, see [Configure CORS profiles](#configure-cors-profiles).
 
-PER-METHOD OVERRIDE
-: You can click to override the REST API level settings for specified REST API methods. Click the add button, select an API method from the list, and override the following settings as required:
-    * **INBOUND SECURITY PROFILE**: Select a preconfigured security profile for the API method. For more details, see [Configure security profiles](#configure-security-profiles).
-    * **CORS PROFILE**: Select a preconfigured CORS profile for the API method.
+**PER-METHOD OVERRIDE**: You can click to override the REST API level settings for specified REST API methods. Click the add button, select an API method from the list, and override the following settings as required:
+
+* **INBOUND SECURITY PROFILE**: Select a preconfigured security profile for the API method. For more details, see [Configure security profiles](#configure-security-profiles).
+* **CORS PROFILE**: Select a preconfigured CORS profile for the API method.
 
 ## Configure outbound request settings
 
@@ -311,72 +266,55 @@ No authentication is performed between the API Gateway and the back-end API.
 
 Configure the following to enable HTTP Basic authentication:
 
-Name
-: Enter a required name for the profile. Defaults to `HTTP Basic`.
+**Name**: Enter a required name for the profile. Defaults to `HTTP Basic`.
 
-Username
-: Enter the required username (API key) used to access the API.
+**Username**: Enter the required username (API key) used to access the API.
 
-Password
-: Enter the optional password (API secret) used to access the API.
+**Password**: Enter the optional password (API secret) used to access the API.
 
 #### HTTP Digest authentication
 
 Configure the following to enable HTTP Digest authentication:
 
-**Name**
-: Enter a required name for the profile. Defaults to `HTTP Digest`.
+**Name**: Enter a required name for the profile. Defaults to `HTTP Digest`.
 
-**Username**
-: Enter the required username (API key) used to access the API.
+**Username**: Enter the required username (API key) used to access the API.
 
-**Password**
-: Enter the optional password (API secret) used to access the API.
+**Password**: Enter the optional password (API secret) used to access the API.
 
 #### OAuth authentication
 
 Configure the following to enable OAuth authentication:
 
-**Provider Profile**
-: Select the OAuth service provider profile from the list.
+**Provider Profile**: Select the OAuth service provider profile from the list.
 
-**Token Key (Owner ID)**
-: Enter the message attribute to be used as the key to look up the token. The token key must be set to the authentication value you require for the OAuth token. Defaults to `${authentication.subject.id}`.
+**Token Key (Owner ID)**: Enter the message attribute to be used as the key to look up the token. The token key must be set to the authentication value you require for the OAuth token. Defaults to `${authentication.subject.id}`.
 
 #### API Key authentication
 
 Configure the following to enable API key authentication:
 
-**Name**
-: Enter a required name for the profile. Defaults to `API key`.
+**Name**: Enter a required name for the profile. Defaults to `API key`.
 
-**API key field name**
-: Enter a required name used to store the API key field in the outbound request (for example, `KeyId`).
+**API key field name**: Enter a required name used to store the API key field in the outbound request (for example, `KeyId`).
 
-**API key**
-: Enter the API key required to access the API (for example, `AIzaSyB6CzrBlkzuzDKJw0QaZhW9WwBV5IxXMS7`).
+**API key**: Enter the API key required to access the API (for example, `AIzaSyB6CzrBlkzuzDKJw0QaZhW9WwBV5IxXMS7`).
 
-**Pass credentials as HTTP**
-: Select the required location of the API key in the outbound request (`Header`, `Query string`, or `Form`).
+**Pass credentials as HTTP**: Select the required location of the API key in the outbound request (`Header`, `Query string`, or `Form`).
 
 #### SSL authentication
 
 To enable SSL authentication, the API Gateway must supply a certificate signed by certificate authority used by the API. You can configure the following settings:
 
-**Name**
-: Enter a required name for the profile. Defaults to `SSL`.
+**Name**: Enter a required name for the profile. Defaults to `SSL`.
 
-**PFX/P12 Source**
-: Select whether to specify the certificate using a `.pfx` or `.p12` file, or using a URL.
+**PFX/P12 Source**: Select whether to specify the certificate using a `.pfx` or `.p12` file, or using a URL.
 
-**PFX/P12 File** or **PFX/P12 URL**
-: Browse to the PFX/P12 file, or enter the PFX/P12 URL.
+**PFX/P12 File** or **PFX/P12 URL**: Browse to the PFX/P12 file, or enter the PFX/P12 URL.
 
-**PFX/P12 Password**
-: Enter the password for the certificate.
+**PFX/P12 Password**: Enter the password for the certificate.
 
-**Trust all certificates in chain**
-: Select whether to trust all the CA certificates in the certificate chain. If this is not selected, only the top-level CA is trusted. This setting is selected by default.
+**Trust all certificates in chain**: Select whether to trust all the CA certificates in the certificate chain. If this is not selected, only the top-level CA is trusted. This setting is selected by default.
 
 ### Advanced outbound settings
 
@@ -408,30 +346,25 @@ If fault handler policies have been enabled and configured, you can select a fau
 
 You can click to override the REST API level settings for specified REST API methods. Click the add button, select an API method from the list, and override the following settings as required:
 
-REQUEST POLICY
-: Select an optional request processing policy for the API method.
+**REQUEST POLICY**: Select an optional request processing policy for the API method.
 
-RESPONSE POLICY
-: Select an optional response processing policy for the API method.
+**RESPONSE POLICY**: Select an optional response processing policy for the API method.
 
-ROUTING
-: Select an optional routing policy for the API method.
+**ROUTING**: Select an optional routing policy for the API method.
 
-FAULT HANDLER POLICY
-: If fault handler policies have been enabled and configured, select an optional fault handler policy for the API method.
+**FAULT HANDLER POLICY**: If fault handler policies have been enabled and configured, select an optional fault handler policy for the API method.
 
-EDIT API PROXY
-: Click Edit to add parameters to the API method. To add parameters, click the add button, and configure the following settings:
-    * OUTBOUND PARAMETER: Enter the parameter name (for example, `customer_name`).
-    * PARAMETER TYPE: Enter the parameter type (for example, `query`, `path`, `form`, or `heade`r).
-    * DATA TYPE: Enter the parameter name (for example, `string`, `int`, and so on).
-    * REQUIRED: Select whether the parameter is required.
-    * OUTBOUND VALUE: Enter the parameter value (for example, `john doe` or `${params.path.id}`).
-    * EXCLUDE: Select whether to exclude the parameter.
-    * DEFAULT MAPPING: Select whether the parameter is mapped by default.
+**EDIT API PROXY**: Click Edit to add parameters to the API method. To add parameters, click the add button, and configure the following settings:
 
-AUTHENTICATION PROFILE
-: Select an optional authentication profile for the API method.
+* OUTBOUND PARAMETER: Enter the parameter name (for example, `customer_name`).
+* PARAMETER TYPE: Enter the parameter type (for example, `query`, `path`, `form`, or `header`).
+* DATA TYPE: Enter the parameter name (for example, `string`, `int`, and so on).
+* REQUIRED: Select whether the parameter is required.
+* OUTBOUND VALUE: Enter the parameter value (for example, `john doe` or `${params.path.id}`).
+* EXCLUDE: Select whether to exclude the parameter.
+* DEFAULT MAPPING: Select whether the parameter is mapped by default.
+
+**AUTHENTICATION PROFILE**: Select an optional authentication profile for the API method.
 
 ## Configure API information
 

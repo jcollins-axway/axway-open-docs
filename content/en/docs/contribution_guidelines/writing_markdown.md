@@ -71,6 +71,10 @@ To create a bulleted list add list items with asterisks (`*`).
 
 To create a nested list, indent the list items by 4 spaces.
 
+#### Definition lists
+
+Use definition lists only for listing terms and associated definitions, such as in a glossary of terms. Do not use definition lists for UI fields and descriptions.
+
 #### Nested lists
 
 The Blackfriday Markdown parser has some known issues with nested lists. To avoid issues, follow these guidelines:
