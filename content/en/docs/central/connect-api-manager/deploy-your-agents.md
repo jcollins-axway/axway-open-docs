@@ -60,6 +60,29 @@ The Agent can run in the following modes:
 
 This configuration file contain 3 sections to personalize: apimanager, central and log
 
+###### apimanager section:
+
+This section helps the agent to connect to the API Manager  
+
+```
+apimanager:
+  host: localhost
+  port: 8075
+  discoveryIgnoreTags:
+  filter:
+  proxyApicIDField:
+  subscriptionApplicationField:
+  pollInterval: 30s
+  auth:
+    username:
+    password:
+
+```
+
+###### central section:
+
+###### log section:
+
 
 
 In the end you should have a configuration file looking like this one:
