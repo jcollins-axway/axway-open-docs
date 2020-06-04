@@ -65,20 +65,25 @@ This configuration file contain 3 sections to personalize: apimanager, central a
 
 This section helps the agent to connect to the API Manager  
 
-`host`: Machine name where API Manager is running. localhost value can be used s agent is installed on the same machine 
+`host`: Machine name where API Manager is running. localhost value can be used as the agent is installed on the same machine 
 
-`port`: <API Manager port numner (8075 by default)>
-`discoveryIgnoreTags`: <API tags you >\
-`filter`: apimanager.proxyApicIDField:
-`ubscriptionApplicationField`:
-`pollInterval`: 30s
+`port`: API Manager port number (8075 by default)> 
+
+`discoveryIgnoreTags`: comma-separated blacklist of tags. If an API has one or several of this blacklist tags, the agent will ignore this API and not publish it to AMPLIFY Central. Take precedence over filter tag.
+
+`filter`: 
+
+apimanager.proxyApicIDField: 
+
+`ubscriptionApplicationField`: 
+
+`pollInterval`: 30s 
+
 `auth.username`: an API Manager user with either  “API Manager Administrator” or “Organization administrator” role. Based on the role of this user, the agent is able to :
 
 * discover any API from any organisation (“API Manager Administrator”)  
 
 `auth.password`: dsffsfsa
-
-
 
 Once all data gathered, this section should looks like:
 
