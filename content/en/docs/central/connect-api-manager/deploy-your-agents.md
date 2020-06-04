@@ -61,7 +61,7 @@ curl -L "https://axway.bintray.com/generic-repo/v7-agents/v7_discovery_agent/lat
 
 The `discovery_agent.yaml` configuration file contain 3 sections to personalize: apimanager, central and log.
 
-## Customizing apimanager section:
+### Customizing apimanager section:
 
 This section helps the agent to connect to the API Manager and to know which API should be discovered and published to AMPLIFY Central.
 
@@ -102,7 +102,7 @@ apimanager:
     password: apiManagerUserPassword
 ```
 
-## Customizing central section:
+### Customizing central section
 
 This section helps the agent to connect to AMPLIFY Central and determine how to published the discovered APIs.
 
@@ -153,7 +153,7 @@ central:
     timeout: 10s
 ```
 
-## Customizing log section:
+### Customizing log section (log)
 
 The log section will help you to define how the agent is managing its logs.
 
@@ -176,7 +176,7 @@ log:
 
 ```
 
-## Validating your custom configuration file
+### Validating your custom configuration file
 
 After customizing all the sections, your discovery_agent.yaml file should look like:
 
@@ -271,7 +271,11 @@ curl -L "https://axway.bintray.com/generic-repo/v7-agents/v7_traceability_agent/
 
 The `traceability_agent.yaml` configuration file contain 6 sections to personalize: the beat, logstash, central, apigateway, apimanager and log.
 
-## Customizing beat section:
+### Customizing beat section (traceability_agent)
+
+This section describe where the API Gateway logs are located for the beat to read it.
+
+`paths`: list all path files the beat will listen to. It could be a single file if there is only one gateway installed on the machine or multiple files in case several gateways are installed on the same machine. 
 
 #### Multiple file paths
 
@@ -291,20 +295,20 @@ traceability_agent:
   inputs:
     - type: log
       paths:
-        - /home/api/APIM_v7/apigateway/events/group-2_instance-*.log
+        - /home/api/APIM_v7/apigateway/events/group-2_instance-?.log
 ```
 
 
 
-## Customizing logstash section
+### Customizing logstash section (output.traceability)
 
-## Customizing central section
+### Customizing central section (output.traceability.central)
 
-## Customizing apigtaeway section
+### Customizing apigtaeway section (output.traceability.apigateway)
 
-## Customizing apimanager section
+### Customizing apimanager section (output.traceability.apimanager)
 
-## Customizing log section
+### Customizing log section (logging)
 
 The log section will help you to define how the agent is managing its logs.
 
@@ -338,7 +342,7 @@ logging:
 
 After customizing all the sections, your traceability_agent.yaml file should look like:
 
-```
+```yaml
 ################### Beat Configuration #########################
 traceability_agent:
   inputs:
@@ -423,6 +427,13 @@ logging:
   to_stderr: true
   # Set log level
   level: info
+  # Send all logging output to file - change value to_files: true and to_stderr: false
+  to_files: false
+  files:
+    path: ./logs
+    name: traceability_agent.log
+    keepfiles: 7
+    permissions: 0644
 
 ```
 
