@@ -73,17 +73,18 @@ This section helps the agent to connect to the API Manager and to know which API
 
 `filter`: expression to filter the API you want the agent to discover. See [Filtering APIs to be discovered](/docs/central/connect-api-manager/filtering-apis-to-be-discovered/).
 
-`proxyApicIDField` (optional): the field name used to store AMPLIFY Central identifier for the frontend proxy in API Manager. Default value is 
+`proxyApicIDField` (optional): the field name used to store AMPLIFY Central identifier for the frontend proxy in API Manager. Default value is APIC_ID. If you don't intend to change it, comment this property. Be aware the field will not be visible in API Manager front end proxy as it is a specific configuration. If you want to see that field or customize it, refer to Add a custom property to APIs in [Customize API Manager](/docs/apim_administration/apimgr_admin/api_mgmt_custom/index.html#customize-api-manager-data) documentation. 
 
-`subscriptionApplicationField` (optional):  
+`subscriptionApplicationField` (optional): the field name used to store AMPLIFY Central subscription identifier for the frontend proxy in API Manager. Default value is TOTO. If you don't intend to change it, comment this property. Be aware the field will not be visible in API Manager application as it is a specific configuration. If you want to see that field or customize it, refer to Add a custom property to applications in [Customize API Manager](/docs/apim_administration/apimgr_admin/api_mgmt_custom/index.html#customize-api-manager-data) documentation. 
 
 `pollInterval`: The frequency in which API Manager is polled for new endpoints. Default value is 30s 
 
 `auth.username`: an API Manager user with either  “API Manager Administrator” or “Organization administrator” role. Based on the role of this user, the agent is able to :
 
 * discover any API from any organisation (“API Manager Administrator”)  
+* discovery any API from a specific organisation (“Organization administrator”)
 
-`auth.password`: dsffsfsa
+`auth.password`: the password of the API Manager user
 
 Once all data gathered, this section should looks like:
 
@@ -93,12 +94,12 @@ apimanager:
   port: 8075
   discoveryIgnoreTags: tag1, tag2
   filter: 
-  proxyApicIDField:
-  subscriptionApplicationField:
+#  proxyApicIDField: 
+#  subscriptionApplicationField: 
   pollInterval: 30s
   auth:
-    username:
-    password:
+    username: apiManagerUser
+    password: apiManagerUserPassword
 ```
 
 ## central section:
