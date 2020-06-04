@@ -37,7 +37,7 @@ The Agent can run in the following modes:
   * Default: located in the same directory as the agent binary.
   * Optional: use a dedicated folder where the configuration file is located (use the --pathConfig flag in the agent command line to access the file path).
 
-    Configuration file name should be the same as the agent binary.
+    Configuration file name should be the same as the agent binary (discovery_agent.yaml).
   * Advanced configuration: properties inside the configuration file can reference environment variables. This enables you to set up only one configuration file that addresses different behaviors (depending on the environment variables). See [Discovery Agent variables](/docs/central/connect-api-manager/discovery-agent-variables/).
 * With command line arguments. See [Discovery Agent flags](/docs/central/connect-api-manager/discovery-agent-flags/).
 
