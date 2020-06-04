@@ -17,7 +17,7 @@ description: Learn how to deploy your Discovery Agent and Traceability Agent so
 
 # Objectives
 
-Learn how to create your Discovery Agent and Traceability Agent configuration files, then install and run your agents.
+Learn how to install, customize and run your Discovery and Traceability agents.
 
 # Discovery Agent
 
@@ -54,14 +54,14 @@ curl -L "https://axway.bintray.com/generic-repo/v7-agents/v7_discovery_agent/lat
    ```
    unzip discovery_agent-latest.zip
    ```
-3. Copy those 2 files in a folder (APIC-agents for instance) on the machine  where the API Manager environment is located. 
+3. Copy those 2 files in a folder (/home/APIC-agents for instance) on the machine  where the API Manager environment is located. 
 4. Move the `private_key.pem` and `public_key` files that were originally created when you set up your Service Account to the agent directory (APIC-agents). Note that the `public_key` comes from Steps 3 or 4 of [Create a Service Account](/docs/central/connect-api-manager/prepare-amplify-central/#create-a-service-account) depending if you choose to use the `der` format or not. 
 
-# Personalizing your agent configuration file
+# Customizing your agent configuration file
 
-This configuration file contain 3 sections to personalize: apimanager, central and log
+The `discovery_agent.yaml` configuration file contain 3 sections to personalize: apimanager, central and log.
 
-## apimanager section:
+## Customizing apimanager section:
 
 This section helps the agent to connect to the API Manager and to know which API should be discovered and published to AMPLIFY Central.
 
@@ -102,7 +102,7 @@ apimanager:
     password: apiManagerUserPassword
 ```
 
-## central section:
+## Customizing central section:
 
 `url`: the amplify central url. Default value is **https://apicentral.axway.com**   
 
@@ -151,7 +151,7 @@ central:
     timeout: 10s
 ```
 
-## log section:
+## Customizing log section:
 
 The log section will help you to define how the agent is managing its logs.
 
@@ -163,7 +163,7 @@ The log section will help you to define how the agent is managing its logs.
 
 `path`: The path (relative to the agent binary or absolute) to save logs files, if output type file or both. Default value is relative path **logs**
 
-In the end you should have a configuration file looking like this one:
+In the end your discovery_agent.yaml file should look like':
 
 ```
 apimanager:
