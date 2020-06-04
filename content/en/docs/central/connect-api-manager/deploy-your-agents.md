@@ -308,13 +308,31 @@ traceability_agent:
 
 The log section will help you to define how the agent is managing its logs.
 
+`to_stderr` (default configuration) The output is log into the screen 
+
+`to_file`:  (alternate configuration) The output is log into a file. Requires more configuration ( refer to <https://www.elastic.co/guide/en/beats/filebeat/current/configuration-logging.html>) 
+
 `level`: The log level for output messages (debug, info, warn, error). Default value is **info**
 
-`format`: The format to print log messages (json, line, package). Default value is **json**
+Once all data is gathered, this section should looks like for a standard output logging:
 
-`output`: The output for the log lines (stdout, file, both). Default value is **stdout** 
+```
+logging:
+  metrics:
+    enabled: false
+  # Send all logging output to stderr
+  to_stderr: true
+  # Set log level
+  level: info
+  # Send all logging output to file - change value to_files: true and to_stderr: false
+  to_files: false
+  files:
+    path: ./logs
+    name: traceability_agent.log
+    keepfiles: 7
+    permissions: 0644
 
-`path`: The path (relative to the agent binary or absolute) to save logs files, if output type file or both. Default value is relative path **logs**
+```
 
 ## Validating your custom configuration file
 
