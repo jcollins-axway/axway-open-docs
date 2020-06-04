@@ -21,21 +21,21 @@ Learn how to create your Discovery Agent and Traceability Agent configuration fi
 
 ## Discovery Agent
 
-The Discovery Agent is used to discover new deployments and stage updates to existing deployments. Once they are discovered, the related APIs are published to AMPLIFY Central, in one of the following publication modes, so that they become available for any consumer. See [centralMode](/docs/central/connect-api-manager/discovery-agent-flags/).
+The Discovery Agent is used to discover new published APIs or any updated APIs. Once they are discovered, the related APIs are published to AMPLIFY Central, in one of the following publication modes, so that they become available for any consumer. See [centralMode](/docs/central/connect-api-manager/discovery-agent-flags/).
 
 * Catalog item publication (disconnected mode): Customers  expose their APIs globally for their consumers but keep the API management at the Gateway level.
-* Environment / API Service publication (connected mode): Customers manage their APIs from the AMPLIFY platform. WILL NOT BE FULLY IMPLEMENTED UNTIL Q3-2020.
-
-As soon as an API is published, the identifier of the asset in AMPLIFY Central is kept in a custom field at the api level. The name of the custom field is defined in [APIMANAGER_PROXYAPICIDFIELD](/docs/central/connect-api-manager/discovery-agent-variables/).
+* Environment / API Service publication (connected mode): Customers manage their APIs from the AMPLIFY platform.
 
 The Discovery Agent only discovers APIs that have the tag(s) defined in the agent configuration file. See [Discovery Agent variables](/docs/central/connect-api-manager/discovery-agent-variables/).
+
+As soon as an API is published, the identifier of the asset in AMPLIFY Central is kept in a custom field at the api level. The name of the custom field is defined in [APIMANAGER_PROXYAPICIDFIELD](/docs/central/connect-api-manager/discovery-agent-variables/).
 
 The Agent can run in the following modes:
 
 * With a configuration file:
 
-    * Default: located in the same directory as the agent binary.
-    * Optional: use a dedicated folder where the configuration file is located (use the --pathConfig flag).
+  * Default: located in the same directory as the agent binary.
+  * Optional: use a dedicated folder where the configuration file is located (use the --pathConfig flag).
 
     Configuration file name should be the same as the agent binary.
 
@@ -99,19 +99,18 @@ log:
 ### Install and run Discovery Agent
 
 1. Move the `private_key.pem` and `public_key` files that were originally created when you set up your Service Account to a keys directory. Make sure the directory is located on the machine being used for deployment. Note that the `public_key` comes from Steps 3 and 4 of [Create a Service Account](/docs/central/connect-api-manager/prepare-amplify-central/#create-a-service-account).
-2. Download the zip file from [https://axway.bintray.com/generic-repo/v7-agents/v7_discovery_agent/latest/discovery_agent-latest.zip]( https://axway.bintray.com/generic-repo/v7-agents/v7_discovery_agent/latest/discovery_agent-latest.zip). The zip contains the Discovery Agent config yaml and the Discovery Agent executable.
+2. Download the zip file from <https://axway.bintray.com/generic-repo/v7-agents/v7_discovery_agent/latest/discovery_agent-latest.zip>. The zip contains the Discovery Agent config yaml and the Discovery Agent executable.
 3. Unzip the file and install the binary on a machine that can access the APIM Manager environment.  
 4. Open a shell and run the following command to start up your agent:
 
-    ```
-    ./discovery_agent
-    ```
-
+   ```
+   ./discovery_agent
+   ```
 5. Open a shell and run the following health check command to verify if the agent is up and running:
 
-    ```
-    ./discovery_agent --status
-    ```
+   ```
+   ./discovery_agent --status
+   ```
 
 ## Traceability Agent
 
@@ -121,8 +120,8 @@ The Agent can run in the following modes:
 
 * With a configuration file
 
-    * Default: located in the same directory as the agent binary.
-    * Optional: use a dedicated folder where the configuration file is located (use the --path.config flag). See [Traceability Agent flags](/docs/central/connect-api-manager/traceability-agent-flags/).
+  * Default: located in the same directory as the agent binary.
+  * Optional: use a dedicated folder where the configuration file is located (use the --path.config flag). See [Traceability Agent flags](/docs/central/connect-api-manager/traceability-agent-flags/).
 
     Configuration file name should be the same as the agent binary.
 
@@ -234,20 +233,19 @@ traceability_agent:
 1. Move the `private_key.pem` and `public_key` files that were originally created when you set up your Service Account to a keys directory. Make sure the directory is located on the machine being used for deployment.
 2. Download the zip file:
 
-    ```
-    curl -L "https://axway.bintray.com/generic-repo/v7-agents/v7_traceability_agent/latest/traceability_agent-latest.zip" -o traceability_agent-latest.zip
-    ```
+   ```
+   curl -L "https://axway.bintray.com/generic-repo/v7-agents/v7_traceability_agent/latest/traceability_agent-latest.zip" -o traceability_agent-latest.zip
+   ```
 
-    The zip contains the Traceability Agent config yaml and the Traceability Agent executable.
+   The zip contains the Traceability Agent config yaml and the Traceability Agent executable.
 3. Unzip the file and install the binary on a machine that can access the APIM Manager environment.
 4. Open a shell and run the following command to start up your agent:
 
-    ```
-    ./traceability_agent
-    ```
-
+   ```
+   ./traceability_agent
+   ```
 5. Open a shell and run the following health check command to verify if the agent is up and running:
 
-    ```
-    ./traceability_agent status
-    ```
+   ```
+   ./traceability_agent status
+   ```
