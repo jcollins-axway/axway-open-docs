@@ -63,9 +63,7 @@ This configuration file contain 3 sections to personalize: apimanager, central a
 
 ## apimanager section:
 
-This section helps the agent to connect to the API Manager  
-
-
+This section helps the agent to connect to the API Manager and to know which API should be discovered.
 
 `host`: Machine name where API Manager is running. localhost value can be used as the agent is installed on the same machine 
 
@@ -75,11 +73,11 @@ This section helps the agent to connect to the API Manager
 
 `filter`: expression to filter the API you want the agent to discover. See [Filtering APIs to be discovered](/docs/central/connect-api-manager/filtering-apis-to-be-discovered/).
 
-`proxyApicIDField`: the field name used to store AMPLIFY Central identifier for the frontend proxy in API Manager. Default value is 
+`proxyApicIDField` (optional): the field name used to store AMPLIFY Central identifier for the frontend proxy in API Manager. Default value is 
 
-`subscriptionApplicationField`:  
+`subscriptionApplicationField` (optional):  
 
-`pollInterval`: 30s 
+`pollInterval`: The frequency in which API Manager is polled for new endpoints. Default value is 30s 
 
 `auth.username`: an API Manager user with either  “API Manager Administrator” or “Organization administrator” role. Based on the role of this user, the agent is able to :
 
@@ -93,8 +91,8 @@ Once all data gathered, this section should looks like:
 apimanager:
   host: localhost
   port: 8075
-  discoveryIgnoreTags: <API tags you >
-  filter:
+  discoveryIgnoreTags: tag1, tag2
+  filter: 
   proxyApicIDField:
   subscriptionApplicationField:
   pollInterval: 30s
