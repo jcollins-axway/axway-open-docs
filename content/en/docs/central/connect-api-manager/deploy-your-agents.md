@@ -9,17 +9,17 @@ description: Learn how to deploy your Discovery Agent and Traceability Agent so
 ---
 {{< alert title="Note" color="primary" >}}The Axway API Gateway connectivity to AMPLIFY Central is currently available in an alpha review mode; current functionality and configuration may change before release.   Therefore, this connectivity is available for trial use only and is not supported for production API management or connectivity.{{< /alert >}}
 
-## Before you start
+# Before you start
 
 * Read [AMPLIFY Central and Axway API Manager connected overview](/docs/central/connect-api-manager/)
 * Prepare AMPLIFY Central
 * You will need a basic knowledge of Axway API Gateway
 
-## Objectives
+# Objectives
 
 Learn how to create your Discovery Agent and Traceability Agent configuration files, then install and run your agents.
 
-## Discovery Agent
+# Discovery Agent
 
 The Discovery Agent is used to discover new published APIs or any updated APIs. Once they are discovered, the related APIs are published to AMPLIFY Central, in one of the following publication modes, so that they become available for any consumer:
 
@@ -41,7 +41,7 @@ The Agent can run in the following modes:
   * Advanced configuration: properties inside the configuration file can reference environment variables. This enables you to set up only one configuration file that addresses different behaviors (depending on the environment variables). See [Discovery Agent variables](/docs/central/connect-api-manager/discovery-agent-variables/).
 * With command line arguments. See [Discovery Agent flags](/docs/central/connect-api-manager/discovery-agent-flags/).
 
-### Installing the agent
+# Installing the agent
 
 1. Download the zip file from Axway public repository the latest version using the following command:
 
@@ -57,25 +57,27 @@ curl -L "https://axway.bintray.com/generic-repo/v7-agents/v7_discovery_agent/lat
 3. Copy those 2 files in a folder (APIC-agents for instance) on a machine that can physically access the APIM Manager environment. 
 4. Move the `private_key.pem` and `public_key` files that were originally created when you set up your Service Account to the agent directory (APIC-agents). Note that the `public_key` comes from Steps 3 or 4 of [Create a Service Account](/docs/central/connect-api-manager/prepare-amplify-central/#create-a-service-account) depending if you choose to use the `der` format or not. 
 
-### Personalizing your agent configuration file
+# Personalizing your agent configuration file
 
 This configuration file contain 3 sections to personalize: apimanager, central and log
 
-### apimanager section:
+## apimanager section:
 
 This section helps the agent to connect to the API Manager  
+
+
 
 `host`: Machine name where API Manager is running. localhost value can be used as the agent is installed on the same machine 
 
 `port`: API Manager port number (8075 by default)
 
-`discoveryIgnoreTags`: comma-separated blacklist of tags. If an API has one or several of this blacklist tags, the agent will ignore this API and not publish it to AMPLIFY Central. This property takes precedence over the filter property below.
+`discoveryIgnoreTags`: comma-separated blacklist of tags. If an API has one or several of this blacklist tags, the agent will ignore this API and not publish it to AMPLIFY Central. This property takes precedence over the filter property below. The default value is empty which means no API will be ignored
 
-`filter`: Expression to filter the API you want the agent to discover. See [Filtering APIs to be discovered](/docs/central/connect-api-manager/filtering-apis-to-be-discovered/).
+`filter`: expression to filter the API you want the agent to discover. See [Filtering APIs to be discovered](/docs/central/connect-api-manager/filtering-apis-to-be-discovered/).
 
-apimanager.proxyApicIDField: 
+`proxyApicIDField`: the field name used to store AMPLIFY Central identifier for the frontend proxy in API Manager. Default value is 
 
-`ubscriptionApplicationField`: 
+`subscriptionApplicationField`:  
 
 `pollInterval`: 30s 
 
@@ -101,29 +103,24 @@ apimanager:
     password:
 ```
 
-###### central section:
+## central section:
 
-###### log section:
+## log section:
 
 In the end you should have a configuration file looking like this one:
 
 ```
 apimanager:
-  host: <APIManager hostname | localhost>
-  port: <APIManager port (8075 is the default one)>
-  status:
+  host: localhost
   port: 8075
-  filter: tag.News.Exists() == true || tag.API_TYPE == Loan || tag.API_TYPE == Finance || tag.API_TYPE == Healthcare || tag.Math.Exists() == true || tag.Department == Purchasing
-#  filter: tag.News.Exists() == true
-#  filter: tag.API_TYPE == Healthcare
+  discoveryIgnoreTags:
+  filter:
+  proxyApicIDField:
+  subscriptionApplicationField:
   pollInterval: 30s
   auth:
-    username: <API AMANGER ADMIN NAME>
-    password: <API MANAGE ADMIN PASSWORD>
-  ssl:
-    insecureSkipVerify: true
-  subscriptionApplicationField: subscriptions
-  proxyApicIDField: APIC_ID
+    username:
+    password:
 
 central:
   url: https://apicentral.axway.com
@@ -150,7 +147,7 @@ log:
 #
 ```
 
-### Install and run Discovery Agent
+# Install and run Discovery Agent
 
 1. Move the `private_key.pem` and `public_key` files that were originally created when you set up your Service Account to a keys directory. Make sure the directory is located on the machine being used for deployment. Note that the `public_key` comes from Steps 3 and 4 of [Create a Service Account](/docs/central/connect-api-manager/prepare-amplify-central/#create-a-service-account).
 2. Download the zip file from <https://axway.bintray.com/generic-repo/v7-agents/v7_discovery_agent/latest/discovery_agent-latest.zip>. The zip contains the Discovery Agent config yaml and the Discovery Agent executable.
@@ -166,7 +163,7 @@ log:
    ./discovery_agent --status
    ```
 
-## Traceability Agent
+# Traceability Agent
 
 The Traceability Agent is used to filter the Axway API Gateway logs that are related to discovered APIs and prepare the transaction events that are sent to AMPLIFY platform. Each time an already discovered API is called by a consumer, an event (summary + detail) is sent to AMPLIFY Central and is visible in API Observer.
 
