@@ -209,14 +209,14 @@ log:
 
 Open a shell and run the following command to start up your agent:
 
-```
+```shell
 cd /home/APIC-agents
 ./discovery_agent
 ```
 
 To verify if the agent is up and running, open another shell command and run:
 
-```
+```shell
 cd /home/APIC-agents
 ./discovery_agent --status
 ```
@@ -230,12 +230,39 @@ The Agent can run in the following modes:
 * With a configuration file
 
   * Default: located in the same directory as the agent binary.
-  * Optional: use a dedicated folder where the configuration file is located (use the --path.config flag). See [Traceability Agent flags](/docs/central/connect-api-manager/traceability-agent-flags/).
+  * Optional: use a dedicated folder where the configuration file is located (use the --path.config flag in the agent command line to access the file path).
 
-    Configuration file name should be the same as the agent binary.
+    Configuration file name should be the same as the agent binary (trceability_agent.yaml)
+  * Advanced configuration: properties inside the configuration file can reference environment variables. This enables you to set up only one configuration file that addresses different behaviors (depending on the environment variables). See [Discovery Agent variables](/docs/central/connect-api-manager/discovery-agent-variables/).
+* With command line argument. See [Traceability Agent flags](/docs/central/connect-api-manager/traceability-agent-flags/).
 
-    Properties inside the configuration file can reference environment variables. This enables you to set up only one configuration file that addresses different behaviors (depending on the environment variables). See [Traceability Agent variables](/docs/central/connect-api-manager/traceability-agent-variables/).
-* With a YAML configuration file
+
+
+# Installing the agent
+
+1. Download the zip file from Axway public repository the latest version using the following command:
+
+```
+curl -L "https://axway.bintray.com/generic-repo/v7-agents/v7_traceability_agent/latest/traceability_agent-latest.zip" -o traceability_agent-latest.zip
+```
+
+2. Unzip the file traceability_agent-latest.zip to get the agent binary (traceability_agent) and a template configuration file (traceability_agent.yaml).
+
+   ```
+   unzip traceability_agent-latest.zip
+   ```
+3. Copy those 2 files in a folder (/home/APIC-agents for instance) on the machine  where the API Manager environment is located. 
+4. If not done yet, move the `private_key.pem` and `public_key` files that were originally created when you set up your Service Account to the agent directory (APIC-agents). Note that the `public_key` comes from Steps 3 or 4 of [Create a Service Account](/docs/central/connect-api-manager/prepare-amplify-central/#create-a-service-account) depending if you choose to use the `der` format or not. 
+
+# Customizing your agent configuration file
+
+
+
+
+
+
+
+
 
 ### Create your env_vars file
 
