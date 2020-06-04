@@ -163,11 +163,11 @@ The log section will help you to define how the agent is managing its logs.
 
 `path`: The path (relative to the agent binary or absolute) to save logs files, if output type file or both. Default value is relative path **logs**
 
-## Recap of the customized configuration file
+## Validating your custom configuration file
 
-In the end your discovery_agent.yaml file should look like':
+After customizing all the sections, your discovery_agent.yaml file should look like:
 
-```
+```yaml
 apimanager:
   host: localhost
   port: 8075
