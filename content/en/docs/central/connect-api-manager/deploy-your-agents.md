@@ -61,17 +61,17 @@ curl -L "https://axway.bintray.com/generic-repo/v7-agents/v7_discovery_agent/lat
 
 This configuration file contain 3 sections to personalize: apimanager, central and log
 
-###### apimanager section:
+### apimanager section:
 
 This section helps the agent to connect to the API Manager  
 
 `host`: Machine name where API Manager is running. localhost value can be used as the agent is installed on the same machine 
 
-`port`: API Manager port number (8075 by default)> 
+`port`: API Manager port number (8075 by default)
 
-`discoveryIgnoreTags`: comma-separated blacklist of tags. If an API has one or several of this blacklist tags, the agent will ignore this API and not publish it to AMPLIFY Central. Take precedence over filter tag.
+`discoveryIgnoreTags`: comma-separated blacklist of tags. If an API has one or several of this blacklist tags, the agent will ignore this API and not publish it to AMPLIFY Central. This property takes precedence over the filter property below.
 
-`filter`: 
+`filter`: Expression to filter the API you want the agent to discover. See [Filtering APIs to be discovered](/docs/central/connect-api-manager/filtering-apis-to-be-discovered/).
 
 apimanager.proxyApicIDField: 
 
