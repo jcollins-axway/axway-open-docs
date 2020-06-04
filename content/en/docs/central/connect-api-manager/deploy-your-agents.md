@@ -69,13 +69,13 @@ This section helps the agent to connect to the API Manager and to know which API
 
 `port`: API Manager port number (8075 by default)
 
-`discoveryIgnoreTags`: comma-separated blacklist of tags. If an API has one or several of this blacklist tags, the agent will ignore this API and not publish it to AMPLIFY Central. This property takes precedence over the filter property below. The default value is empty which means no API will be ignored
+`discoveryIgnoreTags` (optional): comma-separated blacklist of tags. If an API has one or several of this blacklist tags, the agent will ignore this API and not publish it to AMPLIFY Central. This property takes precedence over the filter property below. The default value is empty which means no API will be ignored
 
-`filter`: expression to filter the API you want the agent to discover. See [Filtering APIs to be discovered](/docs/central/connect-api-manager/filtering-apis-to-be-discovered/).
+`filter` (optional): expression to filter the API you want the agent to discover. See [Filtering APIs to be discovered](/docs/central/connect-api-manager/filtering-apis-to-be-discovered/).
 
-`proxyApicIDField` (optional): the field name used to store AMPLIFY Central identifier for the frontend proxy in API Manager. Default value is APIC_ID. If you don't intend to change it, comment this property. Be aware the field will not be visible in API Manager front end proxy as it is a specific configuration. If you want to see that field or customize it, refer to Add a custom property to APIs in [Customize API Manager](/docs/apim_administration/apimgr_admin/api_mgmt_custom/index.html#customize-api-manager-data) documentation. 
+`proxyApicIDField` (optional): the field name used to store AMPLIFY Central identifier for the frontend proxy in API Manager. Default value is **apicId**. If you don't intend to change it, comment this property. Be aware the field will not be visible in API Manager front end proxy as it is a specific configuration. If you want to see that field or customize it, refer to Add a custom property to APIs in [Customize API Manager](/docs/apim_administration/apimgr_admin/api_mgmt_custom/index.html#customize-api-manager-data) documentation. 
 
-`subscriptionApplicationField` (optional): the field name used to store AMPLIFY Central subscription identifier for the frontend proxy in API Manager. Default value is TOTO. If you don't intend to change it, comment this property. Be aware the field will not be visible in API Manager application as it is a specific configuration. If you want to see that field or customize it, refer to Add a custom property to applications in [Customize API Manager](/docs/apim_administration/apimgr_admin/api_mgmt_custom/index.html#customize-api-manager-data) documentation. 
+`subscriptionApplicationField` (optional): the field name used to store AMPLIFY Central subscription identifier for the frontend proxy in API Manager. Default value is **subscriptions**. If you don't intend to change it, comment this property. Be aware the field will not be visible in API Manager application as it is a specific configuration. If you want to see that field or customize it, refer to Add a custom property to applications in [Customize API Manager](/docs/apim_administration/apimgr_admin/api_mgmt_custom/index.html#customize-api-manager-data) documentation. 
 
 `pollInterval`: The frequency in which API Manager is polled for new endpoints. Default value is 30s 
 
@@ -94,8 +94,8 @@ apimanager:
   port: 8075
   discoveryIgnoreTags: tag1, tag2
   filter: 
-#  proxyApicIDField: 
-#  subscriptionApplicationField: 
+#  proxyApicIDField: apicId
+#  subscriptionApplicationField: subscriptions
   pollInterval: 30s
   auth:
     username: apiManagerUser
@@ -103,6 +103,46 @@ apimanager:
 ```
 
 ## central section:
+
+  `url`: https://apicentral.axway.com   
+
+`teamID`: 454564645456
+`tenantID`: 68794y2
+`environment`: my-v7-env
+
+`apiServerVersion`: v1alpha1
+`mode`: publishToEnvironmmentAntCatalog
+`pollInterval`:
+`auth.url`: https://login.axway.com/auth
+`auth.realm`: Broker
+`auth.clientId`: DOSA_66743...
+`auth.privateKey`: /home/APIC-agents/private_key.pem
+`auth.publicKey`: /home/APIC-agents/public_key
+`auth.keyPassword`:
+`auth.timeout`: 10s
+
+Once all data are gathered, this section should looks like:
+
+```
+central:
+  url: https://apicentral.axway.com
+  teamID: 454564645456
+  tenantID: 68794y2
+  environment: my-v7-env
+  apiServerVersion: v1alpha1
+  mode: publishToEnvironmmentAntCatalog
+  pollInterval:
+  auth:
+    url: https://login.axway.com/auth
+    realm: Broker
+    clientId: DOSA_66743...
+    privateKey: /home/APIC-agents/private_key.pem
+    publicKey: /home/APIC-agents/public_key
+    keyPassword:
+    timeout: 10s
+
+
+```
 
 ## log section:
 
