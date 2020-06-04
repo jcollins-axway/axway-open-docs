@@ -43,16 +43,17 @@ The Agent can run in the following modes:
 
 ### Installing the agent
 
-First step is to download the zip file from Axway public repository the latest version using the following command:
+1.  Download the zip file from Axway public repository the latest version using the following command:
 
-```
-curl -L "https://axway.bintray.com/generic-repo/v7-agents/v7_discovery_agent/latest/discovery_agent-latest.zip" -o discovery_agent-latest.zip
-```
+   ```
+   curl -L "https://axway.bintray.com/generic-repo/v7-agents/v7_discovery_agent/latest/discovery_agent-latest.zip" -o discovery_agent-latest.zip
+   ```
+2. Unzip the file discovery_agent-latest.zip to get the agent binary (discovery_agent) and a template configuration file (discovery_agent.yaml).
 
-Secondly, you unzip the file to obtain two files:
-
-* the agent binary: discovery_agent
-* the agent template configuration file: discovery_agent.yaml
+   ```
+   unzip discovery_agent-latest.zip
+   ```
+3.  Copy those 2 files on a machine that can physically access the APIM Manager environment. 
 
 ### Personalizing your agent configuration file
 
