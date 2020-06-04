@@ -21,18 +21,18 @@ Learn how to create your Discovery Agent and Traceability Agent configuration fi
 
 ## Discovery Agent
 
-The Discovery Agent is used to discover new published APIs or any updated APIs. Once they are discovered, the related APIs are published to AMPLIFY Central, in one of the following publication modes, so that they become available for any consumer. See [centralMode](/docs/central/connect-api-manager/discovery-agent-flags/).
+The Discovery Agent is used to discover new published APIs or any updated APIs. Once they are discovered, the related APIs are published to AMPLIFY Central, in one of the following publication modes, so that they become available for any consumer:
 
 * Catalog item publication (disconnected mode): Customers  expose their APIs globally for their consumers but keep the API management at the Gateway level.
 * Environment / API Service publication (connected mode): Customers manage their APIs from the AMPLIFY platform.
 
-The Discovery Agent only discovers APIs that have the tag(s) defined in the agent configuration file. See [Discovery Agent variables](/docs/central/connect-api-manager/discovery-agent-variables/).
+The Discovery Agent only discovers APIs that have the tag(s) defined in the agent configuration file. See [filtering apis to be discovered](docs/central/connect-api-manager/filtering-apis-to-be-discovered/).
 
 As soon as an API is published, the identifier of the asset in AMPLIFY Central is kept in a custom field at the api level. The name of the custom field is defined in [APIMANAGER_PROXYAPICIDFIELD](/docs/central/connect-api-manager/discovery-agent-variables/).
 
 The Agent can run in the following modes:
 
-* With a configuration file:
+* With a yaml configuration file:
 
   * Default: located in the same directory as the agent binary.
   * Optional: use a dedicated folder where the configuration file is located (use the --pathConfig flag).
