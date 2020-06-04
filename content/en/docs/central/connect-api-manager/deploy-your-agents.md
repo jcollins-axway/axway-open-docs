@@ -58,15 +58,16 @@ The Agent can run in the following modes:
 
 ### Personalizing your agent configuration file
 
-To create an  an `env_vars` file, see [Discovery Agent variables](/docs/central/connect-api-manager/discovery-agent-variables/). Download the zip file:
+This configuration file contain 3 sections to personalize: apimanager, central and log
 
-The Discovery Agent config yaml and Discovery Agent executable are included.
 
-#### YAML config file template - Discovery Agent
+
+In the end you should have a configuration file looking like this one:
 
 ```
 apimanager:
-  host: lptxtntperf1.lab.phx.axway.int
+  host: <APIManager hostname | localhost>
+  port: <APIManager port (8075 is the default one)>
   status:
   port: 8075
   filter: tag.News.Exists() == true || tag.API_TYPE == Loan || tag.API_TYPE == Finance || tag.API_TYPE == Healthcare || tag.Math.Exists() == true || tag.Department == Purchasing
