@@ -153,6 +153,16 @@ central:
 
 ## log section:
 
+The log section will help you to define how the agent is managing its logs.
+
+`level`: The log level for output messages (debug, info, warn, error). Default value is **info**
+
+`format`: The format to print log messages (json, line, package). Default value is **json**
+
+`output`: The output for the log lines (stdout, file, both). Default value is **stdout** 
+
+`path`: The path (relative to the agent binary or absolute) to save logs files, if output type file or both. Default value is relative path **logs**
+
 In the end you should have a configuration file looking like this one:
 
 ```
