@@ -104,6 +104,8 @@ apimanager:
 
 ## Customizing central section:
 
+This section helps the agent to connect to AMPLIFY Central and determine how to published the discovered APIs.
+
 `url`: the amplify central url. Default value is **https://apicentral.axway.com**   
 
 `teamID`: The Team identifier in AMPLIFY Central that all APIs will be linked. Locate this at AMPLIFY Central > Access > Teams. Open the teams details. The team identifier is the last part of the url (AMPLIFY URL/access/teams/detail/**e4ec6c1a69fd0b8e016a0bb0681e0e8f**).
@@ -162,6 +164,17 @@ The log section will help you to define how the agent is managing its logs.
 `output`: The output for the log lines (stdout, file, both). Default value is **stdout** 
 
 `path`: The path (relative to the agent binary or absolute) to save logs files, if output type file or both. Default value is relative path **logs**
+
+Once all data is gathered, this section should looks like:
+
+```
+log:
+  level: info
+  format: json
+  output: stdout
+  path: logs
+
+```
 
 ## Validating your custom configuration file
 
@@ -256,13 +269,160 @@ curl -L "https://axway.bintray.com/generic-repo/v7-agents/v7_traceability_agent/
 
 # Customizing your agent configuration file
 
+The `traceability_agent.yaml` configuration file contain 6 sections to personalize: the beat, logstash, central, apigateway, apimanager and log.
+
+## Customizing beat section:
+
+#### Multiple file paths
+
+```
+traceability_agent:
+  inputs:
+    - type: log
+      paths:
+        - /home/api/APIM_v7/apigateway/events/group-2_instance-1.log
+        - /home/api/APIM_v7/apigateway/events/group-2_instance-2.log
+```
+
+#### File path with wildcard
+
+```
+traceability_agent:
+  inputs:
+    - type: log
+      paths:
+        - /home/api/APIM_v7/apigateway/events/group-2_instance-*.log
+```
 
 
 
+## Customizing logstash section
 
+## Customizing central section
 
+## Customizing apigtaeway section
 
+## Customizing apimanager section
 
+## Customizing log section
+
+The log section will help you to define how the agent is managing its logs.
+
+`level`: The log level for output messages (debug, info, warn, error). Default value is **info**
+
+`format`: The format to print log messages (json, line, package). Default value is **json**
+
+`output`: The output for the log lines (stdout, file, both). Default value is **stdout** 
+
+`path`: The path (relative to the agent binary or absolute) to save logs files, if output type file or both. Default value is relative path **logs**
+
+## Validating your custom configuration file
+
+After customizing all the sections, your traceability_agent.yaml file should look like:
+
+```
+################### Beat Configuration #########################
+traceability_agent:
+  inputs:
+    - type: log
+      paths:
+        - <PATH TO>/group-X_instance-Y.log
+      include_lines: ['.*"type":"transaction".*"type":"http".*']
+
+# Send output to Central Database
+output.traceability:
+  enabled: true
+  hosts: ${LOGSTASH_URL:ingestion-lumberjack.datasearch.axway.com:453}
+  ssl:
+    enabled: true
+    verification_mode: none
+    cipher_suites:
+      - "ECDHE-ECDSA-AES-128-GCM-SHA256"
+      - "ECDHE-ECDSA-AES-256-GCM-SHA384"
+      - "ECDHE-ECDSA-AES-128-CBC-SHA256"
+      - "ECDHE-ECDSA-CHACHA20-POLY1305"
+      - "ECDHE-RSA-AES-128-CBC-SHA256"
+      - "ECDHE-RSA-AES-128-GCM-SHA256"
+      - "ECDHE-RSA-AES-256-GCM-SHA384"
+  proxy_url: ${LOGSTASH_PROXYURL:""}
+  agent:
+    central:
+      url: ${CENTRAL_URL:https://apicentral.axway.com}
+      tenantID: ${CENTRAL_TENANTID:""}
+      deployment: ${CENTRAL_DEPLOYMENT:prod}
+      environment: ${CENTRAL_ENVIRONMENT:""}
+      auth:
+        url: ${CENTRAL_AUTH_URL:https://login.axway.com/auth}
+        realm: ${CENTRAL_AUTH_REALM:Broker}
+        clientId: ${CENTRAL_AUTH_CLIENTID:""}
+        privateKey: ${CENTRAL_AUTH_PRIVATEKEY:/keys/private_key.pem}
+        publicKey: ${CENTRAL_AUTH_PUBLICKEY:/keys/public_key}
+        keyPassword: ${CENTRAL_AUTH_KEYPASSWORD:""}
+        timeout: 10s
+      ssl:
+        minVersion: ${CENTRAL_SSL_MINVERSION:""}
+        maxVersion: ${CENTRAL_SSL_MAXVERSION:""}
+        nextProtos: ${CENTRAL_SSL_NEXTPROTOS:[]}
+        cipherSuites: ${CENTRAL_SSL_CIPHERSUITES:[]}
+        insecureSkipVerify: ${CENTRAL_SSL_INSECURESKIPVERIFY:false}
+      proxyUrl: ${CENTRAL_PROXYURL:""}
+    apigateway:
+      getHeaders: ${APIGATEWAY_GETHEADERS:true}
+      host: ${APIGATEWAY_HOST:localhost}
+      port: ${APIGATEWAY_PORT:8090}
+      pollInterval: ${APIGATEWAY_POLLINTERVAL:1m}
+      auth:
+        username: ${APIGATEWAY_AUTH_USERNAME:""}
+        password: ${APIGATEWAY_AUTH_PASSWORD:""}
+      ssl:
+        minVersison: ${APIGATEWAY_SSL_MINVERSION:""}
+        maxVersion: ${APIGATEWAY_SSL_MAXVERSION:""}
+        nextProtos: ${APIGATEWAY_SSL_NEXTPROTOS:[]}
+        cipherSuites: ${APIGATEWAY_SSL_CIPHERSUITES:[]}
+        insecureSkipVerify: ${APIGATEWAY_SSL_INSECURESKIPVERIFY:false}
+      proxyUrl: ${APIGATEWAY_PROXYURL:""}
+    apimanager:
+      host: ${APIMANAGER_HOST:localhost}
+      port: ${APIMANAGER_PORT:8075}
+      pollInterval: ${APIMANAGER_POLLINTERVAL:1m}
+      apiVersion: ${APIMANAGER_APIVERSION:1.3}
+      proxyApicIDField: ${APIMANAGER_PROXYAPICIDFIELD:""}
+      auth:
+        username: ${APIMANAGER_AUTH_USERNAME:""}
+        password: ${APIMANAGER_AUTH_PASSWORD:""}
+      ssl:
+        minVersion: ${APIMANAGER_SSL_MINVERSION:""}
+        maxVersion: ${APIMANAGER_SSL_MAXVERSION:""}
+        nextProtos: ${APIMANAGER_SSL_NEXTPROTOS:[]}
+        cipherSuites: ${APIMANAGER_SSL_CIPHERSUITES:[]}
+        insecureSkipVerify: ${APIMANAGER_SSL_INSECURESKIPVERIFY:false}
+      proxyUrl: ${APIMANAGER_PROXYURL:""}
+
+logging:
+  metrics:
+    enabled: false
+  # Send all logging output to stderr
+  to_stderr: true
+  # Set log level
+  level: info
+
+```
+
+# Running Traceability Agent
+
+Open a shell and run the following command to start up your agent:
+
+```shell
+cd /home/APIC-agents
+./traceability_agent
+```
+
+To verify if the agent is up and running, open another shell command and run:
+
+```shell
+cd /home/APIC-agents
+./traceability_agent status
+```
 
 ### Create your env_vars file
 
@@ -342,46 +502,3 @@ logging:
   # Set log level
   level: debug
 ```
-
-#### Multiple file paths
-
-```
-traceability_agent:
-  inputs:
-    - type: log
-      paths:
-        - /home/api/APIM_v7/apigateway/events/group-2_instance-1.log
-        - /home/api/APIM_v7/apigateway/events/group-2_instance-2.log
-```
-
-#### File path with wildcard
-
-```
-traceability_agent:
-  inputs:
-    - type: log
-      paths:
-        - /home/api/APIM_v7/apigateway/events/group-2_instance-*.log
-```
-
-### Install and run Traceability Agent
-
-1. Move the `private_key.pem` and `public_key` files that were originally created when you set up your Service Account to a keys directory. Make sure the directory is located on the machine being used for deployment.
-2. Download the zip file:
-
-   ```
-   curl -L "https://axway.bintray.com/generic-repo/v7-agents/v7_traceability_agent/latest/traceability_agent-latest.zip" -o traceability_agent-latest.zip
-   ```
-
-   The zip contains the Traceability Agent config yaml and the Traceability Agent executable.
-3. Unzip the file and install the binary on a machine that can access the APIM Manager environment.
-4. Open a shell and run the following command to start up your agent:
-
-   ```
-   ./traceability_agent
-   ```
-5. Open a shell and run the following health check command to verify if the agent is up and running:
-
-   ```
-   ./traceability_agent status
-   ```
