@@ -13,7 +13,7 @@ description: Learn how to deploy your Discovery Agent and Traceability Agent so
 
 * Read [AMPLIFY Central and Axway API Manager connected overview](/docs/central/connect-api-manager/)
 * Prepare AMPLIFY Central
-* You will need a basic knowledge of Axway API Gateway
+* You will need a basic knowledge of Axway API Management solution
 
 # Objectives
 
@@ -28,7 +28,7 @@ The Discovery Agent is used to discover new published APIs or any updated APIs. 
 
 The Discovery Agent only discovers APIs that have the tag(s) defined in the agent configuration file. See [filtering apis to be discovered](/docs/central/connect-api-manager/filtering-apis-to-be-discovered/). By default the filter is empty and thus the agent will discover all published API. 
 
-As soon as an API is published, the identifier of the asset in AMPLIFY Central is kept in a custom field at the api level. The name of the custom field is defined in [APIMANAGER_PROXYAPICIDFIELD](/docs/central/connect-api-manager/discovery-agent-variables/).
+As soon as an API is published, the identifier of the asset in AMPLIFY Central is kept in a custom field at the API level in API Manager to help the agent remember what is already published.
 
 The Agent can run in the following modes:
 
@@ -54,7 +54,7 @@ curl -L "https://axway.bintray.com/generic-repo/v7-agents/v7_discovery_agent/lat
    ```
    unzip discovery_agent-latest.zip
    ```
-3. Copy those 2 files in a folder (APIC-agents for instance) on a machine that can physically access the APIM Manager environment. 
+3. Copy those 2 files in a folder (APIC-agents for instance) on the machine  where the API Manager environment is located. 
 4. Move the `private_key.pem` and `public_key` files that were originally created when you set up your Service Account to the agent directory (APIC-agents). Note that the `public_key` comes from Steps 3 or 4 of [Create a Service Account](/docs/central/connect-api-manager/prepare-amplify-central/#create-a-service-account) depending if you choose to use the `der` format or not. 
 
 # Personalizing your agent configuration file
@@ -63,23 +63,23 @@ This configuration file contain 3 sections to personalize: apimanager, central a
 
 ## apimanager section:
 
-This section helps the agent to connect to the API Manager and to know which API should be discovered.
+This section helps the agent to connect to the API Manager and to know which API should be discovered and published to AMPLIFY Central.
 
-`host`: Machine name where API Manager is running. localhost value can be used as the agent is installed on the same machine 
+`host`: Machine name where API Manager is running. localhost value can be used as the agent is installed on the same machine as the API Manager.
 
 `port`: API Manager port number (8075 by default)
 
 `discoveryIgnoreTags` (optional): comma-separated blacklist of tags. If an API has one or several of this blacklist tags, the agent will ignore this API and not publish it to AMPLIFY Central. This property takes precedence over the filter property below. The default value is empty which means no API will be ignored
 
-`filter` (optional): expression to filter the API you want the agent to discover. See [Filtering APIs to be discovered](/docs/central/connect-api-manager/filtering-apis-to-be-discovered/).
+`filter` (optional): expression to filter the API you want the agent to discover. See [Filtering APIs to be discovered](/docs/central/connect-api-manager/filtering-apis-to-be-discovered/). Leaving this field empty will tell the agent to discover all publishes API (REST / SOAP).
 
-`proxyApicIDField` (optional): the field name used to store AMPLIFY Central identifier for the frontend proxy in API Manager. Default value is **apicId**. If you don't intend to change it, comment this property. Be aware the field will not be visible in API Manager front end proxy as it is a specific configuration. If you want to see that field or customize it, refer to Add a custom property to APIs in [Customize API Manager](/docs/apim_administration/apimgr_admin/api_mgmt_custom/index.html#customize-api-manager-data) documentation. 
+`proxyApicIDField` (optional): the field name used to store AMPLIFY Central identifier for the front end proxy in API Manager. Default value is **apicId**. If you don't intend to change it, comment this property. Be aware the field will not be visible in API Manager front end proxy as it is a specific configuration. If you want to see that field or customize it, refer to Add a custom property to APIs in [Customize API Manager](/docs/apim_administration/apimgr_admin/api_mgmt_custom/index.html#customize-api-manager-data) documentation. 
 
-`subscriptionApplicationField` (optional): the field name used to store AMPLIFY Central subscription identifier for the frontend proxy in API Manager. Default value is **subscriptions**. If you don't intend to change it, comment this property. Be aware the field will not be visible in API Manager application as it is a specific configuration. If you want to see that field or customize it, refer to Add a custom property to applications in [Customize API Manager](/docs/apim_administration/apimgr_admin/api_mgmt_custom/index.html#customize-api-manager-data) documentation. 
+`subscriptionApplicationField` (optional): the field name used to store AMPLIFY Central subscription identifier inside the API Manager application securing the front end proxy. Default value is **subscriptions**. If you don't intend to change it, comment this property. Be aware the field will not be visible in API Manager application as it is a specific configuration. If you want to see that field or customize it, refer to Add a custom property to applications in [Customize API Manager](/docs/apim_administration/apimgr_admin/api_mgmt_custom/index.html#customize-api-manager-data) documentation. 
 
 `pollInterval`: The frequency in which API Manager is polled for new endpoints. Default value is 30s 
 
-`auth.username`: an API Manager user with either  “API Manager Administrator” or “Organization administrator” role. Based on the role of this user, the agent is able to :
+`auth.username`: an API Manager user the agent will use to connect to the API Manager. This user must have either “API Manager Administrator” or “Organization administrator” role. Based on the role of this user, the agent is able to :
 
 * discover any API from any organisation (“API Manager Administrator”)  
 * discovery any API from a specific organisation (“Organization administrator”)
@@ -203,21 +203,21 @@ log:
 
 ```
 
-# Install and run Discovery Agent
+# Running Discovery Agent
 
-1. Move the `private_key.pem` and `public_key` files that were originally created when you set up your Service Account to a keys directory. Make sure the directory is located on the machine being used for deployment. Note that the `public_key` comes from Steps 3 and 4 of [Create a Service Account](/docs/central/connect-api-manager/prepare-amplify-central/#create-a-service-account).
-2. Download the zip file from <https://axway.bintray.com/generic-repo/v7-agents/v7_discovery_agent/latest/discovery_agent-latest.zip>. The zip contains the Discovery Agent config yaml and the Discovery Agent executable.
-3. Unzip the file and install the binary on a machine that can access the APIM Manager environment.  
-4. Open a shell and run the following command to start up your agent:
+Open a shell and run the following command to start up your agent:
 
-   ```
-   ./discovery_agent
-   ```
-5. Open a shell and run the following health check command to verify if the agent is up and running:
+```
+cd /home/APIC-agents
+./discovery_agent
+```
 
-   ```
-   ./discovery_agent --status
-   ```
+To verify if the agent is up and running, open another shell command and run:
+
+```
+cd /home/APIC-agents
+./discovery_agent --status
+```
 
 # Traceability Agent
 
