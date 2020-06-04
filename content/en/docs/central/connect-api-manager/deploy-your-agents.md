@@ -43,18 +43,19 @@ The Agent can run in the following modes:
 
 ### Installing the agent
 
-1.  Download the zip file from Axway public repository the latest version using the following command:
+1. Download the zip file from Axway public repository the latest version using the following command:
 
-   ```
-   curl -L "https://axway.bintray.com/generic-repo/v7-agents/v7_discovery_agent/latest/discovery_agent-latest.zip" -o discovery_agent-latest.zip
-   ```
+```
+curl -L "https://axway.bintray.com/generic-repo/v7-agents/v7_discovery_agent/latest/discovery_agent-latest.zip" -o discovery_agent-latest.zip
+```
+
 2. Unzip the file discovery_agent-latest.zip to get the agent binary (discovery_agent) and a template configuration file (discovery_agent.yaml).
 
    ```
    unzip discovery_agent-latest.zip
    ```
-3.  Copy those 2 files on a machine that can physically access the APIM Manager environment. 
-4. Move the `private_key.pem` and `public_key` files that were originally created when you set up your Service Account to the agent directory. Note that the `public_key` comes from Steps 3 or 4 of [Create a Service Account](/docs/central/connect-api-manager/prepare-amplify-central/#create-a-service-account) depending if you choose to use the `der` format or not. 
+3. Copy those 2 files in a folder (APIC-agents for instance) on a machine that can physically access the APIM Manager environment. 
+4. Move the `private_key.pem` and `public_key` files that were originally created when you set up your Service Account to the agent directory (APIC-agents). Note that the `public_key` comes from Steps 3 or 4 of [Create a Service Account](/docs/central/connect-api-manager/prepare-amplify-central/#create-a-service-account) depending if you choose to use the `der` format or not. 
 
 ### Personalizing your agent configuration file
 
@@ -64,11 +65,21 @@ This configuration file contain 3 sections to personalize: apimanager, central a
 
 This section helps the agent to connect to the API Manager  
 
+apimanager.host: Machine name where API Manager is running. localhost value can be used s agent is installed on the same machine apimanager.port: <API Manager port numner (8075 by default)>
+apimanager.discoveryIgnoreTags: <API tags you >\
+apimanager.filter: apimanager.proxyApicIDField:
+apimanager.subscriptionApplicationField:
+apimanager.pollInterval: 30s
+apimanager.auth.username:
+apimanager.auth.password:
+
+Once all data gathered, this section should looks like:
+
 ```
 apimanager:
   host: localhost
   port: 8075
-  discoveryIgnoreTags:
+  discoveryIgnoreTags: <API tags you >
   filter:
   proxyApicIDField:
   subscriptionApplicationField:
@@ -76,14 +87,11 @@ apimanager:
   auth:
     username:
     password:
-
 ```
 
 ###### central section:
 
 ###### log section:
-
-
 
 In the end you should have a configuration file looking like this one:
 
