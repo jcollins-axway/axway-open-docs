@@ -54,6 +54,7 @@ The Agent can run in the following modes:
    unzip discovery_agent-latest.zip
    ```
 3.  Copy those 2 files on a machine that can physically access the APIM Manager environment. 
+4. Move the `private_key.pem` and `public_key` files that were originally created when you set up your Service Account to the agent directory. Note that the `public_key` comes from Steps 3 or 4 of [Create a Service Account](/docs/central/connect-api-manager/prepare-amplify-central/#create-a-service-account) depending if you choose to use the `der` format or not. 
 
 ### Personalizing your agent configuration file
 
