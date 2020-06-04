@@ -86,7 +86,7 @@ This section helps the agent to connect to the API Manager and to know which API
 
 `auth.password`: the password of the API Manager user
 
-Once all data gathered, this section should looks like:
+Once all data is gathered, this section should looks like:
 
 ```
 apimanager:
@@ -104,33 +104,42 @@ apimanager:
 
 ## central section:
 
-  `url`: https://apicentral.axway.com   
+`url`: the amplify central url. Default value is **https://apicentral.axway.com**   
 
-`teamID`: 454564645456
-`tenantID`: 68794y2
-`environment`: my-v7-env
+`teamID`: The Team identifier in AMPLIFY Central that all APIs will be linked. Locate this at AMPLIFY Central > Access > Teams. Open the teams details. The team identifier is the last part of the url (AMPLIFY URL/access/teams/detail/**e4ec6c1a69fd0b8e016a0bb0681e0e8f**).
 
-`apiServerVersion`: v1alpha1
-`mode`: publishToEnvironmmentAntCatalog
-`pollInterval`:
-`auth.url`: https://login.axway.com/auth
-`auth.realm`: Broker
-`auth.clientId`: DOSA_66743...
-`auth.privateKey`: /home/APIC-agents/private_key.pem
-`auth.publicKey`: /home/APIC-agents/public_key
-`auth.keyPassword`:
-`auth.timeout`: 10s
+`tenantID`: The Organization ID from AMPLIFY Central. Locate this at Platform > User > Organization > ORrg ID field.
 
-Once all data are gathered, this section should looks like:
+`environment`: environment name you created when [preparing AMPLIFY Central](/docs/central/connect-api-manager/prepare-amplify-central/)
+
+`apiServerVersion`: version of AMPLIFY Central API the agent is using. Default value is **v1alpha1**
+
+`mode`: Method to send endpoints back to Central. (publishToEnvironment = API Service, publishToCatalog = Catalog, publishToEnvironmentAndCatalog = API Service and as Consumer instance).  
+
+`pollInterval`:  
+
+`auth.url`: The AMPLIFY login URL. Default value is **https://login.axway.com/auth** 
+
+`auth.realm`: The Realm used to authenticate for AMPLIFY Central. Default value is **Broker** `auth.clientId`: The name of the Service Account you created when [preparing AMPLIFY Central](/docs/central/connect-api-manager/prepare-amplify-central/). Locate this at AMPLIFY Central > Access > Service Accounts.
+
+`auth.privateKey`: location of the private key file you created when [preparing AMPLIFY Central](/docs/central/connect-api-manager/prepare-amplify-central/). Absolute file path is recommended to avoid confusion. 
+
+`auth.publicKey`:  location of the public key file you created when [preparing AMPLIFY Central](/docs/central/connect-api-manager/prepare-amplify-central/). Absolute file path is recommended to avoid confusion.  
+
+`auth.keyPassword`: the key password to open the key. None set up by default.
+
+`auth.timeout`: timeout for the authentication. Default value is **10s**
+
+Once all data is gathered, this section should looks like:
 
 ```
 central:
   url: https://apicentral.axway.com
-  teamID: 454564645456
+  teamID: e4ec6c1a69fd0b8e016a0bb0681e0e8f
   tenantID: 68794y2
   environment: my-v7-env
   apiServerVersion: v1alpha1
-  mode: publishToEnvironmmentAntCatalog
+  mode: publishToEnvironmmentAndCatalog
   pollInterval:
   auth:
     url: https://login.axway.com/auth
@@ -140,8 +149,6 @@ central:
     publicKey: /home/APIC-agents/public_key
     keyPassword:
     timeout: 10s
-
-
 ```
 
 ## log section:
@@ -152,38 +159,38 @@ In the end you should have a configuration file looking like this one:
 apimanager:
   host: localhost
   port: 8075
-  discoveryIgnoreTags:
-  filter:
-  proxyApicIDField:
-  subscriptionApplicationField:
+  discoveryIgnoreTags: tag1, tag2
+  filter: 
+#  proxyApicIDField: apicId
+#  subscriptionApplicationField: subscriptions
   pollInterval: 30s
   auth:
-    username:
-    password:
-
+    username: apiManagerUser
+    password: apiManagerUserPassword
+    
 central:
   url: https://apicentral.axway.com
-  teamID: <THE TEAM ID>
-  tenantID: "<YOUR ORGANISATION ID>"
-  mode: <publishToCatalog | publishToEnvironment | publishToEnvironmentAndCatalog>
-  environment: "<NAME OF THE CENTRAL TOPOLOGY ENVIRONMENT>"
+  teamID: e4ec6c1a69fd0b8e016a0bb0681e0e8f
+  tenantID: 68794y2
+  environment: my-v7-env
   apiServerVersion: v1alpha1
+  mode: publishToEnvironmmentAndCatalog
+  pollInterval:
   auth:
-    url: "https://login.axway.com/auth"
-    realm: "Broker"
-    clientid: "<SERVICE ACCOUNT NAME: DOSA_xxxxxxxxx>"
-    privatekey: "<PATH TO>/private_key.pem"
-    publickey: "<PATH TO>/public_key"
-    keyPassword: ""
+    url: https://login.axway.com/auth
+    realm: Broker
+    clientId: DOSA_66743...
+    privateKey: /home/APIC-agents/private_key.pem
+    publicKey: /home/APIC-agents/public_key
+    keyPassword:
     timeout: 10s
-
+    
 log:
   level: info
   format: json
   output: stdout
-#  output: file
-#    path: logs
-#
+  path: logs
+
 ```
 
 # Install and run Discovery Agent
