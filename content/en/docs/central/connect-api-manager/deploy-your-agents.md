@@ -41,13 +41,22 @@ The Agent can run in the following modes:
   * Advanced configuration: properties inside the configuration file can reference environment variables. This enables you to set up only one configuration file that addresses different behaviors (depending on the environment variables). See [Discovery Agent variables](/docs/central/connect-api-manager/discovery-agent-variables/).
 * With command line arguments. See [Discovery Agent flags](/docs/central/connect-api-manager/discovery-agent-flags/).
 
-### Create your configuration
+### Installing the agent
 
-To create an  an `env_vars` file, see [Discovery Agent variables](/docs/central/connect-api-manager/discovery-agent-variables/). Download the zip file:
+First step is to download the zip file from Axway public repository the latest version using the following command:
 
 ```
 curl -L "https://axway.bintray.com/generic-repo/v7-agents/v7_discovery_agent/latest/discovery_agent-latest.zip" -o discovery_agent-latest.zip
 ```
+
+Secondly, you unzip the file to obtain two files:
+
+* the agent binary: discovery_agent
+* the agent template configuration file: discovery_agent.yaml
+
+### Personalizing your agent configuration file
+
+To create an  an `env_vars` file, see [Discovery Agent variables](/docs/central/connect-api-manager/discovery-agent-variables/). Download the zip file:
 
 The Discovery Agent config yaml and Discovery Agent executable are included.
 
