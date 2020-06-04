@@ -65,13 +65,20 @@ This configuration file contain 3 sections to personalize: apimanager, central a
 
 This section helps the agent to connect to the API Manager  
 
-apimanager.host: Machine name where API Manager is running. localhost value can be used s agent is installed on the same machine apimanager.port: <API Manager port numner (8075 by default)>
-apimanager.discoveryIgnoreTags: <API tags you >\
-apimanager.filter: apimanager.proxyApicIDField:
-apimanager.subscriptionApplicationField:
-apimanager.pollInterval: 30s
-apimanager.auth.username:
-apimanager.auth.password:
+`host`: Machine name where API Manager is running. localhost value can be used s agent is installed on the same machine 
+
+`port`: <API Manager port numner (8075 by default)>
+`discoveryIgnoreTags`: <API tags you >\
+`filter`: apimanager.proxyApicIDField:
+`ubscriptionApplicationField`:
+`pollInterval`: 30s
+`auth.username`: an API Manager user with either  “API Manager Administrator” or “Organization administrator” role. Based on the role of this user, the agent is able to :
+
+* discover any API from any organisation (“API Manager Administrator”)  
+
+`auth.password`: dsffsfsa
+
+
 
 Once all data gathered, this section should looks like:
 
