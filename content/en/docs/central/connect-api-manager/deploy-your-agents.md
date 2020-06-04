@@ -26,7 +26,7 @@ The Discovery Agent is used to discover new published APIs or any updated APIs. 
 * Catalog item publication (disconnected mode): Customers  expose their APIs globally for their consumers but keep the API management at the Gateway level.
 * Environment / API Service publication (connected mode): Customers manage their APIs from the AMPLIFY platform.
 
-The Discovery Agent only discovers APIs that have the tag(s) defined in the agent configuration file. See [filtering apis to be discovered](docs/central/connect-api-manager/filtering-apis-to-be-discovered/).
+The Discovery Agent only discovers APIs that have the tag(s) defined in the agent configuration file. See [filtering apis to be discovered](/docs/central/connect-api-manager/filtering-apis-to-be-discovered/). By default the filter is empty and thus the agent will discover all published API. 
 
 As soon as an API is published, the identifier of the asset in AMPLIFY Central is kept in a custom field at the api level. The name of the custom field is defined in [APIMANAGER_PROXYAPICIDFIELD](/docs/central/connect-api-manager/discovery-agent-variables/).
 
@@ -35,11 +35,10 @@ The Agent can run in the following modes:
 * With a yaml configuration file:
 
   * Default: located in the same directory as the agent binary.
-  * Optional: use a dedicated folder where the configuration file is located (use the --pathConfig flag).
+  * Optional: use a dedicated folder where the configuration file is located (use the --pathConfig flag in the agent command line to access the file path).
 
     Configuration file name should be the same as the agent binary.
-
-    Properties inside the configuration file can reference environment variables. This enables you to set up only one configuration file that addresses different behaviors (depending on the environment variables). See [Discovery Agent variables](/docs/central/connect-api-manager/discovery-agent-variables/).
+  * Advanced configuration: properties inside the configuration file can reference environment variables. This enables you to set up only one configuration file that addresses different behaviors (depending on the environment variables). See [Discovery Agent variables](/docs/central/connect-api-manager/discovery-agent-variables/).
 * With command line arguments. See [Discovery Agent flags](/docs/central/connect-api-manager/discovery-agent-flags/).
 
 ### Create your configuration
