@@ -84,7 +84,7 @@ This section helps the agent to connect to the API Manager and to know which API
 * discover any API from any organisation (“API Manager Administrator”)  
 * discovery any API from a specific organisation (“Organization administrator”)
 
-`auth.password`: the password of the API Manager user
+`auth.password`: the password of the API Manager user in clear text
 
 Once all data is gathered, this section should looks like:
 
@@ -122,7 +122,9 @@ This section helps the agent to connect to AMPLIFY Central and determine how to 
 
 `auth.url`: The AMPLIFY login URL. Default value is **https://login.axway.com/auth** 
 
-`auth.realm`: The Realm used to authenticate for AMPLIFY Central. Default value is **Broker** `auth.clientId`: The name of the Service Account you created when [preparing AMPLIFY Central](/docs/central/connect-api-manager/prepare-amplify-central/). Locate this at AMPLIFY Central > Access > Service Accounts.
+`auth.realm`: The Realm used to authenticate for AMPLIFY Central. Default value is **Broker** 
+
+`auth.clientId`: The name of the Service Account you created when [preparing AMPLIFY Central](/docs/central/connect-api-manager/prepare-amplify-central/). Locate this at AMPLIFY Central > Access > Service Accounts.
 
 `auth.privateKey`: location of the private key file you created when [preparing AMPLIFY Central](/docs/central/connect-api-manager/prepare-amplify-central/). Absolute file path is recommended to avoid confusion. 
 
@@ -341,27 +343,53 @@ output.traceability:
       - "ECDHE-RSA-AES-128-CBC-SHA256"
       - "ECDHE-RSA-AES-128-GCM-SHA256"
       - "ECDHE-RSA-AES-256-GCM-SHA384"
-#  proxy_url: 
+#  proxy_url: socks5://username:password@hostname:port
 
 ```
 
-### Customizing central section (output.traceability.central)
+### Customizing central section (output.traceability.agent.central)
 
 This section helps the agent to connect to AMPLIFY Central and determine how to published the discovered APIs.
 
  
 
+`url`: the amplify central url. Default value is **https://apicentral.axway.com**   
+
+`tenantID`: The Organization ID from AMPLIFY Central. Locate this at Platform > User > Organization > ORrg ID field.
+
+`deployment`: The APIC deployment environment. Default value is **prod**
+
+`environment`: environment name you created when [preparing AMPLIFY Central](/docs/central/connect-api-manager/prepare-amplify-central/)
+
+`auth.url`: The AMPLIFY login URL. Default value is **https://login.axway.com/auth** 
+
+`auth.realm`: The Realm used to authenticate for AMPLIFY Central. Default value is **Broker** 
+
+`auth.clientId`: The name of the Service Account you created when [preparing AMPLIFY Central](/docs/central/connect-api-manager/prepare-amplify-central/). Locate this at AMPLIFY Central > Access > Service Accounts.
+
+`auth.privateKey`: location of the private key file you created when [preparing AMPLIFY Central](/docs/central/connect-api-manager/prepare-amplify-central/). Absolute file path is recommended to avoid confusion. 
+
+`auth.publicKey`:  location of the public key file you created when [preparing AMPLIFY Central](/docs/central/connect-api-manager/prepare-amplify-central/). Absolute file path is recommended to avoid confusion.  
+
+`auth.keyPassword`: the key password to open the key. None set up by default.
+
+`auth.timeout`: timeout for the authentication. Default value is **10s**
+
+`proxy_url`: The URL for the proxy for Amplify Central **http://username:password@hostname:port**. If empty, no proxy is defined.
+
 Once all data is gathered, this section should looks like:
 
 ```
+  agent:
+    central:
       url: https://apicentral.axway.com
-      tenantID: ""
+      tenantID: 68794y2
       deployment: prod
-      environment: ""
+      environment: my-v7-env
       auth:
         url: https://login.axway.com/auth
         realm: Broker
-        clientId: "DOSA_68732642t64545"
+        clientId: "DOSA_68732642t64545..."
         privateKey: /home/APIC-agents/private_key.pem
         publicKey: /home/APIC-agents/public_key
         keyPassword: ""
@@ -372,13 +400,91 @@ Once all data is gathered, this section should looks like:
 #        nextProtos: ${CENTRAL_SSL_NEXTPROTOS:[]}
 #        cipherSuites: ${CENTRAL_SSL_CIPHERSUITES:[]}
 #        insecureSkipVerify: ${CENTRAL_SSL_INSECURESKIPVERIFY:false}
-#      proxyUrl: ""
+#      proxyUrl: "http://username:password@hostname:port"
 
 ```
 
-### Customizing apigtaeway section (output.traceability.apigateway)
+### Customizing apigtaeway section (output.traceability.agent.apigateway)
 
-### Customizing apimanager section (output.traceability.apimanager)
+This section will help the agent to collect the header from request/response from the API Gateway system. 
+
+`getHeaders`: Tell the agent to  call the API Gateway API to get additional transaction details (headers). Default value is **true**. If false, API Gateway config does not need to be set and no headers will be send to AMPLIFY Central.
+
+`host`: The host that Axway API Gateway is running on. Default value is **localhost**
+
+`port`: The port that Axway API Gateway is listening on. Default value is **8090**
+
+`pollInterval`: The frequency in which the agent polls the logs in us, ms, s, m, h. Default value is **1m**
+
+`auth.username`: An Axway API Gateway username with the role "API Gateway operator".
+
+`auth.password`: The Axway API Gateway username password in clear text.
+
+Once all data is gathered, this section should looks like:
+
+```
+    apigateway:
+      getHeaders: true
+      host: localhost
+      port: 8090
+      pollInterval: 1m
+      auth:
+        username: myApiGatewayOperatorUser
+        password: myApiGatewayOperatorUserPassword
+      ssl:
+#        minVersison: ${APIGATEWAY_SSL_MINVERSION:""}
+#        maxVersion: ${APIGATEWAY_SSL_MAXVERSION:""}
+#        nextProtos: ${APIGATEWAY_SSL_NEXTPROTOS:[]}
+#        cipherSuites: ${APIGATEWAY_SSL_CIPHERSUITES:[]}
+#        insecureSkipVerify: ${APIGATEWAY_SSL_INSECURESKIPVERIFY:false}
+#      proxyUrl: ${APIGATEWAY_PROXYURL:""}
+
+```
+
+### Customizing apimanager section (output.traceability.agent.apimanager)
+
+This section will help the agent to know which API needs to be monitor: the one that have been discovered by the Discovery agent. 
+
+`host`: Machine name where API Manager is running. localhost value can be used as the agent is installed on the same machine as the API Manager.
+
+`port`: API Manager port number (**8075** by default)
+
+`pollInterval`: The frequency in which API Manager is polled for new endpoints. Default value is 30s 
+
+apiVersion: The API Manager API version to use. Default value is **1.3**
+
+`proxyApicIDField` (optional): the field name used to store AMPLIFY Central identifier for the front end proxy in API Manager. Default value is **apicId**. If you don't intend to change it, comment this property. Be aware the field will not be visible in API Manager front end proxy as it is a specific configuration. If you want to see that field or customize it, refer to Add a custom property to APIs in [Customize API Manager](/docs/apim_administration/apimgr_admin/api_mgmt_custom/index.html#customize-api-manager-data) documentation. 
+
+`auth.username`: an API Manager user the agent will use to connect to the API Manager. This user must have either “API Manager Administrator” or “Organization administrator” role. Based on the role of this user, the agent is able to :
+
+* discover any API from any organisation (“API Manager Administrator”)  
+* discovery any API from a specific organisation (“Organization administrator”)
+
+For the traceability agent to report correctly the discovered API traffic, it is recommended to use the same user as the one used for discovering API.
+
+`auth.password`: the password of the API Manager user in clear text
+
+Once all data is gathered, this section should looks like:
+
+```
+    apimanager:
+      host: localhost
+      port: 8075
+      pollInterval: 1m
+      apiVersion: 1.3
+      proxyApicIDField: "apicId
+      auth:
+        username: myAPIManagerUserName
+        password: myAPIManagerUserPassword
+      ssl:
+#        minVersion: ${APIMANAGER_SSL_MINVERSION:""}
+#        maxVersion: ${APIMANAGER_SSL_MAXVERSION:""}
+#        nextProtos: ${APIMANAGER_SSL_NEXTPROTOS:[]}
+#        cipherSuites: ${APIMANAGER_SSL_CIPHERSUITES:[]}
+#        insecureSkipVerify: ${APIMANAGER_SSL_INSECURESKIPVERIFY:false}
+#      proxyUrl: ${APIMANAGER_PROXYURL:""}
+
+```
 
 ### Customizing log section (logging)
 
@@ -441,56 +547,56 @@ output.traceability:
   proxy_url: ${LOGSTASH_PROXYURL:""}
   agent:
     central:
-      url: ${CENTRAL_URL:https://apicentral.axway.com}
-      tenantID: ${CENTRAL_TENANTID:""}
-      deployment: ${CENTRAL_DEPLOYMENT:prod}
-      environment: ${CENTRAL_ENVIRONMENT:""}
+      url: https://apicentral.axway.com
+      tenantID: 68794y2
+      deployment: prod
+      environment: my-v7-env
       auth:
-        url: ${CENTRAL_AUTH_URL:https://login.axway.com/auth}
-        realm: ${CENTRAL_AUTH_REALM:Broker}
-        clientId: ${CENTRAL_AUTH_CLIENTID:""}
-        privateKey: ${CENTRAL_AUTH_PRIVATEKEY:/keys/private_key.pem}
-        publicKey: ${CENTRAL_AUTH_PUBLICKEY:/keys/public_key}
-        keyPassword: ${CENTRAL_AUTH_KEYPASSWORD:""}
+        url: https://login.axway.com/auth
+        realm: Broker
+        clientId: "DOSA_68732642t64545..."
+        privateKey: /home/APIC-agents/private_key.pem
+        publicKey: /home/APIC-agents/public_key
+        keyPassword: ""
         timeout: 10s
       ssl:
-        minVersion: ${CENTRAL_SSL_MINVERSION:""}
-        maxVersion: ${CENTRAL_SSL_MAXVERSION:""}
-        nextProtos: ${CENTRAL_SSL_NEXTPROTOS:[]}
-        cipherSuites: ${CENTRAL_SSL_CIPHERSUITES:[]}
-        insecureSkipVerify: ${CENTRAL_SSL_INSECURESKIPVERIFY:false}
-      proxyUrl: ${CENTRAL_PROXYURL:""}
+#        minVersion: {CENTRAL_SSL_MINVERSION:""}
+#        maxVersion: ${CENTRAL_SSL_MAXVERSION:""}
+#        nextProtos: ${CENTRAL_SSL_NEXTPROTOS:[]}
+#        cipherSuites: ${CENTRAL_SSL_CIPHERSUITES:[]}
+#        insecureSkipVerify: ${CENTRAL_SSL_INSECURESKIPVERIFY:false}
+#      proxyUrl: "http://username:password@hostname:port"
     apigateway:
-      getHeaders: ${APIGATEWAY_GETHEADERS:true}
-      host: ${APIGATEWAY_HOST:localhost}
-      port: ${APIGATEWAY_PORT:8090}
-      pollInterval: ${APIGATEWAY_POLLINTERVAL:1m}
+      getHeaders: true
+      host: localhost
+      port: 8090
+      pollInterval: 1m
       auth:
-        username: ${APIGATEWAY_AUTH_USERNAME:""}
-        password: ${APIGATEWAY_AUTH_PASSWORD:""}
+        username: myApiGatewayOperatorUser
+        password: myApiGatewayOperatorUserPassword
       ssl:
-        minVersison: ${APIGATEWAY_SSL_MINVERSION:""}
-        maxVersion: ${APIGATEWAY_SSL_MAXVERSION:""}
-        nextProtos: ${APIGATEWAY_SSL_NEXTPROTOS:[]}
-        cipherSuites: ${APIGATEWAY_SSL_CIPHERSUITES:[]}
-        insecureSkipVerify: ${APIGATEWAY_SSL_INSECURESKIPVERIFY:false}
-      proxyUrl: ${APIGATEWAY_PROXYURL:""}
+#        minVersison: ${APIGATEWAY_SSL_MINVERSION:""}
+#        maxVersion: ${APIGATEWAY_SSL_MAXVERSION:""}
+#        nextProtos: ${APIGATEWAY_SSL_NEXTPROTOS:[]}
+#        cipherSuites: ${APIGATEWAY_SSL_CIPHERSUITES:[]}
+#        insecureSkipVerify: ${APIGATEWAY_SSL_INSECURESKIPVERIFY:false}
+#      proxyUrl: ${APIGATEWAY_PROXYURL:""}
     apimanager:
-      host: ${APIMANAGER_HOST:localhost}
-      port: ${APIMANAGER_PORT:8075}
-      pollInterval: ${APIMANAGER_POLLINTERVAL:1m}
-      apiVersion: ${APIMANAGER_APIVERSION:1.3}
-      proxyApicIDField: ${APIMANAGER_PROXYAPICIDFIELD:""}
+      host: localhost
+      port: 8075
+      pollInterval: 1m
+      apiVersion: 1.3
+      proxyApicIDField: "apicId
       auth:
-        username: ${APIMANAGER_AUTH_USERNAME:""}
-        password: ${APIMANAGER_AUTH_PASSWORD:""}
+        username: myAPIManagerUserName
+        password: myAPIManagerUserPassword
       ssl:
-        minVersion: ${APIMANAGER_SSL_MINVERSION:""}
-        maxVersion: ${APIMANAGER_SSL_MAXVERSION:""}
-        nextProtos: ${APIMANAGER_SSL_NEXTPROTOS:[]}
-        cipherSuites: ${APIMANAGER_SSL_CIPHERSUITES:[]}
-        insecureSkipVerify: ${APIMANAGER_SSL_INSECURESKIPVERIFY:false}
-      proxyUrl: ${APIMANAGER_PROXYURL:""}
+#        minVersion: ${APIMANAGER_SSL_MINVERSION:""}
+#        maxVersion: ${APIMANAGER_SSL_MAXVERSION:""}
+#        nextProtos: ${APIMANAGER_SSL_NEXTPROTOS:[]}
+#        cipherSuites: ${APIMANAGER_SSL_CIPHERSUITES:[]}
+#        insecureSkipVerify: ${APIMANAGER_SSL_INSECURESKIPVERIFY:false}
+#      proxyUrl: ${APIMANAGER_PROXYURL:""}
 
 logging:
   metrics:
