@@ -51,15 +51,17 @@ The Traceability Agent sends log information about APIs that have been discovere
 
    * Create a new Service Account user in AMPLIFY Central using the key pair. See [Manage an API proxy using AMPLIFY CLI](/docs/central/cli_getstarted/).
 2. Configure an environment in [AMPLIFY Central using the CLI](/docs/central/cli_environments/) or [Add your environment to AMPLIFY Central using the UI](/docs/central/mesh_management/add_env/#add-your-environment-to-amplify-central).
-3. [Update default Discovery Agent configuration file](/docs/central/connect-api-manager/deploy-your-agents/#discovery-agent) *
+3. [Prepare the Discovery Agent](/docs/central/connect-api-manager/deploy-your-agents/#discovery-agent)
 
    1. Move key files to a keys directory.
    2. Pull the latest binary of the Discovery Agent.
-   3. Start the Discovery Agent.
-4. [Update default Traceability Agent configuration file](/docs/central/connect-api-manager/deploy-your-agents/#traceability-agent) *
+   3. Customize the configuration file *
+   4. Start the Discovery Agent.
+4. [Prepare the Traceability Agent](/docs/central/connect-api-manager/deploy-your-agents/#traceability-agent)
 
    1. Move key files to a keys directory.
    2. Pull the latest binary of the Traceability Agent.
-   3. Start the Traceability Agent.
+   3. Customize the configuration file *
+   4. Start the Traceability Agent.
 
 \* If you need assistance setting up the configuration files, please contact your Sales Account Manager, or open a support ticket on support.axway.com.
