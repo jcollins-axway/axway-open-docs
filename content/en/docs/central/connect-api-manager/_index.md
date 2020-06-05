@@ -17,6 +17,7 @@ description: >
 ## What is Axway API Manager connected?
 
 We will show you how to connect your API Management system (v7.6.2 or above) to AMPLIFY Central by using two agents: Discovery and Traceability. These two agents will help you to represent and expose in AMPLIFY Central your API Management eco-system:
+
 * Create an API Gateway environment in AMPLIFY Central that represent your real API Management eco-system.
 * Detect published API using the Discovery Agent. The Discovery Agent discover the API from API Manager and makes them available in AMPLIFY Central. An API Service in Central is created to reference the API from API Manager and optionally, you can also ask the agent to publish it to the AMPLIFY Catalog for allowing your consumer to discover it. 
 * Consumer subscription management using the Discovery agent. When a consumer subscribe/unsubscribe to a Catalog asset, the discovery agent keeps track of the changes and maintain the API Management system accordingly.  
@@ -37,13 +38,13 @@ The related APIs are published to AMPLIFY Central in either disconnected mode (c
 The Traceability Agent sends log information about APIs that have been discovered and published to AMPLIFY Central.
 
 ## Pre-requisites
+
 * An Axway AMPLIFY Central subscription in the AMPLIFY™ platform. See [Get started with AMPLIFY Central](https://docs.axway.com/bundle/axway-open-docs/page/docs/central/quickstart/index.html).
 * An AMPLIFY Central Service Account. See [Manage an API proxy using AMPLIFY CLI](/docs/central/cli_proxy_flow/)
 
 ## System requirements
 
-* Axway API Manager / Axway API Gateway versions 7.6.2 SPx, 7.7 SPx or 7.8, up and running using a Linux installation (CentOS 6.x, 7.x, 8.x,  Oracle Linux 6.x, 7.x, Red Hat Enterprise Linux 6.x, 7.x, 8.x,
-  SUSE Linux Enterprise Server 11.x, 12.x)
+* Axway API Manager / Axway API Gateway versions 7.6.2 SPx, 7.7 SPx or 7.8, up and running using a Linux installation (CentOS 6.x, 7.x, 8.x,  Oracle Linux 6.x, 7.x, Red Hat Enterprise Linux 6.x, 7.x, 8.x, SUSE Linux Enterprise Server 11.x, 12.x)
 * The linux machine where API Manager & API Gateway are running should be accessible and have `sudo` rights to run the Agents.
 
 ## Connect Axway API Manager to AMPLIFY Central quickstart
@@ -51,16 +52,16 @@ The Traceability Agent sends log information about APIs that have been discovere
 1. Generate a key pair.
 
    * Create a new Service Account user in AMPLIFY Central using the key pair. See [Manage an API proxy using AMPLIFY CLI](/docs/central/cli_getstarted/).
-2. Create an environment object in [AMPLIFY Central using the CLI](/docs/central/cli_environments/) or [Add your environment to AMPLIFY Central using the UI](/docs/central/mesh_management/add_env/#add-your-environment-to-amplify-central).
+2. Configure an environment in [AMPLIFY Central using the CLI](/docs/central/cli_environments/) or [Add your environment to AMPLIFY Central using the UI](/docs/central/mesh_management/add_env/#add-your-environment-to-amplify-central).
 3. [Create a Discovery Agent configuration file](/docs/central/connect-api-manager/deploy-your-agents/#discovery-agent) *
 
    1. Move key files to a keys directory.
-   2. Log into the Artifactory Repository and pull the latest binary of the Discovery Agent.
+   2. Pull the latest binary of the Discovery Agent.
    3. Start the Discovery Agent.
 4. [Create a Traceability Agent configuration file](/docs/central/connect-api-manager/deploy-your-agents/#traceability-agent) *
 
    1. Move key files to a keys directory.
-   2. Log into the Artifactory Repository and pull the latest binary of the Traceability Agent.
+   2. Pull the latest binary of the Traceability Agent.
    3. Start the Traceability Agent.
 
 \* If you need assistance setting up the configuration files, please contact your Sales Account Manager, or open a support ticket on support.axway.com.
