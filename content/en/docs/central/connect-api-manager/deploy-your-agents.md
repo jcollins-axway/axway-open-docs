@@ -86,7 +86,7 @@ This section helps the agent to connect to the API Manager and to know which API
 
 `auth.password`: the password of the API Manager user in clear text
 
-Once all data is gathered, this section should looks like:
+Once all data is gathered, **this** section should looks like:
 
 ```
 apimanager:
@@ -175,7 +175,6 @@ log:
   format: json
   output: stdout
   path: logs
-
 ```
 
 ### Validating your custom configuration file
@@ -217,7 +216,6 @@ log:
   format: json
   output: stdout
   path: logs
-
 ```
 
 # Running Discovery Agent
@@ -250,8 +248,6 @@ The Agent can run in the following modes:
     Configuration file name should be the same as the agent binary (trceability_agent.yaml)
   * Advanced configuration: properties inside the configuration file can reference environment variables. This enables you to set up only one configuration file that addresses different behaviors (depending on the environment variables). See [Discovery Agent variables](/docs/central/connect-api-manager/discovery-agent-variables/).
 * With command line argument. See [Traceability Agent flags](/docs/central/connect-api-manager/traceability-agent-flags/).
-
-
 
 # Installing the agent
 
@@ -313,8 +309,6 @@ traceability_agent:
         - <API GATEWAY INSTALL DIRECTORY>/apigateway/events/group-2_instance-?.log
 ```
 
-
-
 ### Customizing logstash section (output.traceability)
 
 This section describes where the logs should be sent on AMPLIFY Central.
@@ -344,14 +338,11 @@ output.traceability:
       - "ECDHE-RSA-AES-128-GCM-SHA256"
       - "ECDHE-RSA-AES-256-GCM-SHA384"
 #  proxy_url: socks5://username:password@hostname:port
-
 ```
 
 ### Customizing central section (output.traceability.agent.central)
 
 This section helps the agent to connect to AMPLIFY Central and determine how to published the discovered APIs.
-
- 
 
 `url`: the amplify central url. Default value is **https://apicentral.axway.com**   
 
@@ -377,6 +368,8 @@ This section helps the agent to connect to AMPLIFY Central and determine how to 
 
 `proxy_url`: The URL for the proxy for Amplify Central **http://username:password@hostname:port**. If empty, no proxy is defined.
 
+`ssl` settings: by default, for connecting to AMPLIFY Central, agent uses TLS 1.2 with a predefined list of cipher suites. Refer to [SSL / TLS advanced](/docs/central/connect-api-manager/ssl-tls-advanced/) section for changing this behavior
+
 Once all data is gathered, this section should looks like:
 
 ```
@@ -401,7 +394,6 @@ Once all data is gathered, this section should looks like:
 #        cipherSuites: ${CENTRAL_SSL_CIPHERSUITES:[]}
 #        insecureSkipVerify: ${CENTRAL_SSL_INSECURESKIPVERIFY:false}
 #      proxyUrl: "http://username:password@hostname:port"
-
 ```
 
 ### Customizing apigtaeway section (output.traceability.agent.apigateway)
@@ -419,6 +411,8 @@ This section will help the agent to collect the header from request/response fro
 `auth.username`: An Axway API Gateway username with the role "API Gateway operator".
 
 `auth.password`: The Axway API Gateway username password in clear text.
+
+`ssl` settings: by default, for connecting to API Gateway agent uses TLS 1.2 with a predefined list of cipher suites. Refer to [SSL / TLS advanced](/docs/central/connect-api-manager/ssl-tls-advanced/) section for changing this behavior.
 
 Once all data is gathered, this section should looks like:
 
@@ -438,7 +432,6 @@ Once all data is gathered, this section should looks like:
 #        cipherSuites: ${APIGATEWAY_SSL_CIPHERSUITES:[]}
 #        insecureSkipVerify: ${APIGATEWAY_SSL_INSECURESKIPVERIFY:false}
 #      proxyUrl: ${APIGATEWAY_PROXYURL:""}
-
 ```
 
 ### Customizing apimanager section (output.traceability.agent.apimanager)
@@ -464,6 +457,8 @@ For the traceability agent to report correctly the discovered API traffic, it is
 
 `auth.password`: the password of the API Manager user in clear text
 
+`ssl` settings: by default, for connecting to API Manager agent uses TLS 1.2 with a predefined list of cipher suites. Refer to [SSL / TLS advanced](/docs/central/connect-api-manager/ssl-tls-advanced/) section for changing this behavior.
+
 Once all data is gathered, this section should looks like:
 
 ```
@@ -483,7 +478,6 @@ Once all data is gathered, this section should looks like:
 #        cipherSuites: ${APIMANAGER_SSL_CIPHERSUITES:[]}
 #        insecureSkipVerify: ${APIMANAGER_SSL_INSECURESKIPVERIFY:false}
 #      proxyUrl: ${APIMANAGER_PROXYURL:""}
-
 ```
 
 ### Customizing log section (logging)
@@ -513,7 +507,6 @@ logging:
     name: traceability_agent.log
     keepfiles: 7
     permissions: 0644
-
 ```
 
 ## Validating your custom configuration file
@@ -612,7 +605,6 @@ logging:
     name: traceability_agent.log
     keepfiles: 7
     permissions: 0644
-
 ```
 
 # Running Traceability Agent
@@ -630,5 +622,3 @@ To verify if the agent is up and running, open another shell command and run:
 cd /home/APIC-agents
 ./traceability_agent status
 ```
-
-hello
