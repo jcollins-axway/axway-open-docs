@@ -54,13 +54,13 @@ The Traceability Agent sends log information about APIs that have been discovere
 3. [Prepare the Discovery Agent](/docs/central/connect-api-manager/deploy-your-agents/#discovery-agent)
 
    1. Move key files to a keys directory.
-   2. Pull the latest binary of the Discovery Agent.
+   2. Download the latest binary of the Discovery Agent.
    3. Customize the configuration file *
    4. Start the Discovery Agent.
 4. [Prepare the Traceability Agent](/docs/central/connect-api-manager/deploy-your-agents/#traceability-agent)
 
    1. Move key files to a keys directory.
-   2. Pull the latest binary of the Traceability Agent.
+   2. Download the latest binary of the Traceability Agent.
    3. Customize the configuration file *
    4. Start the Traceability Agent.
 
