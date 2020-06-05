@@ -269,40 +269,112 @@ curl -L "https://axway.bintray.com/generic-repo/v7-agents/v7_traceability_agent/
 
 # Customizing your agent configuration file
 
-The `traceability_agent.yaml` configuration file contain 6 sections to personalize: the beat, logstash, central, apigateway, apimanager and log.
+The `traceability_agent.yaml` configuration file contain 6 sections to customize: the beat, logstash, central, apigateway, apimanager and log.
+
+By default the `traceability_agent.yaml` file contains references to environment variables: ${VARIABLE_NAME: value}. You can remove the ${VARIABLE_NAME} and keep only the value for simplifying the configuration. 
 
 ### Customizing beat section (traceability_agent)
 
-This section describe where the API Gateway logs are located for the beat to read it.
+This section describe where the API Gateway logs are located on the machine for the beat to read it.
 
-`paths`: list all path files the beat will listen to. It could be a single file if there is only one gateway installed on the machine or multiple files in case several gateways are installed on the same machine. 
+`paths`: list all absolute path files the beat will listen to. It could be a single file if there is only one gateway installed on the machine or multiple files in case several gateways are installed on the same machine. 
 
-#### Multiple file paths
-
-```
-traceability_agent:
-  inputs:
-    - type: log
-      paths:
-        - /home/api/APIM_v7/apigateway/events/group-2_instance-1.log
-        - /home/api/APIM_v7/apigateway/events/group-2_instance-2.log
-```
-
-#### File path with wildcard
+Single Gateway - explicit file name
 
 ```
 traceability_agent:
   inputs:
     - type: log
       paths:
-        - /home/api/APIM_v7/apigateway/events/group-2_instance-?.log
+        - <API GATEWAY INSTALL DIRECTORY>/apigateway/events/group-2_instance-1.log
+```
+
+Multiple Gateways on the same machine - explicit file names 
+
+```
+traceability_agent:
+  inputs:
+    - type: log
+      paths:
+        - <API GATEWAY INSTALL DIRECTORY>/apigateway/events/group-2_instance-1.log
+        - <API GATEWAY INSTALL DIRECTORY>/apigateway/events/group-2_instance-3.log
+        - <API GATEWAY INSTALL DIRECTORY>/apigateway/events/group-2_instance-7.log
+```
+
+Multiple Gateways on the same machine - file path with wildcard
+
+```
+traceability_agent:
+  inputs:
+    - type: log
+      paths:
+        - <API GATEWAY INSTALL DIRECTORY>/apigateway/events/group-2_instance-?.log
 ```
 
 
 
 ### Customizing logstash section (output.traceability)
 
+This section describes where the logs should be sent on AMPLIFY Central.
+
+`hosts`: The URL of the logstash to forward the transaction log entries. Default value is **ingestion-lumberjack.datasearch.axway.com:453**
+
+`cipher_suites`: list the cipher suites for the TLS connectivity. Refer to [SSL / TLS advanced](/docs/central/connect-api-manager/ssl-tls-advanced/) topic for more information 
+
+`proxy_url`: The URL for the proxy for logstash (**socks5://username:password@hostname:port**) to use in case the API Management eco-system is not allowed to access the internet world where AMPLIFY Central is installed. **username** and **password** are optional and can be omitted if not required by the proxy configuration. Leaving this value empty and no proxy will be used to connect to AMPLIFY Central logstash.
+
+Once all data is gathered, this section should looks like if you don't use a proxy:
+
+```
+# Send output to Central Database
+output.traceability:
+  enabled: true
+  hosts: ingestion-lumberjack.datasearch.axway.com:453
+  ssl:
+    enabled: true
+    verification_mode: none
+    cipher_suites:
+      - "ECDHE-ECDSA-AES-128-GCM-SHA256"
+      - "ECDHE-ECDSA-AES-256-GCM-SHA384"
+      - "ECDHE-ECDSA-AES-128-CBC-SHA256"
+      - "ECDHE-ECDSA-CHACHA20-POLY1305"
+      - "ECDHE-RSA-AES-128-CBC-SHA256"
+      - "ECDHE-RSA-AES-128-GCM-SHA256"
+      - "ECDHE-RSA-AES-256-GCM-SHA384"
+#  proxy_url: 
+
+```
+
 ### Customizing central section (output.traceability.central)
+
+This section helps the agent to connect to AMPLIFY Central and determine how to published the discovered APIs.
+
+ 
+
+Once all data is gathered, this section should looks like:
+
+```
+      url: https://apicentral.axway.com
+      tenantID: ""
+      deployment: prod
+      environment: ""
+      auth:
+        url: https://login.axway.com/auth
+        realm: Broker
+        clientId: "DOSA_68732642t64545"
+        privateKey: /home/APIC-agents/private_key.pem
+        publicKey: /home/APIC-agents/public_key
+        keyPassword: ""
+        timeout: 10s
+      ssl:
+#        minVersion: {CENTRAL_SSL_MINVERSION:""}
+#        maxVersion: ${CENTRAL_SSL_MAXVERSION:""}
+#        nextProtos: ${CENTRAL_SSL_NEXTPROTOS:[]}
+#        cipherSuites: ${CENTRAL_SSL_CIPHERSUITES:[]}
+#        insecureSkipVerify: ${CENTRAL_SSL_INSECURESKIPVERIFY:false}
+#      proxyUrl: ""
+
+```
 
 ### Customizing apigtaeway section (output.traceability.apigateway)
 
