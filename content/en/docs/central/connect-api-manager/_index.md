@@ -12,8 +12,6 @@ description: >
 
   Learn how you can collect the traffic of all your gateways and see it in a single place in AMPLIFY Central Observability.
 ---
-{{< alert title="Note" color="primary" >}}The Axway API Manager connectivity to AMPLIFY Central is currently available in an alpha review mode; current functionality and configuration may change before release. Therefore, this connectivity is available for trial use only and is not supported for production API management or connectivity.{{< /alert >}}
-
 ## What is Axway API Manager connected?
 
 We will show you how to connect your API Management system (v7.6.2 or above) to AMPLIFY Central by using two agents: Discovery and Traceability. These two agents will help you to represent and expose in AMPLIFY Central your API Management eco-system:
@@ -53,12 +51,12 @@ The Traceability Agent sends log information about APIs that have been discovere
 
    * Create a new Service Account user in AMPLIFY Central using the key pair. See [Manage an API proxy using AMPLIFY CLI](/docs/central/cli_getstarted/).
 2. Configure an environment in [AMPLIFY Central using the CLI](/docs/central/cli_environments/) or [Add your environment to AMPLIFY Central using the UI](/docs/central/mesh_management/add_env/#add-your-environment-to-amplify-central).
-3. [Create a Discovery Agent configuration file](/docs/central/connect-api-manager/deploy-your-agents/#discovery-agent) *
+3. [Update default Discovery Agent configuration file](/docs/central/connect-api-manager/deploy-your-agents/#discovery-agent) *
 
    1. Move key files to a keys directory.
    2. Pull the latest binary of the Discovery Agent.
    3. Start the Discovery Agent.
-4. [Create a Traceability Agent configuration file](/docs/central/connect-api-manager/deploy-your-agents/#traceability-agent) *
+4. [Update default Traceability Agent configuration file](/docs/central/connect-api-manager/deploy-your-agents/#traceability-agent) *
 
    1. Move key files to a keys directory.
    2. Pull the latest binary of the Traceability Agent.
