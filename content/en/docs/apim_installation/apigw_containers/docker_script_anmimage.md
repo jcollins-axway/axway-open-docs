@@ -48,9 +48,10 @@ When running the Admin Node Manager and API Gateway Docker containers, use the `
 * Run the Admin Node Manager container with the same volume mounted (for example, `-v /tmp/events:/opt/Axway/apigateway/events` enables the Admin Node Manager to read API Gateway event logs from `/tmp/events` on the host machine). For details, see [Start a metrics-enabled Admin Node Manager container](#start-a-metrics-enabled-admin-node-manager-container).
 
 Use the metrics options to specify the URL, user name, and password for your metrics database. If not specified, the metrics options have the following default values:
-    * `--metrics-db-url`: Defaults to `${environment.METRICS_DB_URL}`
-    * `--metrics-db-username`: Defaults to `${environment.METRICS_DB_USERNAME}`
-    * `--metrics-db-pass-file`: Default value for password if password file not specified is `${environment.METRICS_DB_PASS}`
+
+* `--metrics-db-url`: Defaults to `${environment.METRICS_DB_URL}`
+* `--metrics-db-username`: Defaults to `${environment.METRICS_DB_USERNAME}`
+* `--metrics-db-pass-file`: Default value for password if password file not specified is `${environment.METRICS_DB_PASS}`
 
 {{< alert title="Note" color="primary" >}}When running in a multi-node system, you must mount a shared network volume that is accessible from the Admin Node Manager and from all API Gateways.{{< /alert >}}
 

@@ -121,8 +121,9 @@ This is a unique namespace used to define data replication on cluster nodes. Def
 **Initial replication strategy**:
 
 Specifies the initial Cassandra replication strategy used to determine the nodes where replicas are placed:
-    * **Simple Strategy**: Use this setting for a single data center and one rack only. This is the default setting. If you ever intend more than one datacenter, use the Network Topology Strategy instead.
-    * **Network Topology Strategy**: This setting is recommended for most deployments because it is much easier to expand to multiple datacenters when required by future expansion.
+
+* **Simple Strategy**: Use this setting for a single data center and one rack only. This is the default setting. If you ever intend more than one datacenter, use the Network Topology Strategy instead.
+* **Network Topology Strategy**: This setting is recommended for most deployments because it is much easier to expand to multiple datacenters when required by future expansion.
 
 **Initial replication**:
 

@@ -59,13 +59,14 @@ ${level} ${timestamp} ${id} ${text} ${filterType} ${filterName}
 ```
 
 The available logging properties are described as follows:
-    * **`level`**: The log level (`fatal` , `fail`, `success`).
-    * **`timestamp`**: The time that the message was processed in user-readable form. For more details, see **Date format** in [General settings](/docs/apim_reference/general_settings/#general-settings).
-    * **`id`**: The unique transaction ID assigned to the message.
-    * **`text`**: The text of the log message that was configured in the filter itself. In the case of the **Log Message Payload** filter, the `${payload}` selector contains the message that was sent by the client.
-    * **`filterName`**: The name of the filter that generated the log message.
-    * **`filterType`**: The type of the filter that logged the message.
-    * **`ip`**: The IP address of the client that sent the request.
+
+* `level`: The log level (`fatal` , `fail`, `success`).
+* `timestamp`: The time that the message was processed in user-readable form. For more details, see **Date format** in [General settings](/docs/apim_reference/general_settings/#general-settings).
+* `id`: The unique transaction ID assigned to the message.
+* `text`: The text of the log message that was configured in the filter itself. In the case of the **Log Message Payload** filter, the `${payload}` selector contains the message that was sent by the client.
+* `filterName`: The name of the filter that generated the log message.
+* `filterType`: The type of the filter that logged the message.
+* `ip`: The IP address of the client that sent the request.
 
 **Signing Key**:
 
