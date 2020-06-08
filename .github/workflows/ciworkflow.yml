@@ -29,5 +29,5 @@ jobs:
     # Runs markdownlint
     - name: Run markdown linter
       run: |
-        npm i -g markdownlint-cli@0.22.0
+        npm i -g markdownlint-cli
         markdownlint "content/en/**/*.md"      
