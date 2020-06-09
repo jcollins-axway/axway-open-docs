@@ -84,6 +84,7 @@ This category contains scripts to:
 * Demonstrate a promotion of configuration from the development environment to the staging environment.
 
 ### `monitor`
+
 This category contains scripts to:
 
 * Print the filter details of each policy executed in a transaction.
