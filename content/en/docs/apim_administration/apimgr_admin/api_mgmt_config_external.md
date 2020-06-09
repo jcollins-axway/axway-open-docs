@@ -106,7 +106,7 @@ To set up Active Directory as an external identity provider, perform the followi
 11. Click **Deploy** in the toolbar to deploy the updated configuration.  
 12. Connect to API Manager in your browser (`https://localhost:8075/`).
 13. On-board a user from the Active Directory server by logging in with the appropriate user credentials (for example, a `jbloggs` user).
-14. Select **Settings** >** Account** to view the on-boarded account details. For example:
+14. Select **Settings > Account** to view the on-boarded account details. For example:
     ![Onboarded Active Directory user](/Images/docbook/images/api_mgmt/api_mgmt_sample_ad_onboard.png)
 
 {{< alert title="Note" color="primary" >}}The **Login name** for an external user (provisioned by an external identity provider) is read-only and cannot be changed.{{< /alert >}}
