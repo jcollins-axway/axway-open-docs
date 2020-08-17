@@ -1,7 +1,7 @@
 {
     "title": "Resolve upgrade issues in Policy Studio",
     "linkTitle": "Resolve upgrade issues in Policy Studio",
-    "weight": 7,
+    "weight": 70,
     "date": "2019-10-07",
     "description": "Detect and analyze upgrade issues in Policy Studio."
 }

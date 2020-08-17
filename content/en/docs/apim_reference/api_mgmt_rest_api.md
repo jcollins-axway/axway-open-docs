@@ -1,7 +1,7 @@
 {
     "title": "API Manager REST APIs",
     "linkTitle": "REST APIs",
-    "weight": "3",
+    "weight": "40",
     "date": "2019-09-17",
     "description": "Perform create, read, update, and delete (CRUD) operations on API Manager data."
 }

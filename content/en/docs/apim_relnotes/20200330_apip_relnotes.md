@@ -75,6 +75,10 @@ This version of API Portal includes the fixes from all 7.5.5, 7.6.2, and 7.7 ser
 
 The following are known issues in this version of API Portal.
 
+### Updating API Portal from January 2020 to March 2020 requires the clean up of the temporary folder
+
+Before updating your API Portal 7.7.20200130 (January 2020) to API Portal 7.7.20200330 (March 2020), you must first clean up the `/tmp/axway-apiportal` folder. After that, you can run the update script.
+
 ### Page layout and alignment for Arabic language
 
 Changing the API Portal language to Arabic (or any other right to left language) results in issues with page layout and alignment on the API Portal Home and Pricing pages, and some buttons are not visible. As a workaround, you can turn on the development mode in JAI. Follow these steps:

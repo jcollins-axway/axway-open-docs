@@ -2,7 +2,7 @@
 title: OAuth resource server filters
 linkTitle: OAuth resource server filters
 weight: 70
-date: 2019-11-18
+date: 2019-11-18T00:00:00.000Z
 description: Filters you can use when API Gateway is acting as an OAuth resource server.
 ---
 
@@ -52,8 +52,10 @@ The filter performs the following sequence of steps to determine if the token is
     * If the filter is configured to find the token in the Authorization Bearer header and no token is found (or the Authorization header is not found or does not contain the Bearer header), the following response is sent:
 
     ```
-    HTTP/1.1 401 Unauthorized
-    WWW-Authenticate:Bearer realm="DefaultRealm"
+    HTTP/1.1 400 Bad Request
+    WWW-Authenticate:Bearer realm="DefaultRealm",
+    error="invalid_request",
+    error_description="Unable to find token in the message."
     ```
 
 2. If the token is found in the incoming request, next verify that the token can be found in the API Gateway persistent storage mechanism. If it cannot be found, the following response is sent:

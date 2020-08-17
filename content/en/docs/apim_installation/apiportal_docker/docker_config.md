@@ -19,7 +19,7 @@ The data volumes are stored on the Docker host machine and as such consume disk 
 The following table describes which API Portal assets should be stored in a Docker volume to preserve the customizations during upgrade or HA setup of an API Portal Docker deployment.
 
 |Data type | Storage location | Example data volume name|
-|--* |--* |--* |
+|--- |--- |--- |
 |**System**                                    |   |
 |The certificate from the API Manage           | `INSTALL_DIR/administrator/components/com_apiportal/assets/cert`| apiportal-cert|
 |The certificates used by API Portal           |`/etc/httpd/conf`                                                |apiportal-conf|

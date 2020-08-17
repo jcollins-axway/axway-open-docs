@@ -8,8 +8,6 @@ description: "Learn how to discover and consume assets in AMPLIFY Unified
   gRPC, Avro, graphQL), MFT services, and custom catalog assets. "
 ---
 
-*Estimated reading time*: 10 minutes
-
 ## Find a catalog asset
 
 Start by searching the Unified Catalog to find the asset to use. By default, catalog assets are sorted by the most recently items published or updated first. Those assets are marked with **New** or **Updated** labels at the top of the list.  

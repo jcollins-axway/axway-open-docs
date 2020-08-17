@@ -1,8 +1,8 @@
 {
-    "title": "Single sign-on reference",
-    "linkTitle": "Single sign-on reference",
-    "date": "2019-09-17",
-    "description": "Single sign-on mapping syntax and examples, and a reference to elements in the `service-provider.xml` configuration file."
+"title": "Single sign-on reference",
+  "linkTitle": "Single sign-on reference",
+  "date": "2019-09-17",
+  "description": "Single sign-on mapping syntax and examples, and a reference to elements in the `service-provider.xml` configuration file."
 }
 
 ## Mapping syntax
@@ -233,6 +233,15 @@ Example:
 ```
 (givenName=Sandra)
 ```
+
+{{< alert title="Note" color="primary" >}}
+If the criteria value contains an equal character `=`, you must escape it using the hexadecimal code `3d`. For example:
+
+```
+(subjectDN=CN\3dcommon-name,OU\3dorganization-unit,O\3dorganization)
+```
+
+{{< /alert >}}
 
 #### Operators
 

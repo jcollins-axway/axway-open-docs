@@ -25,8 +25,7 @@ The following are common compliance abbreviations:
 
 ## HTTPS interface, SMTP interface, ICAP server, Connection filter, Connect to URL filter
 
-Field
-: Ciphers (Advanced SSL Tab)
+**Field**: Ciphers (Advanced SSL Tab)
 
 FIPS compliant options:
 
@@ -124,8 +123,7 @@ The Validation Tool will consider the following cipher strings as compliant:
 
 It is possible to select any number of the ciphers listed in the FIPS column, which means that JMS service supports all the selected ciphers.
 
-Field
-: Cipher suite
+**Field**: Cipher suite
 
 FIPS compliant options:
 
@@ -161,8 +159,7 @@ None as all ciphers in CBC mode.
 
 The IBM MQ provider only allows you to select one of the following FIPS-compliant ciphers.
 
-Field
-: Cipher suite
+**Field**: Cipher suite
 
 FIPS compliant options:
 
@@ -185,8 +182,7 @@ See [JMS service – Active MQ](#jms-service-active-mq).
 
 The following symmetric key encryption and hash algorithms are compliant.
 
-Field
-: Symmetric Key Algorithm
+**Field**: Symmetric Key Algorithm
 
 FIPS compliant options:
 
@@ -206,8 +202,7 @@ N/A.
 
 Despite the fact that the PGP Encrypt filter supports the Suite B and Suite B TS symmetric block ciphers AES256 and AES384, the PGP specification mandates the use of CFB (Cipher FeedBack) mode for symmetric encryption.  Since the NIST recommendation states that GCM is the preferred mode, the PGP Encrypt filter cannot be Suite B compliant.
 
-Field
-: HASH Algorithm
+**Field**: HASH Algorithm
 
 FIPS compliant options:
 
@@ -227,19 +222,15 @@ Suite B TS compliant options:
 
 ## XML Encryption filter, XML Encryption Settings filter, XML Decryption, XML Decryption Settings filter
 
-FIPS compliance
-: All algorithms available on the XML Encryption Settings filter are FIPS-compliant.
+**FIPS compliance**: All algorithms available on the XML Encryption Settings filter are FIPS-compliant.
 
-Suite B and Suite B TS compliance
-: The XML Encryption filter supports the XML Encryption 1.0 specification, which only supports symmetric ciphers in CBC (Cipher Block Chaining) mode, whereas Suite B requires GCM (Galois Counter Mode).  The XML Encryption support is, therefore, not Suite B compliant.
+**Suite B and Suite B TS compliance**: The XML Encryption filter supports the XML Encryption 1.0 specification, which only supports symmetric ciphers in CBC (Cipher Block Chaining) mode, whereas Suite B requires GCM (Galois Counter Mode).  The XML Encryption support is, therefore, not Suite B compliant.
 
 ## XML Signature Generation filter
 
-FIPS compliance
-: All algorithms available on the XML Signature Generation filter are FIPS-compliant.
+**FIPS compliance**: All algorithms available on the XML Signature Generation filter are FIPS-compliant.
 
-Suite B and Suite B TS compliance
-: Symmetric signatures are not Suite B compliant because the required key wrap algorithms use 3DES or AES in CBC mode.
+**Suite B and Suite B TS compliance**: Symmetric signatures are not Suite B compliant because the required key wrap algorithms use 3DES or AES in CBC mode.
 
 The following asymmetric Signature Methods are compliant.
 
@@ -250,11 +241,9 @@ The following asymmetric Signature Methods are compliant.
 
 ## XML Signature Verification filter
 
-FIPS compliance
-: The filter is FIPS-compliant for verification of all XML Signatures.
+**FIPS compliance**: The filter is FIPS-compliant for verification of all XML Signatures.
 
-Suite B and Suite B TS compliance
-: The XML Signature Verification filter uses the WS-SecurityPolicy-based Algorithm Suite configuration setting to mandate the crypto algorithms used on the XML Signature it is verifying.  These algorithms are not compliant because:
+**Suite B and Suite B TS compliance**: The XML Signature Verification filter uses the WS-SecurityPolicy-based Algorithm Suite configuration setting to mandate the crypto algorithms used on the XML Signature it is verifying.  These algorithms are not compliant because:
 
 * Suite B requires the Signature Method to be ECDSAwithSHA256 or ECDSAwithSHA384, but only RsaSha1 is supported by the WS-SecurityPolicy algorithms.
 * Only the SHA1 and SHA256 digest algorithms are supported by the Algorithm Suites, neither of which are Top Secret compliant.
@@ -272,21 +261,17 @@ The following Security Token Reference mechanisms all use SHA1 and are not Suite
 
 ## Create Thumbprint filter
 
-FIPS compliance
-: All available digest algorithms are FIPS-compliant.
+**FIPS compliance**: All available digest algorithms are FIPS-compliant.
 
-Suite B compliance
-: You must select SHA-256 to be compliant.
+**Suite B compliance**: You must select SHA-256 to be compliant.
 
-Suite B TS compliance
-: You must select SHA-384 to be compliant.
+**Suite B TS compliance**: You must select SHA-384 to be compliant.
 
 ## S/MIME Encrypt filter
 
 Any one of the following ciphers can be entered in the **Cipher** field to be compliant.
 
-Field
-: Ciphers (Advanced SSL Tab)
+**Field**: Ciphers (Advanced SSL Tab)
 
 FIPS compliant options:
 
@@ -346,11 +331,9 @@ It is not possible to tell at configuration time if this filter is not compliant
 
 ## S/MIME Sign filter
 
-FIPS compliance
-: The S/MIME Sign Filter uses SHA-1 internally to sign messages.  This algorithm is not configurable, but is FIPS-compliant.
+**FIPS compliance**: The S/MIME Sign Filter uses SHA-1 internally to sign messages.  This algorithm is not configurable, but is FIPS-compliant.
 
-Suite B and Suite B TS compliance
-: Because SHA-1 is not Suite B compliant and this algorithm is not configurable, the S/MIME Sign filter is not Suite B or Suite B TS compliant.
+**Suite B and Suite B TS compliance**: Because SHA-1 is not Suite B compliant and this algorithm is not configurable, the S/MIME Sign filter is not Suite B or Suite B TS compliant.
 
 ## S/MIME Verify filter
 
@@ -374,38 +357,32 @@ The WSS Username specification mandates the use of SHA-1 to digest the user’s 
 
 ## Kerberos settings
 
-FIPS compliance
-: If the `krb5.conf` file contains a `default_tgs_enctypes` property with any of the following values, it is not FIPS-compliant:
-    * des-cbc-md5
-    * des-cbc-crc
-    * rc4-hmac
+**FIPS compliance**: If the `krb5.conf` file contains a `default_tgs_enctypes` property with any of the following values, it is not FIPS-compliant:
 
-Suite B and Suite B TS compliance
-: Kerberos encryption algorithms are not Suite B or Suite B TS compliant.
+* des-cbc-md5
+* des-cbc-crc
+* rc4-hmac
+
+**Suite B and Suite B TS compliance**: Kerberos encryption algorithms are not Suite B or Suite B TS compliant.
 
 ## Kerberos Service Authentication
 
-FIPS compliance
-: It is not possible to tell at configuration time if a Kerberos Service Authentication configuration item is FIPS-compliant since it depends on the algorithms negotiated at runtime.
+**FIPS compliance**: It is not possible to tell at configuration time if a Kerberos Service Authentication configuration item is FIPS-compliant since it depends on the algorithms negotiated at runtime.
 
-Suite B and Suite B TS compliance
-: No Kerberos Service Authentication configuration is Suite B compliant because the required algorithms are not supported.
+**Suite B and Suite B TS compliance**: No Kerberos Service Authentication configuration is Suite B compliant because the required algorithms are not supported.
 
 ## SiteMinder SMHost configuration
 
-FIPS compliance
-: If the SiteMinder `SMHost.conf` file contains one of the following prefixes on the value of the `sharedsecret` property, it is not FIPS-compliant:
-    * {RC4}
-    * {RC2}
-    * {DES}
+**FIPS compliance**: If the SiteMinder `SMHost.conf` file contains one of the following prefixes on the value of the `sharedsecret` property, it is not FIPS-compliant:
 
-Suite B and Suite B TS compliance
-: The SiteMinder configuration is not Suite B compliant since the required algorithms are not supported.
+* {RC4}
+* {RC2}
+* {DES}
+
+**Suite B and Suite B TS compliance**: The SiteMinder configuration is not Suite B compliant since the required algorithms are not supported.
 
 ## Database Authentication Repository
 
-FIPS compliance
-: The **Hash Algorithm** (used to hash the client's password) cannot be set to MD5 since this algorithm is not FIPS-compliant.
+**FIPS compliance**: The **Hash Algorithm** (used to hash the client's password) cannot be set to MD5 since this algorithm is not FIPS-compliant.
 
-Suite B and Suite B TS compliance
-: The Database Authentication Repository is not Suite B compliant if you have elected to hash passwords by checking the **Hash client password** radio button since neither MD5 nor SHA1 are Suite B compliant.
+**Suite B and Suite B TS compliance**: The Database Authentication Repository is not Suite B compliant if you have elected to hash passwords by checking the **Hash client password** radio button since neither MD5 nor SHA1 are Suite B compliant.

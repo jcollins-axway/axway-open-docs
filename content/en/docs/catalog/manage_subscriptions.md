@@ -5,7 +5,6 @@ weight: 10
 date: 2019-12-16T00:00:00.000Z
 description: Manage AMPLIFY Catalog subscriptions.
 ---
-*Estimated reading time*: 5 minutes
 
 ## Subscriptions
 

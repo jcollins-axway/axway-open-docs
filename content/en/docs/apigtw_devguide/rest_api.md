@@ -13,7 +13,7 @@ Jersey REST services are exposed on the internal management HTTPS listener that 
 The API Gateway REST APIs are available from the following locations:
 
 * `INSTALL_DIR/apigateway/samples/swagger`
-* [Product APIs](https://axway.zoominsoftware.io/category/api) page on the Axway Documentation portal
+* [Product APIs](https://docs.axway.com/category/api) page on the Axway Documentation portal
 
 {{< alert title="Note" color="primary" >}}When viewing REST APIs on the Axway Documentation portal, the `consumes` field is not displayed if you are using `formData` type parameters in an API, due to limitations in the Swagger UI version.{{< /alert >}}
 

@@ -3,6 +3,7 @@
     "linkTitle": "API management overview",
     "weight":"10",
     "date": "2019-09-17",
+    "hide_readingtime": "true",
     "description": "An overview of API management, including the API lifecycle, the AMPLIFY API Management components, and key concepts."
 }
 

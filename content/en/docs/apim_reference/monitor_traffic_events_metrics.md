@@ -1,7 +1,7 @@
 {
 "title": "Traffic monitoring and metrics settings in Policy Studio",
 "linkTitle": "Traffic monitoring and metrics settings",
-"weight":"52",
+"weight":"100",
 "date": "2019-10-14",
 "description": "Configure settings for open traffic event logs, traffic monitoring, and real-time monitoring metrics in Policy Studio."
 }

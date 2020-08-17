@@ -1,7 +1,7 @@
 {
     "title": "Upgrade metrics database for API Manager",
     "linkTitle": "Upgrade metrics database for API Manager",
-    "weight": 5,
+    "weight": 50,
     "date": "2019-10-07",
     "description": "Upgrade your metrics database to version 7.7."
 }

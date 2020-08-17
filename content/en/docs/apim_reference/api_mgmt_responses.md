@@ -1,7 +1,7 @@
 {
     "title": "API Manager response codes",
     "linkTitle": "Response codes",
-    "weight": "4",
+    "weight": "60",
     "date": "2019-09-17",
     "description": "HTTP response codes that the API Manager runtime can return when a transaction is terminated by an API Manager-enabled API Gateway."
 }

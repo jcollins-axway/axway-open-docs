@@ -1,73 +1,104 @@
 {
 "title": "Install Redis cache",
   "linkTitle": "Install Redis",
-  "weight": "3",
+  "weight": "50",
   "date": "2019-08-09",
   "description": "Optionally install a Redis cache for better performance."
 }
-
 For better performance and scalability, you can configure API Portal to cache APIs in a Redis cache. Using a Redis cache is recommended if you plan to expose hundreds of APIs, or you plan to connect API Portal to more than one API Manager.
 
-## Install PHP dependencies
+## Install Redis on Red Hat 7 (RHEL 7) using RHSCL
 
-Before installing Redis, you must install `phpize` that prepares your environment for compiling and installing PHP extensions, and `phpredis` extension.
+1. Enable `rhel-server-rhscl-7-rpms` and `rhel-7-server-optional-rpms` repositories from RHSCL:
 
-1. `phpize` is installed as part of the PHP development package (for example, `php5.6-dev` or `php7.0-dev`). If you do not have a PHP development package installed, install the correct package for your PHP version:
+   ```shell
+   sudo subscription-manager repos --enable rhel-server-rhscl-7-rpms
+   sudo subscription-manager repos --enable rhel-7-server-optional-rpms
+   sudo yum clean all
+   ```
 
+2. Install Redis:
+
+   ```shell
+   sudo yum install rh-redis5
+   ```
+
+3. Enable Redis executables in any bash session by default:
+
+   ```shell
+   echo "source scl_source enable rh-redis5" | sudo tee -a /etc/profile.d/scl-redis5.sh
+   source /etc/profile.d/scl-redis5.sh
+   ```
+
+4. Enable and start the Redis service:
+
+   ```shell
+   sudo systemctl enable --now rh-redis5-redis
+   ```
+
+5. Verify the Redis service is active:
+
+   ```shell
+   systemctl status rh-redis5-redis
+   ```
+
+6. Install `rh-php73-php-devel` and `rh-php73-php-pear` to enable `pecl` (which manages external PHP modules) and `phpize` (which will build `redis` PHP module)`:
+
+   ```shell
+   sudo yum install rh-php73-php-devel rh-php73-php-pear
+   sudo ln -s $(which pecl) /usr/bin
+   ```
+
+7. Install and enable `redis` PHP module:
+
+   ```shell
+   sudo pecl install redis
+   echo "extension=redis.so" | sudo tee -a /etc/opt/rh/rh-php73/php.d/30-redis.ini
+   ```
+
+8. Verify `redis` PHP module was successfully enabled:
+
+   ```shell
+   php -m | grep redis
+   ```
+
+9. Restart Apache:
+
+   ```shell
+   sudo systemctl restart httpd24-httpd
+   ```
+
+10. (Optional) Remove `rh-php73-php-devel` and `rh-php73-php-pear`:
+
+    ```shell
+    sudo yum remove rh-php73-php-devel rh-php73-php-pear
     ```
-    yum install php-devel
-    ```
 
-2. Download the latest available version of `phpredis` from the [Github repository](https://github.com/phpredis/phpredis), and extract the package. For example:
+## Install Redis on CentOS 7 using EPEL/Remi
 
-    ```
-    wget https://github.com/phpredis/phpredis/archive/3.1.4.zip
-    unzip phpredis-3.1.4.zip
-    ```
+1. Install Redis and `redis` PHP module:
 
-3. Change to the directory where you extracted the `phpredis` package, and run the following:
+   ```shell
+   sudo yum install redis php-pecl-redis5
+   ```
+2. Enable and start the Redis service:
+   ```shell
+   sudo systemctl enable --now redis
+   ```
+3. Verify the Redis service is active:
+   ```shell
+   systemctl status redis
+   ```
+4. Verify `redis` PHP module is enabled:
+   ```shell
+   php -m | grep redis
+   ```
+5. Restart Apache:
+   ```shell
+   sudo systemctl restart httpd
+   ```
 
-    ```
-    phpize
-    ./configure
-    make && make install
-    ```
-
-4. You must enable the `phpredis` extension. To do so, you can either edit the `php.ini` file, or add a `redis.ini` file in the folder that PHP uses to load additional modules from. By default, this folder is one of the following:
-
-    * `/etc/php5/conf.d` if you have a PHP 5.x installation.
-    * `/etc/php7/conf.d` if you have a PHP 7.x installation.
-    * `/etc/php/conf.d` if you have installed PHP from the official repository.
-
-5. The `redis.ini` file should have the following contents:
-
-    ```
-    extension=redis.so
-    ```
-
-## Install Redis
-
-To install Redis, follow these steps:
-
-1. Download the Redis package:
-
-    ```
-    wget http://download.redis.io/redis-stable.tar.gz
-    ```
-
-2. Extract the package:
-
-    ```
-    tar xvzf redis-stable.tar.gz
-    ```
-
-3. Change to the directory where you extracted the package and run the following:
-
-    ```
-    make && make install
-    ```
-
-## Enable and configure Redis
+## Enable Redis in API Portal
 
 After you have successfully installed Redis, you must enable it in JAI:
 
@@ -76,31 +107,7 @@ After you have successfully installed Redis, you must enable it in JAI:
 3. Review and update the other settings if necessary.
 4. Click **Save**.
 
-## Verify Redis installation
-
-For information on how to start the Redis server, check that Redis is working correctly, and secure Redis, see the [Redis Quick Start documentation](https://redis.io/topics/quickstart).
-
-To verify that Redis is running, enter one of the following commands:
-
-```
-netstat -tupan | grep <REDIS_PORT>
-```
-
-```
-ps aux | grep redis
-```
-
-```
-redis-cli ping
-```
-
-To verify that Redis is being used by API Portal, refresh the API Catalog page and enter the following command:
-
-```
-redis-cli keys *_apicatalog
-```
-
-## Configure Redis cache settings in API Portal after installation
+## Additional cache settings in API Portal
 
 To change how long data is preserved in the cache:
 
@@ -109,3 +116,15 @@ To change how long data is preserved in the cache:
 3. Click **Save**.
 
 Use the **Purge cache** button to clear the cache at any time.
+
+## Verify Redis installation
+
+To verify that Redis is being used by API Portal, refresh the API Catalog page and enter the following command:
+
+```
+redis-cli keys *_apicatalog
+```
+
+## Further Redis configuration
+
+You have learned how to install a basic Redis server, with no authentication or replication. For more advanced configuration, see [Redis documentation](https://redis.io/documentation).

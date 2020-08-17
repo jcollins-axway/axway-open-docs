@@ -1,7 +1,7 @@
 {
     "title": "Upgrade and migration overview",
     "linkTitle": "Overview",
-    "weight": 1,
+    "weight": 10,
     "date": "2019-10-07",
     "description": "Introduction to API Gateway upgrade and migration, and recommended best practices for test upgrades."
 }

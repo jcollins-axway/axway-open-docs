@@ -7,7 +7,7 @@ description: >
   Markdown guidelines and Markdown extensions available for Axway-Open-Docs.
 ---
 
-This docs-as-code implementation uses the [Hugo](https://gohugo.io/) static site generator and the Google [Docsy theme](https://www.docsy.dev/) to build this website from the Markdown content files. Hugo uses [Blackfriday](https://github.com/russross/blackfriday) to parse Markdown.
+This docs-as-code implementation uses the [Hugo](https://gohugo.io/) static site generator and the Google [Docsy theme](https://www.docsy.dev/) to build this website from the Markdown content files. Hugo uses [Goldmark](https://github.com/yuin/goldmark/) to parse Markdown, which is [CommonMark compliant](https://gohugo.io/news/0.60.0-relnotes/).
 
 If you are contributing using GitHub or Git CLI, use these guidelines to ensure that your Markdown renders correctly. You do not need to use these guidelines if you are contributing using Netlify CMS.
 
@@ -71,14 +71,9 @@ To create a bulleted list add list items with asterisks (`*`).
 
 To create a nested list, indent the list items by 4 spaces.
 
-#### Nested lists
+#### Definition lists
 
-The Blackfriday Markdown parser has some known issues with nested lists. To avoid issues, follow these guidelines:
-
-* Always use 4 spaces to indent nested lists. Ensure that tabs are set to 4 spaces in your editor.
-* Do not specify a language for fenced code blocks within a nested list.
-
-Check any nested lists you create either in the Netlify deploy preview generated from your pull request, or by running the site locally using `hugo server`.
+Use definition lists only for listing terms and associated definitions, such as in a glossary of terms. Do not use definition lists for UI fields and descriptions.
 
 ### Inline code
 

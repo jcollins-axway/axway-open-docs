@@ -1,11 +1,10 @@
 {
-    "title": "Manage access to APIs",
-    "linkTitle": "Manage access to APIs",
-    "weight": "7",
-    "date": "2019-09-17",
-    "description": "Manage quotas, OAuth authorizations, organizations, and users in API Manager."
+"title": "Manage access to APIs",
+  "linkTitle": "Manage access to APIs",
+  "weight": "70",
+  "date": "2019-09-17",
+  "description": "Manage quotas, OAuth authorizations, organizations, and users in API Manager."
 }
-
 Before you begin using API Manager as an API administrator, you must ensure that API Manager has been enabled and configured correctly for your environment. For example, this includes configuring API Manager settings such as the following:
 
 * Monitoring metrics
@@ -106,31 +105,25 @@ To create an organization, perform the following steps:
 
 1. Click **New organization** in the toolbar.
 2. Configure the following general fields:
-    * **Image**: Click to add a graphical image for the organization (for example, .png, `.gif`, or `.jpeg` file).
-    * **Organization name**: Enter a name for the organization. This field is required.
-    * **Email**: Enter an email address for the organization.
-    * **Enabled**: Select whether the organization is enabled. The organization is enabled by default.
-    * **API Development**: Select whether the organization is enabled for API development. This setting is disabled by default.
-
-        You must first enable an organization for API development before you can begin registering REST APIs for that organization. For more details, see [Register REST APIs in API Manager](/docs/apim_administration/apimgr_admin/api_mgmt_register_web/). When the organization has registered APIs, you cannot disable this setting.
-
-    * **Virtual host**: Enter the virtual host and port on which unpublished APIs belonging to this organization are available. The host name should be DNS resolvable.
-
+   * **Image**: Click to add a graphical image for the organization (for example, .png, `.gif`, or `.jpeg` file).
+   * **Organization name**: Enter a name for the organization. This field is required.
+   * **Email**: Enter an email address for the organization.
+   * **Enabled**: Select whether the organization is enabled. The organization is enabled by default.  When disabled, all API calls secured by applications in that organization will be rejected.
+   * **API Development**: Select whether the organization is enabled for API development. This setting is disabled by default. You must first enable an organization for API development before you can begin registering REST APIs for that organization. For more details, see [Register REST APIs in API Manager](/docs/apim_administration/apimgr_admin/api_mgmt_register_web/). When the organization has registered APIs, you cannot disable this setting.
+   * **Virtual host**: Enter the virtual host and port on which unpublished APIs belonging to this organization are available. The host name should be DNS resolvable.
 3. If **Trial mode** is enabled on the **Settings** > **API Manager Settings** page, the following settings are displayed to enable you to manage the lifespan of the organization:
-    * **Trial Status**: Select one of the following:
-        * **No Trial**: The organization is not in trial mode.
-        * **In Trial**: The organization is in trial mode.
-        * **Trial Ended**: The trial for this organization has ended, the organization expires, and users in the organization can no longer log in.
-    * **Trial Start**: When the trial started. The trial starts when a member of the organization logs in.
-    * **Trial End**: When the trial will end.
-    * **Trial Duration**: Duration of the trial in days. Defaults to 30 days.
-    * **Extend Trial**: Click to extend the duration of the trial.
-    * **Restart Trial**: Click to reset a trial that has ended. The trial restarts when a member of the organization logs in.
-
+   * **Trial Status**: Select one of the following:
+     * **No Trial**: The organization is not in trial mode.
+     * **In Trial**: The organization is in trial mode.
+     * **Trial Ended**: The trial for this organization has ended, the organization expires, and users in the organization can no longer log in.
+   * **Trial Start**: When the trial started. The trial starts when a member of the organization logs in.
+   * **Trial End**: When the trial will end.
+   * **Trial Duration**: Duration of the trial in days. Defaults to 30 days.
+   * **Extend Trial**: Click to extend the duration of the trial.
+   * **Restart Trial**: Click to reset a trial that has ended. The trial restarts when a member of the organization logs in.
 4. Configure the following additional attributes:
-    * **Phone**: Enter a phone number for the organization if available.
-    * **Description**: Enter a short description of the organization.
-
+   * **Phone**: Enter a phone number for the organization if available.
+   * **Description**: Enter a short description of the organization.
 5. Click **Add API** to select the APIs that the organization can access.
 6. Click **Generate code** to generate optional registration codes used to simplify onboarding of new users into the organization. You can specify the **Maximum number of users per code** and **The code is valid until**. These codes are provided to new users who can input them when self-registering in API Manager. These users are then automatically registered in the organization.
 7. Click **Create** in the toolbar.
@@ -153,28 +146,20 @@ To create a user, perform the following steps:
 
 1. Click **New user** in the toolbar.
 2. Configure the following general fields:
-    * **Image**: Click to add a graphical image for the user (for example, .png, `.gif`, or `.jpeg` file).
-    * **Login Name**: Enter a globally unique name to identify the user, which is entered by the user when logging in to API Manager. This can be changed only by an API administrator, and is read-only for all other users. This field is required.
-
-        Changing a user’s login-name prevents that user from logging in. You must ensure that the user is notified of any change.
-
-    * **Name**: Enter the user's first name and surname to be used as a display name. This field is required.
-    * **Email**: Enter an email address for the user. This field is required.
-
-        This must be globally unique when the **Login Name** is set to the email address.
-
-    * **Enabled**: Select whether the user is enabled. The user is enabled by default.
-
+   * **Image**: Click to add a graphical image for the user (for example, .png, `.gif`, or `.jpeg` file).
+   * **Login Name**: Enter a globally unique name to identify the user, which is entered by the user when logging in to API Manager. This can be changed only by an API administrator, and is read-only for all other users. This field is required. Changing a user's login name prevents that user from logging in. You must ensure that the user is notified of any change.
+   * **Name**: Enter the user's first name and surname to be used as a display name. This field is required.
+   * **Email**: Enter an email address for the user. This field is required. This must be globally unique when the **Login Name** is set to the email address.
+   * **Enabled**: Select whether the user is enabled. The user is enabled by default.
 3. Configure the following membership fields:
-    * **Organization**: Select the organization that the user belongs to. The default list includes the API Development organization only.
-    * **Role**: Select one of the following required roles for the user:
-        * **API Manager Administrator**: This is the API administrator with full access rights.
-        * **Organization Administrator**: This administrator has a subset of access rights within an organization.
-        * **User**: This is the client application developer user (API consumer).
-
+   * **Organization**: Select the organization that the user belongs to. The default list includes the API Development organization only.
+   * **Role**: Select one of the following required roles for the user:
+     * **API Manager Administrator**: This is the API administrator with full access rights.
+     * **Organization Administrator**: This administrator has a subset of access rights within an organization.
+     * **User**: This is the client application developer user (API consumer).
 4. Configure the following additional attributes:
-    * **Phone**: Enter a phone number for the user.
-    * **Description**: Enter a short description of the user.
+   * **Phone**: Enter a phone number for the user.
+   * **Description**: Enter a short description of the user.
 5. Click **Create** in the toolbar.
 
 ### Edit a user

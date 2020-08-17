@@ -1,7 +1,7 @@
 {
 "title": "Continuous integration tools reference",
 "linkTitle": "Continuous integration tools reference",
-"weight":"02",
+"weight":"20",
 "date": "2019-11-19",
 "description": "Continuous integration tools command options."
 }

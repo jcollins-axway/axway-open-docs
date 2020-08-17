@@ -1,7 +1,7 @@
 {
     "title": "Upgrade API Gateway Analytics",
     "linkTitle": "Upgrade API Gateway Analytics",
-    "weight": 6,
+    "weight": 60,
     "date": "2019-10-07",
     "description": "Upgrade API Gateway Analytics to version 7.7."
 }

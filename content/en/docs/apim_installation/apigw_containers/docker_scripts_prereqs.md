@@ -26,9 +26,7 @@ For more details on Docker system requirements, see [Docker](https://docs.docker
 You must download the following from [Axway Support](https://support.axway.com).
 
 * API Gateway Linux installer
-* [APIGateway_7.6.2-8_ScriptsPackageDocker_linux-x86-64_BN27072018.tar.gz](https://support.axway.com/en/downloads/download-details/id/1439671) Docker scripts package.
-
-{{< alert title="Note" color="primary" >}}The scripts in this package applies to any version of API Gateway from 7.6.2 onward.{{< /alert >}}
+* Latest Docker sample scripts package for your API Gateway version. Choose the appropriate package from the [list of Docker scripts on Axway Support](https://support.axway.com/en/search/index/type/Downloads/q/Docker/ipp/50/product/324/subtype/47).
 
 #### API Gateway licenses
 
@@ -39,15 +37,15 @@ You must have specific API Gateway licenses to run the following:
 * API Manager-enabled API Gateway container
 * API Gateway Analytics container
 
-#### Unzip and install the Docker scripts
+#### Install the Docker scripts
 
-Unzip the Docker scripts package that you downloaded from [Axway Support](https://support.axway.com/)
+Extract files from the Docker scripts package that you downloaded from [Axway Support](https://support.axway.com/)
 
 ```
-unzip APIGateway_7.7-<n>_ScriptsPackageDocker_linux-x86-64_BN<bn>.zip
+tar -xvf APIGateway_7.7.YYYYMMDD-<bn>_DockerScripts.tar.gz
 ```
 
-The unzipped package includes the following:
+The extracted package includes the following:
 
 * Python scripts (`*.py`)
 * Docker files

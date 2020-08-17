@@ -1,7 +1,7 @@
 {
 "title": "Software installation prerequisites",
   "linkTitle": "Prerequisites",
-  "weight": "1",
+  "weight": "10",
   "date": "2019-08-09",
   "description": "Your system must meet these prerequisites before you can install API Portal."
 }

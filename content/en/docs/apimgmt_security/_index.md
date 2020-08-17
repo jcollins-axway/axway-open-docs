@@ -3,6 +3,7 @@
 "linkTitle": "Security guidance",
 "weight": 49,
 "date": "2019-11-25",
+"hide_readingtime": "true",
 "description": "This guide describes the security features of API Gateway, API Manager, and API Portal and provides instructions and best practices for strengthening their security."
 }
 

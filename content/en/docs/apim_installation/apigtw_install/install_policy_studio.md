@@ -30,6 +30,16 @@ The following example shows how to install the Policy Studio component in unatte
 --enable-components policystudio --disable-components nodemanager,apigateway,qstart,apitester,analytics,configurationstudio,apimgmt,cassandra,packagedeploytools
 ```
 
+{{< alert title="Note" color="primary" >}}
+To install Policy Studio on Windows without administrator privileges set the following environment variable in a command-line window:
+
+```
+set __COMPAT_LAYER=RunAsInvoker
+```
+
+You must start the installer from the same window.
+{{< /alert >}}
+
 ## Start Policy Studio
 
 {{< alert title="Note" color="primary" >}}Before starting Policy Studio, ensure both the Admin Node Manager and the API Gateway instance are running. For more details, see [Start API Gateway](/docs/apim_installation/apigtw_install/install_gateway#start-api-gateway).{{< /alert >}}

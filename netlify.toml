@@ -22,3 +22,77 @@ command = "cd themes/docsy && git submodule update -f --init && cd ../.. && hugo
 [dev]
   targetPort = 1313
   port = 1314
+
+[[redirects]]
+  from = "/docs/shared_services/*"
+  to = "https://amplifysharedservices-open-docs.netlify.app/docs/shared_services/:splat"
+  status = 200
+  force = true
+  headers = {X-From = "Netlify"}
+
+[[redirects]]
+  from = "/admin/#/edit/shared_services/*"
+  to = "https://amplifysharedservices-open-docs.netlify.app/admin/#/edit/shared_services/:splat"
+  status = 200
+  force = true
+  headers = {X-From = "Netlify"}
+
+[[redirects]]  
+  from = "/admin/#/edit/supportapi/*"
+  to = "https://amplifysharedservices-open-docs.netlify.app/admin/#/edit/supportapi/:splat"
+  status = 200
+  force = true
+  headers = {X-From = "Netlify"}
+
+[[redirects]]
+  from = "/admin/#/edit/methods/*"
+  to = "https://amplifysharedservices-open-docs.netlify.app/admin/#/edit/methods/:splat"
+  status = 200
+  force = true
+  headers = {X-From = "Netlify"}
+
+[[redirects]]
+  from = "/admin/#/edit/formats/*"
+  to = "https://amplifysharedservices-open-docs.netlify.app/admin/#/edit/formats/:splat"
+  status = 200
+  force = true
+  headers = {X-From = "Netlify"}
+
+[[redirects]]
+  from = "/docs/streams/*"
+  to = "https://amplifystreams-open-docs.netlify.app/docs/streams/:splat"
+  status = 200
+  force = true
+  headers = {X-From = "Netlify"}
+
+# for images
+[[redirects]]
+  from = "/Images/streams/*"
+  to = "https://amplifystreams-open-docs.netlify.app/Images/streams/:splat"
+  status = 200
+  force = true
+  headers = {X-From = "Netlify"}
+
+# for editing on Netlify CMS main page
+[[redirects]]
+  from = "/admin/#/edit/streams/*"
+  to = "https://amplifystreams-open-docs.netlify.app/admin/#/edit/amplifystreams/:splat"
+  status = 200
+  force = true
+  headers = {X-From = "Netlify"}
+
+# for each collection
+[[redirects]]  
+  from = "/admin/#/edit/publishers/*"
+  to = "https://amplifystreams-open-docs.netlify.app/admin/#/edit/publishers/:splat"
+  status = 200
+  force = true
+  headers = {X-From = "Netlify"}
+
+  [[redirects]]  
+  from = "/admin/#/edit/subscribers/*"
+  to = "https://amplifystreams-open-docs.netlify.app/admin/#/edit/subscribers/:splat"
+  status = 200
+  force = true
+  headers = {X-From = "Netlify"}
+

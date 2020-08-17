@@ -30,6 +30,16 @@ The following example shows how to install the Configuration Studio component in
 --enable-components configurationstudio --disable-components nodemanager,apigateway,qstart,apitester,analytics,policystudio,apimgmt,cassandra,packagedeploytools
 ```
 
+{{< alert title="Note" color="primary" >}}
+To install Configuration Studio on Windows without administrator privileges set the following environment variable in a command-line window:
+
+```
+set __COMPAT_LAYER=RunAsInvoker
+```
+
+You must start the installer from the same window.
+{{< /alert >}}
+
 ## Start Configuration Studio
 
 To start Configuration Studio after installation, perform the following steps:

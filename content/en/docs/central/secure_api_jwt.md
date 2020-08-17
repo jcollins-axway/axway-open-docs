@@ -6,8 +6,6 @@ date: 2019-07-30
 description: Learn how to secure your API using a JWT token.
 ---
 
-*Estimated reading time*: 6 minutes
-
 ## Before you start
 
 * You will need a basic understanding of JWT ([RFC 7523](https://tools.ietf.org/html/rfc7523))

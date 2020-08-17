@@ -1,7 +1,7 @@
 {
     "title": "Upgrade Apache Cassandra",
     "linkTitle": "Upgrade Apache Cassandra",
-    "weight": 3,
+    "weight": 30,
     "date": "2019-10-07",
     "description": "Upgrade Apache Cassandra from version 2.2.8 to version 2.2.12."
 }

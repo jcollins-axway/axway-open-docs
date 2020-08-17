@@ -1,7 +1,7 @@
 {
 "title": "Secure API Portal",
   "linkTitle": "Secure API Portal",
-  "weight": "8",
+  "weight": "80",
   "date": "2019-08-09",
   "description": "Secure and harden your API Portal environment after installation."
 }
@@ -138,13 +138,15 @@ By default, API Portal saves the Apache log files in the `htdocs` directory. Fo
 
 Add security headers to the `apiportal.conf` file (located in `/etc/httpd/conf.d/`).
 
-In the virtual host directive add the following headers:
+In the virtual host directive add the following:
 
 ```
+Header edit Set-Cookie ^(.*)$ $1;HttpOnly;Secure;SameSite=Strict
 Header always append X-Frame-Options SAMEORIGIN
 Header set X-XSS-Protection "1; mode=block"
 Header always set Strict-Transport-Security "max-age=63072000; includeSubdomains;"
 Header set X-Content-Type-Options nosniff
+Header set Referrer-Policy "same-origin"
 ```
 
 You should only use the HSTS header if you have configured SSL.
@@ -316,6 +318,18 @@ These are some general recommendations:
 The HTTP Content Security Policy ([CSP](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)) response header instructs compliant browsers on how they may interact with external sites while in the current context. This enables the server to control interaction with code and content from third-parties, mitigating some client-side code injection attacks. The policy allows the server to specify what connections are permitted for each type of resource (scripts, styles, fonts, and so on).
 
 We recommend you to configure this policy either in your `.htaccess` file or virtual host file with *least privilege* to allow only interactions that are explicitly required.
+
+## Define retention periods for personal data
+
+For compliance with General Data Protection (GDP), you must define retention periods within the design phase for all data fields taking into account the defined purpose. You must also include retention periods for backups.
+
+If you are a small organization, you may not need a documented retention policy. However, if you do not have a retention policy, you must still regularly review the data you hold and delete or anonymise any data that you no longer need.
+
+You must include your Data Protection Officer (DPO) or Legal department to define the retention periods as other laws may impact the retention requirements.
+
+## Permanently delete unnecessary data
+
+When the retention periods expire you have to ensure that all of the data which is no longer needed has been deleted. This may require automatic identification of the latest activities and a data deletion functionality or manual work.
 
 ## Where to go next
 

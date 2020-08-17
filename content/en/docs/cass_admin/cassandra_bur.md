@@ -145,19 +145,18 @@ do
 done
 ```
 
-## Restore a keyspace schema using cqlsh
+## Restore a keyspace schema
 
-The keyspace schema is created when an API Gateway is deployed with KPS tables. For the restore to be successful, the backup snapshot data must only contain data from the tables and columns in the keyspace schema.
+For the restore to be successful, the backup snapshot data must only contain data from the tables and columns in the keyspace schema. This is only necessary if the schema is not already present, for example, if setting up a new cluster as a copy of an existing cluster.
 
-To restore a keyspace schema, open `cqlsh` in the directory that contains the CQL file containing the backup, and run the following command:
+The keyspace schema can be restored one of two ways:
+
+* API Gateway will create a new keyspace when deploying a configuration with KPS tables and a Cassandra connection. If the schema already exists, API Gateway will create all tables that do not exist in the current keyspace schema.
+* Open `cqlsh` in the directory that contains the CQL file containing the backup, and run the following command to restore an existing keyspace schema backup:
 
 ```
 source 'KEYSPACE_NAME_schema_backup.cql';
 ```
-
-{{% alert title="Note" %}}
-This is only necessary if the schema is not already present, for example, if setting up a new cluster as a copy of an existing one.
-{{% /alert %}}
 
 ## Restore API Management and KPS keyspaces
 

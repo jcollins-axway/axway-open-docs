@@ -3,6 +3,7 @@ title: Capacity planning and performance
 linkTitle: Capacity planning and performance
 weight: 48
 date: 2019-09-26
+hide_readingtime: true
 description: This guide provides information for capacity planning and outlines performance results for common SOAP and REST use cases for both API Manager and API Gateway.
 ---
 

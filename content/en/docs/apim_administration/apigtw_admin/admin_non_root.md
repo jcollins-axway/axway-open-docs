@@ -1,16 +1,27 @@
 {
 "title": "Run API Gateway on privileged ports",
-"linkTitle": "Run API Gateway on privileged ports",
-"weight":"50",
-"date": "2019-10-14",
-"description": "Grant the required privileges to API Gateway processes running as non-root to run with root privileges."
+  "linkTitle": "Run API Gateway on privileged ports",
+  "weight": "50",
+  "date": "2019-10-14",
+  "description": "Grant the required privileges to API Gateway processes running as non-root to listen on privileged ports."
 }
+API Gateway is run as a non-root user to prevent any potential security issues with running as the `root` user. This topic describes the steps you must perform to grant the required privileges to API Gateway processes to use privileged ports while running as non-root.
 
-API Gateway is run as a non-root user to prevent any potential security issues with running as the `root` user. This topic describes the steps you must perform to grant the required privileges to API Gateway processes running as non-root.
+Privileged ports are those below 1024. These steps are not required if API Gateway only needs to use ports numbered 1024 and above.
 
 ## Before you begin
 
 The examples in this topic are for a non-root user named `admin` and for an API Gateway installation at `/opt/Axway-7.7/apigateway`. If you have a different non-root user name or installation location, you must modify the examples accordingly.
+
+## Security considerations
+
+When privileges have been granted to the `vshell` binary, it is best to ensure that it can only be executed by its ownership (or a specific system group).
+
+To remove execution rights from all other users on the system, run this command:
+
+```
+# chmod og-x /opt/Axway-7.7/apigateway/platform/bin/vshell
+```
 
 ## Set API Gateway file ownership to non-root user
 
@@ -40,26 +51,16 @@ When you enable processes running as non-root to listen on privileged ports usin
 Use `patchelf` to patch the `vshell` binary with the absolute paths of the API Gateway library files. For example, run the following command:
 
 ```
-$ patchelf --force-rpath --set-rpath
-"$VDISTDIR/platform/jre/lib/amd64/server:
-$VDISTDIR/platform/jre/lib/amd64:
-$VDISTDIR/platform/jre/lib/amd64/jli:
-$VDISTDIR/platform/lib/engines:
-$VDISTDIR/platform/lib:
-$VDISTDIR/ext/lib"
+$ patchelf --force-rpath --set-rpath \
+"$VDISTDIR/platform/jre/lib/amd64/server:$VDISTDIR/platform/jre/lib/amd64:$VDISTDIR/platform/jre/lib/amd64/jli:$VDISTDIR/platform/lib/engines:$VDISTDIR/platform/lib:$VDISTDIR/ext/lib" \
 $VDISTDIR/Linux.x86_64/bin/vshell
 ```
 
 Alternatively you can use `chrpath`, for example:
 
 ```
-$ chrpath -r
-"$VDISTDIR/platform/jre/lib/amd64/server:
-$VDISTDIR/platform/jre/lib/amd64:
-$VDISTDIR/platform/jre/lib/amd64/jli:
-$VDISTDIR/platform/lib/engines:
-$VDISTDIR/platform/lib:
-$VDISTDIR/ext/lib"
+$ chrpath -r \
+"$VDISTDIR/platform/jre/lib/amd64/server:$VDISTDIR/platform/jre/lib/amd64:$VDISTDIR/platform/jre/lib/amd64/jli:$VDISTDIR/platform/lib/engines:$VDISTDIR/platform/lib:$VDISTDIR/ext/lib" \
 $VDISTDIR/Linux.x86_64/bin/vshell
 ```
 
@@ -78,27 +79,18 @@ You also need to add API Gateway library paths to `jvm.xml`. To modify your `jvm
 1. Open the `system/conf/jvm.xml` file in your gateway installation.
 2. Near the top of the file, insert a new line after the following line:
 
-    ```
-    <JVMSettings classloader="com.vordel.boot.ServiceClassLoader">
-    ```
-
+   ```
+   <JVMSettings classloader="com.vordel.boot.ServiceClassLoader">
+   ```
 3. Enter the following:
 
-    ```
-    <VMArg name="-Djava.library.path=
-    $VDISTDIR/$DISTRIBUTION/jre/lib/amd64/server:
-    $VDISTDIR/$DISTRIBUTION/jre/lib/amd64:
-    $VDISTDIR/$DISTRIBUTION/lib/engines:
-    $VDISTDIR/ext/$DISTRIBUTION/lib:
-    $VDISTDIR/ext/lib:
-    $VDISTDIR/$DISTRIBUTION/jre/lib:
-    system/lib:
-    $VDISTDIR/$DISTRIBUTION/lib"/>
-    ```
+   ```
+   <VMArg name="-Djava.library.path=$VDISTDIR/$DISTRIBUTION/jre/lib/amd64/server:$VDISTDIR/$DISTRIBUTION/jre/lib/amd64:$VDISTDIR/$DISTRIBUTION/lib/engines:$VDISTDIR/ext/$DISTRIBUTION/lib:$VDISTDIR/ext/lib:$VDISTDIR/$DISTRIBUTION/jre/lib:$VDISTDIR/system/lib:$VDISTDIR/$DISTRIBUTION/lib"/>
+   ```
 
 ## Enable API Gateway processes to listen on privileged ports {#enable-processes-to-listen}
 
-API Gateway processes must be able to listen on Internet domain privileged ports (port numbers less than `1024`). You can use the `setcap` command to enable processes running as non-root to listen on privileged ports. In this case, you must set the `CAP_NET_BIND` capability on the `vshell` binary, which enables the following processes to listen on privileged ports:
+Use the `setcap` command to enable processes running as non-root to listen on privileged ports. In this case, you must set the `CAP_NET_BIND` capability on the `vshell` binary, which enables the following processes to listen on privileged ports:
 
 * API Gateway instance
 * Admin Node Manager
@@ -119,14 +111,28 @@ getcap /opt/Axway-7.7/apigateway/platform/bin/vshell
 /opt/Axway-7.7/apigateway/platform/bin/vshell = cap_net_bind_service+ep
 ```
 
-If you set this capability, you must remove it again before applying a service pack, installing an update, or uninstalling, as it results in the product binaries being locked.
-
-To remove the capability, run the following command:
+If you ever need to remove the permission, run the following command:
 
 ```
 sudo setcap -r /opt/Axway-7.7/apigateway/platform/bin/vshell
 ```
 
+See also [Remove privileges when updating](#remove-privileges-when-updating-the-software).
+
 ## Restart API Gateway
 
 Start API Gateway as the non-root user. For more information on starting API Gateway, see [Start and stop the API Gateway](/docs/apim_administration/apigtw_admin/manage_operations/#start-and-stop-the-api-gateway).
+
+## Remove privileges when updating the software
+
+Before performing an upgrade, applying a service pack, installing an update, or uninstalling the product, you must first temporarily remove the `setcap` privileges. Run this command:
+
+```
+sudo setcap -r /opt/Axway-7.7/apigateway/platform/bin/vshell
+```
+
+After an update, run `setcap` again to restore the privileges:
+
+```
+sudo setcap 'cap_net_bind_service=+ep' /opt/Axway-7.7/apigateway/platform/bin/vshell
+```

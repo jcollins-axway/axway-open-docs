@@ -1,253 +1,475 @@
 ---
-title: Deploy your agents
-linkTitle: Deploy your agents
+title: Deploy your agents - advanced functionality
+linkTitle: Deploy your agents - advanced functionality
 draft: false
 weight: 30
-description: Learn how to deploy your Discovery Agent and Traceability Agent so
-  that you can manage  your Axway API Gateway environment within AMPLIFY
-  Central.
+description: Learn how to deploy your Discovery Agent and Traceability Agent so 
+  that you can manage your Axway API Gateway environment within AMPLIFY Central.    
 ---
-{{< alert title="Note" color="primary" >}}The Axway API Gateway connectivity to AMPLIFY Central is currently available in an alpha review mode; current functionality and configuration may change before release.   Therefore, this connectivity is available for trial use only and is not supported for production API management or connectivity.{{< /alert >}}
-
 ## Before you start
 
 * Read [AMPLIFY Central and Axway API Manager connected overview](/docs/central/connect-api-manager/)
-* Prepare AMPLIFY Central
-* You will need a basic knowledge of Axway API Gateway
+* Be sure you have [Prepared AMPLIFY Central](/docs/central/connect-api-manager/prepare-amplify-central/)
+* You will need a basic knowledge of Axway API Management solution
+
+    * Where the solution is running (host / port / path to the logs / users)
+    * How to create / publish an API
+    * How to call an API
+* For containerized agents, Docker must be installed and you will need a basic understanding of Docker commands
 
 ## Objectives
 
-Learn how to create your Discovery Agent and Traceability Agent configuration files, then install and run your agents.
+Learn how to install, customize and run your Discovery and Traceability agents as either a binary Linux executable or as a Docker container.
 
 ## Discovery Agent
 
-The Discovery Agent is used to discover new deployments and stage updates to existing deployments. Once they are discovered, the related APIs are published to AMPLIFY Central, in one of the following publication modes, so that they become available for any consumer. See [centralMode](/docs/central/connect-api-manager/discovery-agent-flags/).
+The Discovery Agent is used to discover new published APIs or any updated APIs. Once they are discovered, the related APIs are published to AMPLIFY Central, in one of the following publication modes:
 
-* Catalog item publication (disconnected mode): Customers  expose their APIs globally for their consumers but keep the API management at the Gateway level.
-* Environment / API Service publication (connected mode): Customers manage their APIs from the AMPLIFY platform. WILL NOT BE FULLY IMPLEMENTED UNTIL Q3-2020.
+* **Environment / API Service publication** : Customers publish their APIs to the AMPLIFY platform.
+* **Environment / API Service publication / Catalog item publication** (default mode): Same as previous plus automatically expose the APIs to the consumer via the AMPLIFY Catalog.
 
-As soon as an API is published, the identifier of the asset in AMPLIFY Central is kept in a custom field at the api level. The name of the custom field is defined in [APIMANAGER_PROXYAPICIDFIELD](/docs/central/connect-api-manager/discovery-agent-variables/).
+The Discovery Agent only discovers APIs that have the tag(s) defined in the agent configuration file. See [Discover APIs](/docs/central/connect-api-manager/filtering-apis-to-be-discovered/). By default, the filter is empty and thus the agent will discover all published APIs.
 
-The Discovery Agent only discovers APIs that have the tag(s) defined in the agent configuration file. See [Discovery Agent variables](/docs/central/connect-api-manager/discovery-agent-variables/).
+As soon as an API is published, the identifier of the asset in AMPLIFY Central is kept in a custom field at the API level in API Manager to help the agent remember what is already published.
 
-The Agent can run in the following modes:
+The binary agent can run in the following modes:
 
-* With a configuration file:
+* With a yaml configuration file having the same name as the agent binary - discovery_agent.yaml:
 
-    * Default: located in the same directory as the agent binary.
-    * Optional: use a dedicated folder where the configuration file is located (use the --pathConfig flag).
+    * **Default**: located in the same directory as the agent binary.
+    * **Optional**: use a dedicated folder where the configuration file is located (use the –pathConfig flag in the agent command line to access the file path).
+    * **Advanced configuration**: properties inside the configuration file can reference environment variables. This enables you to set up only one configuration file that addresses different behaviors (depending on the environment variables). See [Agent variables](/docs/central/connect-api-manager/agent-variables/).
 
-    Configuration file name should be the same as the agent binary.
+* With command line arguments. See [Agent flags](/docs/central/connect-api-manager/discovery-agent-flags/).
 
-    Properties inside the configuration file can reference environment variables. This enables you to set up only one configuration file that addresses different behaviors (depending on the environment variables). See [Discovery Agent variables](/docs/central/connect-api-manager/discovery-agent-variables/).
-* With command line arguments. See [Discovery Agent flags](/docs/central/connect-api-manager/discovery-agent-flags/).
+The containerized agent can run in the following mode:
 
-### Create your configuration
+* With an environment variables configuration file, `env_vars`, supplied as a command line argument when running the Docker image.
 
-To create an  an `env_vars` file, see [Discovery Agent variables](/docs/central/connect-api-manager/discovery-agent-variables/). Download the zip file:
+### Installing the Discovery Agent
 
+#### To install the Binary Discovery Agent
+
+1. Download the latest version of the zip file from the Axway public repository using the following command:
+
+   ```shell
+   curl -L "https://axway.bintray.com/generic-repo/v7-agents/v7_discovery_agent/latest/discovery_agent-latest.zip" -o discovery_agent-latest.zip
+   ```
+
+2. Unzip the file `discovery_agent-latest.zip` to get the agent binary (`discovery_agent`) and the template configuration (`discovery_agent.yml`).
+3. Copy both files (`discovery_agent`, `discovery_agent.yml`) into a folder (i.e., `/home/APIC-agents`) on the machine where the API Manager environment is located.
+4. Customize apimanager section by setting configuration values to point to the API Gateway, API Manager and AMPLIFY Central.  There are two options to set values:
+
+   * `env_vars` file
+   * `discovery_agent.yml`:
+
+   ```shell
+   apimanager:
+    host: localhost
+    port: 8075
+    discoveryIgnoreTags: tag1, tag2
+    filter:
+    proxyApicIDField: apicId
+    subscriptionApplicationField: subscriptions
+    pollInterval: 30s
+    SSL:
+     INSECURESKIPVERIFY: true
+    auth:
+     username: apiManagerUser
+     password: apiManagerUserPassword
+
+   central:
+    url: https://apicentral.axway.com
+    platformURL: https://platform.axway.com
+    teamID: 6dff3d5c-8f7e-4f77-9061-e7219ee0b063
+    tenantID: 655431797898152
+    environment: my-v7-env
+    apiServerVersion: v1alpha1
+    mode: publishToEnvironmentAndCatalog
+    pollInterval: 10s
+    auth:
+     url: https://login-preprod.axway.com/auth
+     realm: Broker
+     clientId: DOSA_66743...
+     privateKey: /home/APIC-agents/private_key.pem
+     publicKey: /home/APIC-agents/public_key.pem
+     keyPassword:
+     timeout: 10s
+
+   log:
+    level: debug
+    format: json
+    output: stdout
+    path: logs
+   ```
+
+   * The value for *teamID* can be found in [AMPLIFY Central > Access > Teams](https://apicentral.axway.com/access/teams/).
+   * The value for *tenantID* can be found in AMPLIFY Central Platform > Organization.
+   * The value for *clientId* can be found in Service Account. See [Create a service account](/docs/central/cli_central/cli_install/#create-a-service-account).
+5. Run the binary Discovery Agent:
+
+   * Open a shell and run the following commands to start up your agent.  Add necessary [Agent flags](/docs/central/connect-api-manager/discovery-agent-flags/).
+
+     ```shell
+     cd /home/APIC-agents
+     ./discovery_agent
+     ```
+
+   * To verify that the agent is up and running, open another shell command and run:
+
+     ```shell
+     cd /home/APIC-agents
+     ./discovery_agent --status
+     ```
+
+##### To install the Dockerized Discovery Agent
+
+Create your Discovery Agent environment file, `env_vars`. See [Agent variables](/docs/central/connect-api-manager/agent-variables/) for a reference to variable descriptions.
+After customizing all the sections, your `env_vars` file should look like this example file:
+
+```shell
+# API MANAGER connectivity
+APIMANAGER_HOST=<HOST>
+APIMANAGER_AUTH_USERNAME=<USER>
+APIMANAGER_AUTH_PASSWORD=<PASSWORD>
+
+# API GATEWAY connectivity
+APIGATEWAY_HOST=<HOST>
+APIGATEWAY_AUTH_USERNAME=<USER>
+APIGATEWAY_AUTH_PASSWORD=<PASSWORD>
+
+# AMPLIFY connectivity
+CENTRAL_TENANTID=<TENANTID>
+CENTRAL_TEAMID=<TEAMID>
+CENTRAL_AUTH_CLIENTID=<CLIENTID, ie. DOSA_12345...>
 ```
-curl -L "https://axway.bintray.com/generic-repo/v7-agents/v7_discovery_agent/latest/discovery_agent-latest.zip" -o discovery_agent-latest.zip
-```
 
-The Discovery Agent config yaml and Discovery Agent executable are included.
+* The value for *teamID* can be found in [AMPLIFY Central > Access > Teams](https://apicentral.axway.com/access/teams/).
+* The value for *tenantID* can be found in AMPLIFY Central Platform > Organization.
+* The value for *clientId* can be found in Service Account. See [Create a service account](/docs/central/cli_central/cli_install/#create-a-service-account).
 
-#### YAML config file template - Discovery Agent
+##### Run the Dockerized Discovery Agent
 
-```
-apimanager:
-  host: lptxtntperf1.lab.phx.axway.int
-  status:
-  port: 8075
-  filter: tag.News.Exists() == true || tag.API_TYPE == Loan || tag.API_TYPE == Finance || tag.API_TYPE == Healthcare || tag.Math.Exists() == true || tag.Department == Purchasing
-#  filter: tag.News.Exists() == true
-#  filter: tag.API_TYPE == Healthcare
-  pollInterval: 30s
-  auth:
-    username: <API AMANGER ADMIN NAME>
-    password: <API MANAGE ADMIN PASSWORD>
-  ssl:
-    insecureSkipVerify: true
-  subscriptionApplicationField: subscriptions
-  proxyApicIDField: APIC_ID
+1. Copy the `private_key.pem` and `public_key.pem` files that were originally created when you set up your Service Account to a keys directory. Make sure the directory is located on the machine being used for deployment.
 
-central:
-  url: https://apicentral.axway.com
-  teamID: <THE TEAM ID>
-  tenantID: "<YOUR ORGANISATION ID>"
-  mode: <publishToCatalog | publishToEnvironment | publishToEnvironmentAndCatalog>
-  environment: "<NAME OF THE CENTRAL TOPOLOGY ENVIRONMENT>"
-  apiServerVersion: v1alpha1
-  auth:
-    url: "https://login.axway.com/auth"
-    realm: "Broker"
-    clientid: "<SERVICE ACCOUNT NAME: DOSA_xxxxxxxxx>"
-    privatekey: "<PATH TO>/private_key.pem"
-    publickey: "<PATH TO>/public_key"
-    keyPassword: ""
-    timeout: 10s
+2. Pull the latest image of the Discovery Agent:
 
-log:
-  level: info
-  format: json
-  output: stdout
-#  output: file
-#    path: logs
-#
-```
+   ```shell
+   docker pull axway-docker-public-registry.bintray.io/agent/v7-discovery-agent:latest
+   ```
 
-### Install and run Discovery Agent
+3. Start the Docker Discovery Agent pointing to the `env_vars` file and the keys directory. `pwd` relates to the local directory where the docker command is run. For Windows, the absolute path is preferred.
 
-1. Move the `private_key.pem` and `public_key` files that were originally created when you set up your Service Account to a keys directory. Make sure the directory is located on the machine being used for deployment. Note that the `public_key` comes from Steps 3 and 4 of [Create a Service Account](/docs/central/connect-api-manager/prepare-amplify-central/#create-a-service-account).
-2. Download the zip file from [https://axway.bintray.com/generic-repo/v7-agents/v7_discovery_agent/latest/discovery_agent-latest.zip]( https://axway.bintray.com/generic-repo/v7-agents/v7_discovery_agent/latest/discovery_agent-latest.zip). The zip contains the Discovery Agent config yaml and the Discovery Agent executable.
-3. Unzip the file and install the binary on a machine that can access the APIM Manager environment.  
-4. Open a shell and run the following command to start up your agent:
+   ```shell
+   docker run --env-file ./env_vars -v <pwd>/keys:/keys  axway-docker-public-registry.bintray.io/agent/v7-discovery-agent:latest
+   ```
 
-    ```
-    ./discovery_agent
-    ```
+4. Run the following health check command to ensure the agent is up and running:
 
-5. Open a shell and run the following health check command to verify if the agent is up and running:
-
-    ```
-    ./discovery_agent --status
-    ```
+   ```shell
+   docker inspect --format='{{json .State.Health}}' <container>
+   ```
 
 ## Traceability Agent
 
-The Traceability Agent is used to filter the Axway API Gateway logs that are related to discovered APIs and prepare the transaction events that are sent to AMPLIFY platform. Each time an already discovered API is called by a consumer, an event (summary + detail) is sent to AMPLIFY Central and is visible in API Observer.
+The traceability agent is used to filter the Axway API Gateway logs that are related to discovered APIs and prepare the transaction events that are sent to AMPLIFY platform. Each time an already discovered API is called by a consumer, an event (summary + detail) is sent to AMPLIFY Central and is visible in API Observer.
 
-The Agent can run in the following modes:
+The agent can run in the following modes:
 
-* With a configuration file
+* With a yaml configuration file having the same name as the agent binary - `traceability_agent.yaml`:
 
     * Default: located in the same directory as the agent binary.
-    * Optional: use a dedicated folder where the configuration file is located (use the --path.config flag). See [Traceability Agent flags](/docs/central/connect-api-manager/traceability-agent-flags/).
+    * Optional: use a dedicated folder where the configuration file is located (use the --path.config flag in the agent command line to access the file path).
+    * Advanced configuration: properties inside the configuration file can reference environment variables. This enables you to set up only one configuration file that addresses different behaviors (depending on the environment variables). See [Agent variables](/docs/central/connect-api-manager/agent-variables/).
+* With command line argument. See [Traceability Agent flags](/docs/central/connect-api-manager/traceability-agent-flags/).
 
-    Configuration file name should be the same as the agent binary.
+### Installing the Traceability Agent
 
-    Properties inside the configuration file can reference environment variables. This enables you to set up only one configuration file that addresses different behaviors (depending on the environment variables). See [Traceability Agent variables](/docs/central/connect-api-manager/traceability-agent-variables/).
-* With a YAML configuration file
+To install the binary Traceability Agent:
 
-### Create your env_vars file
+1. Download the Traceability Agent using the following command:
 
-To create an `env_vars file`, see [Traceability Agent variables](/docs/central/connect-api-manager/traceability-agent-variables/).
+   ```shell
+   curl -L "https://axway.bintray.com/generic-repo/v7-agents/v7_traceability_agent/latest/traceability_agent-latest.zip" -o traceability_agent-latest.zip
+   ```
 
-### Create your YAML config file
+2. Unzip the file `traceability_agent-latest.zip` to get the agent binary (`traceability_agent`) and the template configuration (`traceability_agent.yml`).
+3. Copy both files (`traceability_agent`, `traceability_agent.yml`) into a folder (i.e., `/home/APIC-agents`) on the machine where the API Manager environment is located.
+4. Customize traceability_agent section by setting configuration values to point to the event logs path,  API Gateway, API Manager, and AMPLIFY Central.  There are 2 options to set values:
 
-Most Traceability Agent configurations are overridden by the environment variable, except for the APIGateway event file path(s). Note that the default `traceability_agent.inputs.paths` is set to read multiple files using wildcard.
+   * `env_vars` file
+   * `discovery_agent.yml`:
 
-#### YAML config file template - Traceability Agent
-
-```
-traceability_agent:
-  inputs:
-    - type: log
-      paths:
-        - <PATH TO>/group-2_instance-1.log
+   ```yaml
+   ################### Beat Configuration #########################
+   traceability_agent:
+    inputs:
+     - type: log
+       paths:
+         - <PATH_TO>/group-X_instance-Y.log
       include_lines: ['.*"type":"transaction".*"type":"http".*']
 
-# Send output to Central Database
-output.traceability:
-  pipelines: 0
-  enabled: true
-  hosts: "ingestion-lumberjack.datasearch.axway.com:453"
-  ssl:
+   # Send output to Central Database
+   output.traceability:
     enabled: true
-    verification_mode: none
-  agent:
-    central:
-      url: "https://apicentral.axway.com"
-      deployment: "prod"
-      tenantID: "<THE TEAM ID>"
-      environment: "<NAME OF THE CENTRAL TOPOLOGY ENVIRONMENT>"
-      auth:
-        url: "https://login.axway.com/auth"
-        realm: "Broker"
-        clientId: "<SERVICE ACCOUNT NAME: DOSA_xxxxxxxxx>"
-        privateKey: "<PATH TO>/private_key.pem"
-        publicKey: "<PATH TO>/public_key"
+    hosts: ${LOGSTASH_URL:ingestion-lumberjack.datasearch.axway.com:453}
+    ssl:
+     enabled: true
+     verification_mode: none
+     cipher_suites:
+      - "ECDHE-ECDSA-AES-128-GCM-SHA256"
+      - "ECDHE-ECDSA-AES-256-GCM-SHA384"
+      - "ECDHE-ECDSA-AES-128-CBC-SHA256"
+      - "ECDHE-ECDSA-CHACHA20-POLY1305"
+      - "ECDHE-RSA-AES-128-CBC-SHA256"
+      - "ECDHE-RSA-AES-128-GCM-SHA256"
+      - "ECDHE-RSA-AES-256-GCM-SHA384"
+     proxy_url: ${LOGSTASH_PROXYURL:""}
+     agent:
+      central:
+       url: https://apicentral.axway.com
+       tenantID: 68794y2
+       deployment: prod
+       environment: my-v7-env
+       auth:
+        url: https://login.axway.com/auth
+        realm: Broker
+        clientId: "DOSA_68732642t64545..."
+        privateKey: /home/APIC-agents/private_key.pem}
+        publicKey: /home/APIC-agents/public_key.pem}
         keyPassword: ""
         timeout: 10s
-    apigateway:
+     apigateway:
+      getHeaders: true
       host: localhost
-      status:
       port: 8090
       pollInterval: 1m
       auth:
-        username: <APIGATEWAY USER NAME WITH APIGATEWAY OPERATOR ROLE>
-        password: <APIGATEWAY USER PASSWORD>
-      ssl:
-        insecureSkipVerify: true
-    apimanager:
-      proxyApicIDField: APIC_ID
+        username: myApiGatewayOperatorUser
+        password: myApiGatewayOperatorUserPassword
+     apimanager:
       host: localhost
-      status:
       port: 8075
-      apiVersion: 1.3
       pollInterval: 1m
+      apiVersion: 1.3
+      proxyApicIDField: apicId
       auth:
-        username: <APIMANAGER ADMIN USER>
-        password: <APIMANAGE ADMIN PASSWORD>
-      ssl:
-        insecureSkipVerify: true
+        username: myApiManagerUserName
+        password: myApiManagerUserPassword
 
-logging:
-  metrics:
-    enabled: false
-  # Send all logging output to stderr
-  to_stderr: true
-  # Send all logging output to file
-  to_files: false
-  files:
-    path: ./
-    name: logs.txt
-    keepfiles: 7
-    permissions: 0644
-  # Set log level
-  level: debug
+   logging:
+    metrics:
+     enabled: false
+    # Send all logging output to stderr
+    to_stderr: true
+    # Set log level
+    level: ${LOG_LEVEL:info}
+   ```
+
+   * The value for *tenantID* can be found in AMPLIFY Central Platform > Organization.
+   * The value for *clientId* can be found in Service Account. See [Create a Service in AMPLIFY Central](/docs/central/connect-api-manager/prepare-amplify-central/).
+   * Traceability Agent variables can be found at [Agent variables](/docs/central/connect-api-manager/agent-variables/).
+5. Once the YAML file is updated, start the Traceability Agent. If the YAML file is in the same folder, run `./traceability_agent` script. Otherwise, pass the command-line flags that are documented at [Traceability Agent flags](/docs/central/connect-api-manager/traceability-agent-flags/).
+6. The Traceability Agent parses through the files based on the `event-file` path and pattern provided. Depending on the data found, the agent pushes it to AMPLIFY Central.
+7. Go to AMPLIFY Central and open the API Observer tab to verify that the agent is working. You should see the monitoring data for the APIs discovered earlier. If you don’t see any data, then invoke a few different API methods in the exposed API.
+8. Click on any of the transactions to see the details. You will see the lifecycle of an API call, such as time taken / request and response headers / etc.
+
+#### To install the Docker Traceability Agent
+
+Create your Discovery Agent environment file, `env_vars`. See [Agent variables](/docs/central/connect-api-manager/agent-variables/) for a reference to variable descriptions.
+After customizing all the sections, your `env_vars` file should look like this example file:
+
+```shell
+# API MANAGER connectivity
+APIMANAGER_HOST=<HOST>
+APIMANAGER_AUTH_USERNAME=<USER>
+APIMANAGER_AUTH_PASSWORD=<PASSWORD>
+
+# API GATEWAY connectivity
+APIGATEWAY_HOST=<HOST>
+APIGATEWAY_AUTH_USERNAME=<USER>
+APIGATEWAY_AUTH_PASSWORD=<PASSWORD>
+
+# AMPLIFY connectivity
+CENTRAL_TENANTID=<TENANTID>
+CENTRAL_TEAMID=<TEAMID>
+CENTRAL_AUTH_CLIENTID=<CLIENTID, ie. DOSA_12345...>
+CENTRAL_ENVIRONMENT=<Environment>
 ```
 
-#### Multiple file paths
+* The value for *teamID* can be found in [AMPLIFY Central > Access > Teams](https://apicentral.axway.com/access/teams/).
+* The value for *tenantID* can be found in AMPLIFY Central Platform > Organization.
+* The value for *clientId* can be found in Service Account. See [Create a service account](/docs/central/cli_central/cli_install/#create-a-service-account).
 
+##### Install and run Dockerized Traceability Agent
+
+1. Copy the `private_key.pem` and `public_key.pem` files that were originally created when you set up your Service Account to a keys directory. Make sure the directory is located on the machine being used for deployment.
+2. Pull the latest Docker image of the Traceability Agent:
+
+   ```shell
+   docker pull axway-docker-public-registry.bintray.io/agent/v7-traceability-agent:latest
+   ```
+
+3. Start the Traceability Agent pointing to the `env_vars` file, `keys`, and the logging `events` directory. `pwd` relates to the local directory where the docker command is run. For Windows, the absolute path is preferred.
+
+   ```shell
+   docker run --env-file ./env_vars -v <pwd>/keys:/keys -v <pwd>/events:/events axway-docker-public-registry.bintray.io/agent/v7-traceability-agent:latest
+   ```
+
+   * See [Create and start API Gateway Docker container](/docs/apim_installation/apigw_containers/docker_script_gwimage/index.html#mount-volumes-to-persist-logs-outside-the-api-gateway-container) for more  information regarding the persistent API Gateway trace and event logs to a directory on your host machine.
+   * Run the following health check command to ensure the agent is up and running:
+
+   ```shell
+   docker inspect --format='{{json .State.Health}}' <container>
+   ```
+
+## Configuring API Manager
+
+### Tags
+
+1. Configure filters in yaml file to determine which [APIs will be discovered](/docs/central/connect-api-manager/filtering-apis-to-be-discovered/) and published to AMPLIFY Central.
+2. Discovery API tags.  Set filtering based on tag name, tag value, partial value and MatchRegEx to discover APIs that can be published to AMPLIFY Central:
+
+   * In API Manager, select front-end API to edit.
+   * The tags should match the values in your apimanager configuration file.
+   * Save the API and publish.  Once published, the Discovery Agent attempts to match the polling criteria. If it matches, it publishes it to the AMPLIFY Central Catalog and Environments.
+   * Once the API is published to the catalog, a reference value is generated by AMPLIFY Central and sent back to the API Manager (`APIC_ID`).  If you want to see that field or customize it, refer to **Add a custom property to APIs** in [Customize API Manager](/docs/apim_administration/apimgr_admin/api_mgmt_custom/#customize-api-manager-data) documentation.
+
+### Custom fields
+
+Two custom fields are used to keep Central information on the API Manager:
+
+* asset identifier: custom field at the API level. The default value is `apicId` and is not visible in API Manager UI as it is a specific configuration. This field helps the discovery agent to know which API is already discovered and which is not. This field store the AMPLIFY Central identifier for the front-end proxy in API Manager. Removing the field value will force the discovery agent to re-discover the API.
+* subscription identifier: custom field at the application level. The default value is `subscriptions` and is not visible in API Manager UI as it is a specific configuration. This fields helps the discovery agent to know if some AMPLIFY Central subscription are used for a particular API/application combination. Each time an AMPLIFY Central subscription succeed, the subscription identifier is kept in the field value of the corresponding API Manager application used to initiate the subscription. On the opposite, when the subscription is removed from AMPLIFY Central, the corresponding subscription identifier is removed in the corresponding API Manager application.
+
+In order to visualize those fields in API Manager UI, you need to update the file `app.config` located in `<INSTALL-DIR>/apigateway/webapps/apiportal/vordel/apiportal/app` with the following:
+
+```json
+    customPropertiesConfig: {
+        user: {
+            // custom properties...
+        },
+        organization: {
+            // custom properties...
+        },
+        application: {
+            // custom properties...
+             subscriptions: {
+                     label: 'Amplify Central subscription ID',
+                     disabled:true
+             }
+        },
+        api: {
+            // custom properties...
+              apicId: {
+                     label: 'AMPLIFY Central identifier'
+            }
+
+        }
+    },
 ```
-traceability_agent:
-  inputs:
-    - type: log
-      paths:
-        - /home/api/APIM_v7/apigateway/events/group-2_instance-1.log
-        - /home/api/APIM_v7/apigateway/events/group-2_instance-2.log
+
+You can also change the properties values (`apicId`, `subscriptions`) to suit your custom fields pattern. If you do so, be sure you update the agent configuration files accordingly (`proxyApicIDField` and `subscriptionApplicationField`). `apicId` should be editable as it could help to re-discover an API in case of issue by simply removing its value.
+
+### Subscriptions - Manage client applications on APIManager for subscription process
+
+You can use the **Clients** tab to manage client applications (for example, create, update, or remove client applications that invoke specific APIs). When an application is created, API administrators can also set authentication, quota, and sharing settings on the appropriate tab.
+
+The API administrator must first specify the APIs that an organization is allowed to access before any of its client applications can have access to them. In API Manager, you can only add APIs to an application when they have been added to the organization. For more details, see [Manage access to APIs](/docs/apim_administration/apimgr_admin/api_mgmt_admin/).
+
+#### Create application
+
+To create an application:
+
+1. Click **New application** in the toolbar and configure the following general fields:
+
+   * **Image**: Click to add a graphical image for the application (for example, .png, .gif, or .jpeg file).
+   * **Application name**: Enter the name of the application. This field is required.
+   * **Organization**: Enter the name of the organization that the application belongs to. This field is required. The choice of organization determines which APIs are available to the application.
+   * **Enabled**: Select whether the application is enabled. Applications are enabled by default.
+2. Configure the following additional attributes:
+
+   * **Email**: Enter an email address for the application.
+   * **Phone**: Enter a phone number for the application.
+   * **Description**: Enter a short description of the application.
+3. Click **Add API** to select the APIs and methods used by the application. You can add multiple APIs for an application.
+4. Click **Create** in the toolbar.
+
+#### Edit application
+
+Once applications have been created, you can click an application name in the *Managing applications* screen to edit its existing settings on the **Application** tab.
+
+1. Add API to be recognized as an application to be used for subscription.
+2. Make sure **Enabled** is active.
+
+### Manage subscription in AMPLIFY Central
+
+After configuring the application in API Manager, set up catalog subscriptions in AMPLIFY Central.
+
+A consumer initiates the subscription in AMPLIFY Central:
+
+1. Open an AMPLIFY Catalog Item.
+2. Click **Subscribe**.
+3. Enter the Team
+4. Select an API Manager Application name (The displayed list should be the on set up on API Manager associated to the current API the subscriber is subscribing to).
+5. Click **Subscribe**.
+
+The Discovery Agent listens to the subscription event.
+
+### Subscribing workflow
+
+When a consumer wants to consume an API in AMPLIFY Central, he needs to subscribe to the API. For now, only an auto-approved workflow is available:
+
+* The discovery agent listens to the subscription event.
+* Check that the selected API and application are existing/published on API Manager.
+* Search for the corresponding API credentials (API key or OAuth token) and send the credentials to the subscriber email.
+* Send back to AMPLIFY Central the subscription status:
+
+    * If active, the subscription ID is automatically added to the custom field of the application (`subscriptions`).
+    * If failure, the subscription status **Subscription failed** will appear. You can delete the subscription and start again from the **Save the API and publish** step.
+* In case of success, the subscriber consumes the API otherwise API cannot be consumed.
+
+In case the application is not available because it is not in the same organization as the API, you can grant specific access to the API:
+
+1. In the UI, select the API.
+2. Expand **Manage selected**.
+3. Select **Grant access**.
+
+### Unsubscription workflow
+
+In API Manager, assume there is a FrontEnd API that is published, has been discovered by the Discovery Agent, and has an active subscription to it in AMPLIFY Central. To initiate an unsubscribe to AMPLIFY Central for that Catalog item:
+
+* Unpublish that API in API Manager.
+* The Discovery Agent discovers the change.
+* The subscription status is set to **Unsubscribed**.
+* The subscription ID is removed from the application’s **Custom** field.
+* The subscription status is set to **Unsubscribed**.
+
+### Managing Subscription notifications
+
+```shell
+subscriptions:
+  smtp:
+    host: mail.axway.int
+    port: 25
+    fromAddress: fromaddress@axway.com
+    username: fromaddress@axway.com
+    password:
+    subscribe:
+      subject: Subscription Notification
+      body: |
+        Subscription created for Catalog Item:  <a href= ${catalogItemUrl}> ${catalogItemName} </a> <br/>
+        Subscription key: <b>${key}</b>
+    unsubscribe:
+      subject: Subscription Removal Notification
+      body: |
+        Subscription for Catalog Item: <a href= ${catalogItemUrl}> ${catalogItemName} </a> has been unsubscribed
+    subscribeFailed:
+      subject: Subscription Failed Notification
+      body: |
+        Could not subscribe to Catalog Item: <a href= ${catalogItemUrl}> ${catalogItemName} </a>
+    unsubscribeFailed:
+      subject: Subscription Removal Failed Notification
+      body: |
+        Could not unsubscribe to Catalog Item: <a href= ${catalogItemUrl}> ${catalogItemName} </a>
 ```
-
-#### File path with wildcard
-
-```
-traceability_agent:
-  inputs:
-    - type: log
-      paths:
-        - /home/api/APIM_v7/apigateway/events/group-2_instance-*.log
-```
-
-### Install and run Traceability Agent
-
-1. Move the `private_key.pem` and `public_key` files that were originally created when you set up your Service Account to a keys directory. Make sure the directory is located on the machine being used for deployment.
-2. Download the zip file:
-
-    ```
-    curl -L "https://axway.bintray.com/generic-repo/v7-agents/v7_traceability_agent/latest/traceability_agent-latest.zip" -o traceability_agent-latest.zip
-    ```
-
-    The zip contains the Traceability Agent config yaml and the Traceability Agent executable.
-3. Unzip the file and install the binary on a machine that can access the APIM Manager environment.
-4. Open a shell and run the following command to start up your agent:
-
-    ```
-    ./traceability_agent
-    ```
-
-5. Open a shell and run the following health check command to verify if the agent is up and running:
-
-    ```
-    ./traceability_agent status
-    ```

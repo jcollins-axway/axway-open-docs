@@ -1,7 +1,7 @@
 {
 "title": "Embedded ActiveMQ settings in Policy Studio",
 "linkTitle": "Embedded ActiveMQ settings",
-"weight":"50",
+"weight":"90",
 "date": "2019-10-14",
 "description": "Configure settings for the Apache ActiveMQ messaging broker in Policy Studio."
 }

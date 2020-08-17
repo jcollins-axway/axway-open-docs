@@ -1,14 +1,13 @@
 ---
-title: Tips and Troubleshooting
-linkTitle: Tips and Troubleshooting
+title: Get help with Connected AWS Gateway
+linkTitle: Get help with Connected AWS Gateway
 draft: false
-weight: 60
+weight: 100
 description: This section provides troubleshooting, known limitations and
   restrictions that you may encounter while you are working with the connected /
   managed environment for AWS API Gateway within AMPLIFY Central. It also
   provides tips you may find useful when working with this environment.
 ---
-{{< alert title="Note" color="primary" >}}The AWS API Gateway connectivity to AMPLIFY Central is currently available in an alpha review mode; current functionality and configuration may change before release.   Therefore, this connectivity is available for trial use only and is not supported for production API management or connectivity.{{< /alert >}}
 
 ## Troubleshooting
 

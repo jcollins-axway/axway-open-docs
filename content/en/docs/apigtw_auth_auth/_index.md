@@ -3,6 +3,7 @@
     "linkTitle": "Integrate with Identity Management",
     "weight":"66",
     "date": "2020-01-20",
+    "hide_readingtime": "true",
     "description": "Integrate API Gateway to authenticate and authorize users for Identity Management servers including LDAP servers, CA SiteMinder, RSA Access Manager, Oracle Access Manager, and Oracle Entitlements Server."
 }
 

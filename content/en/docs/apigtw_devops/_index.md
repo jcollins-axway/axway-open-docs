@@ -3,6 +3,7 @@
     "linkTitle": "Deploy to production",
     "weight":"48",
     "date": "2019-10-14",
+    "hide_readingtime": "true",
     "description": "Promote and deploy API Gateway configuration in development, testing, and production environments."
 }
 

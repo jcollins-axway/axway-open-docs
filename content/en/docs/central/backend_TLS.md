@@ -6,13 +6,11 @@ date: 2019-10-16
 description: Learn how to configure TLS for requests to your back-end API.
 ---
 
-*Estimated reading time*: 2 minutes
-
 ## Before you start
 
 * You will need an administrator account for AMPLIFY Central
 * Learn how to import your API as an API proxy in AMPLIFY Central (see [Register an API](/docs/central/quickstart/#register-an-api))
-* Learn how to use the AMPLIFY CLI to manage an API proxy (see [Manage an API proxy using AMPLIFY CLI](/docs/central/cli_proxy_flow))
+* Learn how to use the AMPLIFY CLI to manage an API proxy (see [Manage an API proxy using AMPLIFY Central CLI](/docs/central/cli_central/cli_proxy_flow))
 
 ## Objectives
 

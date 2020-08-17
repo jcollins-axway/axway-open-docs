@@ -1,7 +1,7 @@
 {
     "title": "Troubleshoot an upgrade",
     "linkTitle": "Troubleshooting",
-    "weight": 9,
+    "weight": 150,
     "date": "2019-10-07",
     "description": "Advice on troubleshooting the API Gateway upgrade process and the `sysupgrade` commands."
 }
@@ -123,9 +123,3 @@ To resolve this issue, follow these steps:
 3. When this command completes, NodeC joins the domain where NodeA is the first Admin Node Manager.
 
 {{< alert title="Tip" color="primary" >}} Rerunning apply on NodeC is the easiest solution in this case. Alternatively, you could rerun `apply ``--anm_host NodeC` on NodeA and on NodeB.{{< /alert >}}
-
-## Get help on sysupgrade commands
-
-For a description of all available command options and default settings, run `sysupgrade` with the `--help` option.
-
-You can also run each command with the`--help` option. For example, `sysupgrade export --help`, `sysupgrade upgrade --help`, and so on.

@@ -1,26 +1,25 @@
 {
 "title": "Hide sensitive data",
-"linkTitle": "Hide sensitive data",
-"weight":"70",
-"date": "2019-10-14",
-"description": "Redact sensitive content message content types such as HTTP headers, JSON, XML, HTML form, and plain text."
+  "linkTitle": "Hide sensitive data",
+  "weight": "70",
+  "date": "2019-10-14",
+  "description": "Redact sensitive content message content types such as HTTP headers, JSON, XML, HTML form, and plain text."
 }
-
 API Gateway enables you to remove sensitive content from messages monitored in the API Gateway Manager web console and traffic monitoring database. You can redact sensitive content message content types such as HTTP headers, JSON, XML, HTML form, and plain text.
 
-For example, sensitive data such as user passwords or credit card details can be redacted from both request and response messages. This means that such sensitive data is only ever present in the gteway memory during message processing, and is never displayed onscreen or persisted to disk. This is shown in the following architecture diagram:
+For example, sensitive data such as user passwords or credit card details can be redacted from both request and response messages. This means that such sensitive data is only ever present in API Gateway memory during message processing, and is never displayed onscreen or persisted to disk. This is shown in the following architecture diagram:
 
 ![Redact sensitive message content from API Gateway](/Images/APIGateway/admin_redaction.png)
 
 ## API Gateway redaction configuration
 
-In the gateway configuration, message redaction rules are configured in the following XML file:
+In the API Gateway configuration, message redaction rules are configured in the following XML file:
 
 ```
 apigateway/system/conf/redaction.xml
 ```
 
-When the gateway configuration is loaded, this creates redactors for the specified message protocol and content. This XML-based configuration uses the following model:
+When the configuration is loaded, this creates redactors for the specified message protocol and content. This XML-based configuration uses the following model:
 
 ```
 <Redaction enabled=”true” provider="redactors">
@@ -47,10 +46,10 @@ Each redactor defines its supported content types in `RedactMime` child elements
 
 You can specify the following properties in the `XMLRedactor` tag:
 
-| Name       |  Type  |   Default value|    Description|
-|-------------|--------|----------------|-----------------|
-|maxBufferSize| number | 32768| Maximum memory size (in bytes) used by XML redaction.|
-|maxDepth| number | 1024| Maximum depth of XML nested nodes.|
+| Name          | Type   | Default value | Description                                           |
+| ------------- | ------ | ------------- | ----------------------------------------------------- |
+| maxBufferSize | number | 32768         | Maximum memory size (in bytes) used by XML redaction. |
+| maxDepth      | number | 1024          | Maximum depth of XML nested nodes.                    |
 
 For example:
 
@@ -65,20 +64,18 @@ If an error occurs during the redaction process, including `maxBufferSize` or `m
 
 ## Enable redaction for an API Gateway
 
-To enable redaction for a gateway instance, perform the following steps:
+To enable redaction for an API Gateway instance, perform the following steps:
 
 1. Copy the sample redaction configuration file from the following directory:
 
    ```
    apigateway/samples/redaction/sample_redaction.xml
    ```
-
 2. Copy to the following directory:
 
    ```
    apigateway/groups/GROUP/INSTANCE/conf/redaction.xml
    ```
-
 3. Ensure that redaction is enabled in `redaction.xml` as follows:
 
    ```
@@ -87,15 +84,13 @@ To enable redaction for a gateway instance, perform the following steps:
    ...
    </ConfigurationFragment>
    ```
-
 4. You can customize this file to configure redactors for different message payloads (HTTP, JSON, HTML form, and plain text). This is described in the next sections.
 5. Edit the following file:
 
    ```
     apigateway/groups/GROUP/INSTANCE/conf/service.xml
    ```
-
-6. And add the following line at the end of the file:
+6. Add the following line at the end of the file:
 
    ```
    <NetService provider="NetService">
@@ -103,14 +98,13 @@ To enable redaction for a gateway instance, perform the following steps:
       <include file="$VINSTDIR/conf/redaction.xml"/>
    </NetService>
    ```
-
-7. Restart the gateway instance.
+7. Restart the API Gateway instance.
 
 For all message content (HTTP, JSON, HTML form, and plain text), you must first ensure that the appropriate URL is defined in an `HTTPRedactor`.
 
 ## Redact HTTP message content
 
-You can redact any HTTP header or parameter value from the gateway message stream based on HTTP URLs specified in configuration. This applies to both HTTP requests and responses. The following shows a simple example configured in `redaction.xml`:
+You can redact any HTTP header or parameter value from the API Gateway message stream based on HTTP URLs specified in configuration. This applies to both HTTP requests and responses. The following shows a simple example configured in `redaction.xml`:
 
 ```
 <HTTPRedactor>
@@ -133,9 +127,9 @@ Each `HTTPURL` value is used to match URL paths, and to determine if the redacti
 
 In this exact match example:
 
- `/secure_folder` matches
- `/secure_folder/` does not match
- `/secure_folder/123` does not match
+* `/secure_folder` matches
+* `/secure_folder/` does not match
+* `/secure_folder/123` does not match
 
 The following example shows a URL prefix match:
 
@@ -169,7 +163,7 @@ HTTP features such as the following are supported:
 * Chunked transfer encoding
 * Multipart body entities (`Content-Type:multipart/`)
 
-**Example: Redact an HTTP Basic authorization header**:
+#### Example: Redact an HTTP Basic authorization header
 
 This section shows an end-to-end example of redacting an HTTP Basic authorization header. Given the following HTTP request message:
 
@@ -243,7 +237,7 @@ cert.subject[0].id
 attribute.subject[0].id
 ```
 
-**Example: Redact OAuth message tokens from a JSON message**:
+#### Example: Redact OAuth message tokens from a JSON message
 
 This section shows an end-to-end example of redacting an OAuth message token. Given the following JSON request message:
 
@@ -310,7 +304,7 @@ The following example from `redaction.xml` removes all children from`a_namespace
 <XMLRedactor>
    <RedactMime mimeType="application/xml"/>
    <RedactMime mimeType="text/xml"/>
-   <!--Remove children of a_namespace:a_name and some attributtes-->
+   <!--Remove children of a_namespace:a_name and some attributes-->
    <XMLRedactedElement localname="a_name" namespace="a_namespace"
      redactionDisposition="redactChildren">
      <XMLRedactedAttribute localname="an_attribute_name" namespace="an_attribute_namespace"/>
@@ -330,7 +324,7 @@ The following example removes the `b:a` element and all its children:
 </XMLRedactor>
 ```
 
-**Example: Redact a WS-Security username token from an XML message**:
+#### Example: Redact a WS-Security username token from an XML message
 
 This section shows an end-to-end example of redacting a WS-Security user name token. Given the following XML request message:
 
@@ -426,7 +420,7 @@ In this configuration model, the `Regex` element includes the following attribut
 * `redact`: Specifies which groups in the match are redacted. Possible values are comma-separated lists of group indexes (for example, `1` or `1,2` or `4,6,7`, and so on). You can specify `0` to redact the entire match.
 * `icase`: Specifies whether the match is case insensitive. Possible values are `true` (case insensitive) and `false` (case sensitive).
 
-**Example: Redact credit card details from raw text**:
+### Example: Redact credit card details from raw text
 
 This section shows some configured regular expressions and the behavior with specific raw message content. The following expression specifies to redact a defined group:
 
@@ -436,7 +430,9 @@ This section shows some configured regular expressions and the behavior with spe
 
 The following shows example message content and the behavior with this expression:
 
-* `&creditcard=1234123412341234`: Content matches expression. Defined group 1 `(\d{16})` is redacted (in this case, `1234123412341234`).
+|Message content|Behavior|
+|---------------|--------|
+|`&creditcard=1234123412341234`|Content matches expression. Defined group 1 `(\d{16})` is redacted (in this case, `1234123412341234`).|
 
 The following expression specifies to redact multiple defined groups:
 
@@ -446,7 +442,9 @@ The following expression specifies to redact multiple defined groups:
 
 The following shows example message content and the behavior with this expression:
 
-* `ccdigits:1234.2345.3456.4567`: Content matches expression. Defined groups 1 `(\d{1,4})`, 2 `(\d{1,4}))`, and 3 `(\d{1,4})` are redacted (in this case `1234`, `2345`, and `3456`. Defined group 4 `(\d{1,4})` is left intact (in this case `4567`).
+|Message content|Behavior|
+|---------------|--------|
+|`ccdigits:1234.2345.3456.4567`|Content matches expression. Defined groups 1 `(\d{1,4})`, 2 `(\d{1,4}))`, and 3 `(\d{1,4})` are redacted (in this case `1234`, `2345`, and `3456`. Defined group 4 `(\d{1,4})` is left intact (in this case `4567`).|
 
 The following expression specifies to redact content using case insensitivity:
 
@@ -456,13 +454,14 @@ The following expression specifies to redact content using case insensitivity:
 
 The following shows example message content and the behavior with this expression:
 
-* `credit card 123456781234567`: Content matches expression. Entire match (`credit card 1234567812345678`) is redacted.
-* `Credit Card 1234567812345678`: Content matches expression because of the `icase` attribute. Entire match (`Credit Card 1234567812345678`) is redacted.
+|Message content|Behavior|
+|---------------|--------|
+|`credit card 123456781234567`|Content matches expression. Entire match (`credit card 1234567812345678`) is redacted.|
+|`Credit Card 1234567812345678`|Content matches expression because of the `icase` attribute. Entire match (`Credit Card 1234567812345678`) is redacted.|
 
 ## Redact trace log records
 
-You can redact API Gateway trace log records by configuring regular expressions to define content to be removed at a trace level.
-This configuration applies to trace records equal or lower than the level configured. For example, `INFO` level redacts messages at levels `INFO`, `DEBUG`, and `DATA`. For details on trace levels, see [Configure API Gateway diagnostic trace](/docs/apim_administration/apigtw_admin/tracing).
+You can redact API Gateway trace log records by configuring regular expressions to define content to be removed at a trace level. This configuration applies to trace records equal or lower than the level configured. For example, `INFO` level redacts messages at levels `INFO`, `DEBUG`, and `DATA`. For details on trace levels, see [Configure API Gateway diagnostic trace](/docs/apim_administration/apigtw_admin/tracing).
 
 The following shows a configuration example, at an `INFO` trace level, which uses `Regex` elements already defined in the [Redact raw message content](#redact-raw-message-content) section.
 
@@ -487,3 +486,14 @@ For details on how to redact sensitive data from domain audit log and access log
 
 * [Configure API Gateway logging and events](/docs/apim_administration/apigtw_admin/logging)
 * [Transaction access log settings](/docs/apim_reference/log_global_settings/#transaction-access-log-setting)
+
+## Disable redaction for an API Gateway
+
+To disable redaction, modify `redaction.xml` as follows:
+
+```
+<ConfigurationFragment>
+<Redaction enabled="false" provider="redactors">
+...
+</ConfigurationFragment>
+```

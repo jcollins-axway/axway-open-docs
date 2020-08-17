@@ -3,6 +3,7 @@ title: AMPLIFY Central documentation
 linkTitle: AMPLIFY Central
 weight: 145
 date: 2019-07-30
+hide_readingtime: true
 description: Learn how to manage and secure your APIs in AMPLIFY Central, how to integrate AMPLIFY Central in your existing DevOps infrastructure, and how to take advantage of the mesh governance capability of AMPLIFY Central to centrally manage APIs and microservices across multiple cloud and on-premise environments.
 ---
 

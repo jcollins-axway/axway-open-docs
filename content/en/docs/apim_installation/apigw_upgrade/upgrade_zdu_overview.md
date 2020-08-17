@@ -1,7 +1,7 @@
 {
     "title": "Zero downtime upgrade",
     "linkTitle": "Zero downtime upgrade",
-    "weight": 4,
+    "weight": 40,
     "date": "2019-10-07",
     "description": "Perform a zero downtime upgrade (ZDU) to API Gateway 7.7."
 }
@@ -10,7 +10,7 @@ The standard process to upgrade to API Gateway 7.7 involves a short period of do
 
 This approach involves the use of a load balancer to ensure that available API Gateways can always process traffic, and if you are using a DevOps framework, the ZDU sample scripts provide an example for a basic high availability (HA) deployment and an nginx load balancer, to help you understand the required steps. The ZDU sample scripts provide an example only, and although the scripts are somewhat configurable, you must adapt them for your specific needs.
 
-The ZDU scripts package is available from Axway Support at [https://support.axway.com](https://support.axway.com/). The package includes scripts for Linux.
+The ZDU scripts package is available from [Axway Support](https://support.axway.com/). The package includes scripts for Linux.
 
 {{< alert title="Note" color="primary" >}}
 Use the ZDU sample scripts only for upgrading from API Gateway 7.5.2 or later to 7.7 when Cassandra contains all the shared data.
@@ -78,7 +78,7 @@ The prerequisites for the node on which you intend to run the `zdupgrade` script
 * You must install Python 2.6 or later (Python 2.7 recommended) and the `pip` package manager. For more details, see the [Python documentation](https://www.python.org/doc/). We recommend that you do not install Python under a path that contains spaces.
 * On Linux, you must install cryptography dependencies. For more details, see the [Cryptography.io](https://cryptography.io/en/latest/installation/).
 * You must install the `paramiko` and `enum34` Python modules and their dependencies.
-* You must download and install the ZDU sample script package from Axway Support at [https://support.axway.com](https://support.axway.com/).
+* You must download and install the ZDU sample script package from [Axway Support](https://support.axway.com/).
 * You must have an RSA key for password-less login to the remote nodes over SSH. For more information, see [Configure SSH server](#configure-ssh-server).
 
 The prerequisites for the remote nodes are as follows:
@@ -89,7 +89,7 @@ The prerequisites for the remote nodes are as follows:
 
 * You must have all required licenses for the API Gateway components on each node.
 * The old installation Node Managers and API Gateways must be running.
-* You must configure a SSH server on all nodes. For more information, see [Configure SSH server](#configure-ssh-server).
+* You must [configure a SSH server](#configure-ssh-server) on all nodes.
 
 #### Configure SSH server
 
@@ -125,7 +125,7 @@ This section describes how to install and run the `zdupgrade` script. It also de
 
 #### Install the package
 
-To install the package, unzip the package you downloaded from Axway Support at [https://support.axway.com](https://support.axway.com/) to a directory on your local machine (for example, `/opt/zdu`).
+To install the package, unzip the package you downloaded from [Axway Support](https://support.axway.com/) to a directory on your local machine (for example, `/opt/zdu`).
 
 #### Run with default options
 
@@ -245,7 +245,7 @@ Perform the following steps to modify the sample scripts:
 
 You must specify your topology configuration to the `zdupgrade` script using the `--config <path_to_the_user_topology_file>` option.
 
-If you do not specify any topology configuration using the `--config` option, the default topology file (`config/topology.json`) is not used, and the reference configuration is used (see [Reference configuration](#reference-configuration)).
+If you do not specify any topology configuration using the `--config` option, the default topology file (`config/topology.json`) is not used, and the [reference configuration](#reference-configuration) is used.
 
 Alternatively, you can implement the method `__getTopology(anmHost)` in `topology_builder.py` to return the correct topology configuration for your environment.
 

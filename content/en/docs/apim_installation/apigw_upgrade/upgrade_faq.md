@@ -1,7 +1,7 @@
 {
     "title": "Frequently asked questions",
     "linkTitle": "Frequently asked questions",
-    "weight": 8,
+    "weight": 140,
     "date": "2019-10-07",
     "description": "Get answers to frequently asked questions about upgrade."
 }
@@ -35,7 +35,7 @@ You must rerun `upgrade` if:
 * You have rerun `export`.
 * The previous attempt to run `upgrade` failed with errors.
 
-{{< alert title="Note" color="primary" >}}When upgrading very large configurations, the default memory settings might not be sufficient for `upgrade` to run successfully (see [Out of memory error when running upgrade](/docs/apim_installation/apigw_upgrade/upgrade_troubleshoot/#out-of-memory-error-when-running-upgrade)).{{< /alert >}}
+{{< alert title="Note" color="primary" >}}When upgrading very large configurations, the default memory settings might not be sufficient for `upgrade` to run successfully. See [Out of memory error when running upgrade](/docs/apim_installation/apigw_upgrade/upgrade_troubleshoot/#out-of-memory-error-when-running-upgrade).{{< /alert >}}
 
 ### Why would you rerun apply?
 

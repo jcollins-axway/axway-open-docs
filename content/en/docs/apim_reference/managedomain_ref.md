@@ -1,7 +1,7 @@
 {
 "title": "managedomain command reference",
   "linkTitle": "managedomain command reference",
-  "weight": "02",
+  "weight": "30",
   "date": "2019-10-14",
   "description": "Run the `managedomain` command in different modes."
 }

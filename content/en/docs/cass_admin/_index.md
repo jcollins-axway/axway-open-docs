@@ -3,6 +3,7 @@ title: "Administer Apache Cassandra"
 linkTitle: "Administer Apache Cassandra"
 weight: 53
 date: 2019-06-05
+hide_readingtime: true
 description: >
   Configure and manage the Apache Cassandra database for API Gateway and API Manager.
 ---

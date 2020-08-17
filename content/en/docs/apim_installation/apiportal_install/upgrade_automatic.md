@@ -1,43 +1,64 @@
 {
 "title": "Upgrade API Portal",
   "linkTitle": "Upgrade API Portal",
-  "weight": "20",
+  "weight": "110",
   "date": "2019-08-09",
   "description": "Upgrade your existing API Portal to 7.7."
 }
 This section does not describe how to upgrade API Gateway. For information on upgrading API Gateway, see [API Gateway Upgrade Guide](/docs/apim_installation/apigw_upgrade/).
 
-## Upgrade prerequisites
+You can use the [cumulative upgrade script](#upgrade-api-portal-using-the-cumulative-upgrade-script) to upgrade your 7.5.5 or 7.6.2 API Portal installation (including all service packs) directly to [7.7 July](/docs/apim_relnotes/20200730_apip_relnotes/), or you can upgrade versions incrementally:
 
-Before you upgrade, complete the following prerequisites. These prerequisites apply for all installations: software installation and Docker containers.
+| From   | To                                                                                                                                                   | Download Package                                                                                                                                       |
+| ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 7.5.5  | [7.6.2](https://docs.axway.com/bundle/APIPortal_762_ReleaseNotes_allOS_en_HTML5/page/Content/ReleaseNotesPortal/APIPortal_ReleaseNotes_allOS_en.htm) | [7.5.5 to 7.6.2 Upgrade](https://support.axway.com/en/search/index/type/Downloads/sort/created%7Cdesc/ipp/10/product/545/version/2997/subtype/44)      |
+| 7.6.2  | [7.7 GA](/docs/apim_relnotes/201904_release/apip_relnotes/)                                                                                          | [7.6.2 to 7.7 Upgrade](https://support.axway.com/en/downloads/download-details/id/1443352)                                                             |
+| 7.7 GA | [7.7.x](/docs/apim_relnotes/20200130_apip_relnotes/) (Including all Service Packs)                                                                   | [7.7 GA to 7.7 Latest Update](https://support.axway.com/en/search/index/type/Downloads/sort/created%7Cdesc/ipp/10/product/545/version/3036/subtype/90) |
+
+## Prerequisites
+
+Before you upgrade your API Portal, complete the following prerequisites. These prerequisites apply for both software installation and Docker containers installation.
 
 * If you intend to use the EasyBlog and EasyDiscuss plugins, you must install them before you start the upgrade. For more details, see [Install API Portal](/docs/apim_installation/apiportal_install/install_software/).
 * Stop and back up the existing API Portal files and database. There is no option to roll back after you start the upgrade.
 * To back up an API Portal software installation, perform a file system backup and export the database.
 
-## Upgrade API Portal
+{{< alert title="Note" color="primary" >}} Currently, API Portal upgrade from CentOS 7 to CentOS 8 is not supported. You can only apply a clean install on CentOS 8. {{< /alert >}}
 
-If you have a 7.6.2 API Portal installation, you can upgrade to API Portal 7.7 without having to repeat the initial installation setup.
+## Upgrade API Portal using the cumulative upgrade script
 
-The following table shows the path for upgrading API Portal versions:
+If you have a **7.5.5** or **7.6.2** API Portal installation, you can upgrade directly to API Portal **7.7 July** by using the cumulative script, without having to install any other version before **7.7 July**.
 
-| From   | To                                  |
-| ------ | ----------------------------------- |
-| Any previous version  | 7.6.2               |
-| 7.6.2  | [7.7 GA](https://axway-open-docs.netlify.app/docs/apim_relnotes/201904_release/apip_relnotes/)                              |
-| 7.7 GA | [7.7.x](https://axway-open-docs.netlify.app/docs/apim_relnotes/20200130_apip_relnotes/) (Including all Service Packs) |
+1. Download the [API Portal cumulative upgrade package](https://support.axway.com/en/downloads/download-details/id/1445191).
+2. Change to the directory where you saved the upgrade package, and extract it:
 
-To upgrade your API Portal software installation, follow these steps:
+   ```
+   tar xpzvf <package_name>.tgz
+   ```
+3. Give executable permissions to the script `apiportal_cumulative_upgrade.sh`:
+
+   ```
+   chmod +x apiportal_cumulative_upgrade.sh
+   ```
+4. Execute the script:
+
+   ```
+   sh apiportal_cumulative_upgrade
+   ```
+
+## Upgrade API Portal from the Joomla! Administrator Interface
+
+If you have a 7.7.x API Portal installation, you can upgrade to the latest version without having to repeat the initial installation setup.
 
 1. Download the API Portal upgrade package from the [Axway Support](https://support.axway.com).
-2. Go to the the directory where you saved the upgrade package and extract it:
+2. Change to the directory where you saved the upgrade package, and extract it:
 
    ```
    tar xpvzf <package_name>.tgz
    ```
 3. Extract the Joomla! update package (for example, `joomla-update-package-3.9.14-package.zip`) from the API Portal upgrade package to your local file system.
 4. Log in to the Joomla! Administrator Interface (JAI) (`https://<API Portal host>/administrator`).
-5. Click **Components > Joomla! Update**, and go to the **Upload & Update** tab. If **Joomla! Update** is not visible in the menu, connect to your user database and execute the following query for API Portal database:
+5. Click **Components > Joomla! Update**, and click the **Upload & Update** tab. If **Joomla! Update** is not visible in the menu, connect to your user database and execute the following query for API Portal database:
 
    ```
    update s8f7h_menu set menutype='main' where title like 'com_joomlaupdate'
@@ -47,7 +68,7 @@ To upgrade your API Portal software installation, follow these steps:
 8. Enter the following to run the upgrade script:
 
    ```
-   ./apiportal_upgrade.sh
+   sudo ./apiportal_upgrade.sh
    ```
 
 ## Post-upgrade steps
@@ -70,7 +91,7 @@ After upgrade, you must reinstall Easyblog and EasyDiscuss in JAI to update the 
 
 If you customized the company name in your API Portal footer using a Joomla! language override (**Extensions > Languages > Overrides** in JAI), you must perform the following steps to restore language overrides after upgrade:
 
-1. Locate the backup file `/opt/axway/apiportal/htdoc/Backups/<timestamp>/administrator/language/overrides/en-GB.override.ini` that is created during an upgrade. The timestamp corresponds to the time of the upgrade, for example, `20180613105149`.
+1. Locate the backup file `/opt/axway/apiportal/htdoc/Backups/<timestamp>/language/overrides/en-GB.override.ini` that is created during an upgrade. The timestamp corresponds to the time of the upgrade, for example, `20180613105149`.
 2. Copy the backup file to the path `/opt/axway/apiportal/htdoc/language/overrides/en-GB.override.ini`.
 
 Any customizations performed using language overrides are now restored.
@@ -97,7 +118,7 @@ Similarly, the original `.htaccess` file is backed up to `${apiportal-install-di
 If you are using the Public API mode in API Portal you must run a script to encrypt the Public API mode user password and specify a directory to store the encryption key.
 
 ```
-sh ./apiportal_encryption.sh
+sudo sh ./apiportal_encryption.sh
 ```
 
 The directory is created along with a file. The last segment of the directory is the file name, for example: `/sample/directory/for/encryption/key` creates an empty file named "key" in the desired directory.
@@ -106,23 +127,4 @@ After the script is finished, re-enter the password for the Public API mode user
 
 ### Encrypt database password
 
-If you did not choose to encrypt your database password during the installation process, you can use the `apiportal_db_pass_encryption.sh` script, available from both API Portal installation and upgrade packages, to encrypt the password at any time.
-
-{{< alert title="Note" color="primary" >}} Do not run the `apiportal_db_pass_encryption.sh` script before the upgrade.{{< /alert >}}
-
-1. Make the script executable:
-
-   ```
-   # chmod +x apiportal_db_pass_encryption.sh
-   ```
-2. Execute the script:
-
-   ```
-   # sh apiportal_db_pass_encryption.sh
-   ```
-
-   When you execute the script, you are prompted to enter a passphrase and your database password. The script uses the passphrase to encrypt the database password, which is now stored encrypted in the <API_Portal_install_path>/configuration.php file, and to decrypt the database password on each connection request.
-
-   Only the password is decrypted on each connection request, not the whole payload, so no significant performance impact is expected
-
-   This option cannot be used in combination with [database secure connection](https://axway-open-docs.netlify.app/docs/apim_installation/apiportal_install/secure_harden_portal/#disable-tls-1-0-and-tls-1-1-on-apache).
+If you did not choose to encrypt your database password during the installation process, you can use the `apiportal_db_pass_encryption.sh` script, available from both API Portal installation and upgrade packages, to encrypt the password at any time. For more details see [Encrypt database password](/docs/apim_installation/apiportal_install/secure_harden_portal/#encrypt-database-password).

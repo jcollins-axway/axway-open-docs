@@ -14,7 +14,7 @@ This section describes the operating system requirements for API Gateway.
 
 ### Linux
 
-**Supported versions**:
+API Gateway supports the following software versions:
 
 * CentOS 6.x, 7.x, 8.x
 * Oracle Linux 6.x, 7.x
@@ -25,7 +25,27 @@ This section describes the operating system requirements for API Gateway.
 CentOS 8.x and Red Hat Enterprise Linux 8.x are supported from 7.7.20200530 (May 2020) update and later updates only.
 {{< /alert >}}
 
-**Software prerequisites**:
+API Gateway supports the following hardware:
+
+* 64-bit Linux running on 64-bit hardware
+* Intel Core or AMD Opteron at 2Ghz with Dual Core or faster
+
+{{< alert title="Note" color="primary" >}}When new Linux kernels and distributions are released, Axway modifies and tests its products for stability and reliability on these platforms.
+Axway makes every effort to add support for new kernels and distributions in a timely manner. However, until a kernel or distribution is added to this list, its use with API Gateway is not supported. Axway endeavors to support any generally popular Linux distribution on a release that the vendor still supports.{{< /alert >}}
+
+#### `LANG` environment variable
+
+Your Linux system must have the `LANG` environment variable set. If this variable is not configured correctly, your system might have issues handling Unicode characters in file names. A full install of Linux should configure this for you automatically.
+
+If you are running the API Gateway in a Docker image that you have built, set this in your Dockerfile as follows:
+
+```
+ENV LANG=en_US.UTF-8
+```
+
+This variable is set for you in EMT mode.
+
+#### `libnsl` library
 
 In CentOS 8.x and Red Hat Enterprise Linux 8.x `glibc` no longer includes `libnsl`. This was included in earlier releases and is required by the API Gateway.
 
@@ -35,27 +55,19 @@ To install the library:
 sudo yum install libnsl
 ```
 
-**Hardware prerequisites**:
-
-* Supports 64-bit Linux running on 64-bit hardware
-* Intel Core or AMD Opteron at 2Ghz with Dual Core or faster
-
 ### Windows
 
 (Policy Studio, Configuration Studio, Package and Deployment Tools only)
 
-**Supported versions**:
+API Gateway supports the following software versions:
 
 * Windows 10
 * Windows 8.1
 
-**Hardware prerequisites**:
+API Gateway supports the following hardware:
 
-* Supports 32-bit Windows on both 32-bit hardware and 64-bit hardware
+* 32-bit Windows on both 32-bit hardware and 64-bit hardware
 * Intel Core or AMD Opteron at 2Ghz with Dual Core or faster
-
-{{< alert title="Note" color="primary" >}}When new Linux kernels and distributions are released, Axway modifies and tests its products for stability and reliability on these platforms.
-Axway makes every effort to add support for new kernels and distributions in a timely manner. However, until a kernel or distribution is added to this list, its use with API Gateway is not supported. Axway endeavors to support any generally popular Linux distribution on a release that the vendor still supports.{{< /alert >}}
 
 ### Disk space and RAM requirements
 

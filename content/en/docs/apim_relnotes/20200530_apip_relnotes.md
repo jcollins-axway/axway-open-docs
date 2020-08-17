@@ -41,9 +41,7 @@ Check out the demo video available at [How to show APIs from AMPLIFY Unified Cat
 
 We have added the ability to encrypt the database password that is stored in a configuration file. You can choose to encrypt the password during the installation, or any time later.
 
-For more information, see [Encrypt database password](https://axway-open-docs.netlify.app/docs/apim_installation/apiportal_install/secure_harden_portal/#encrypt-database-password).
-
-Check out the demo video available at [How to encrypt the database password](https://www.youtube.com/watch?v=ID_qi4huAVw&list=PLSlCpG9zsECpo8-JMZ2Cx4REDyUvpwy9v).
+For more information, see [Encrypt database password](https://axway-open-docs.netlify.app/docs/apim_installation/apiportal_install/secure_harden_portal/#encrypt-database-password) or check out the demo video [How to encrypt the database password](https://www.youtube.com/watch?v=ID_qi4huAVw&list=PLSlCpG9zsECpo8-JMZ2Cx4REDyUvpwy9v).
 
 ### Other enhancements
 
@@ -121,6 +119,12 @@ Changing the API Portal language to Arabic (or any other right to left language)
 6. Click **Save** and click **Close** to close the template style.
 
 Related Issue: IAP-308
+
+### API Portal label is shown in header when upgrading from version 7.6.2
+
+Upgrading API Portal from 7.6.2 to 7.7 May release might result in scenario where additional text of 'API Portal' is displayed in the header.
+
+Related issue: IAP-3419. Fixed in the 7.7 July release.
 
 ## Documentation
 

@@ -84,6 +84,9 @@
 /content/en/docs/cass_admin/ @andreamussap
 /content/en/docs/glossary/ @andreamussap
 
+# Documentation files for APIM ref arch
+/content/en/docs/apim-reference-architectures/ @alexearnshaw @NComandini @XmasRock @anartovich
+
 # Documentation guidelines and processes
 /content/en/docs/contribution_guidelines/ @alexearnshaw
 
