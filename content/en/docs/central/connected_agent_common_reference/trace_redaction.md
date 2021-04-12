@@ -22,7 +22,7 @@ Parts of the URI path will be redacted before the info is sent to Amplify Centra
 
 By default all things are redacted and rules must be set to show the path elements.  When using environment variables the variable name is `TRACEABILITY_REDACTION_PATH_SHOW`.
 
-```ini
+```bash
 # Send all path values, no redactions
 TRACEABILITY_REDACTION_PATH_SHOW=[{keyMatch:".*"}]
 ```
@@ -31,7 +31,7 @@ Ex. `https://somehost.com/pathof/my/api/uses/thispath` is redacted to `https://s
 
 Separate by comma to provide multiple allowed matches.
 
-```ini
+```bash
 # Send paths that start with path or paths that end with path
 TRACEABILITY_REDACTION_PATH_SHOW=[{keyMatch:"^path"},{keyMatch:"path$"}]
 ```
@@ -44,7 +44,7 @@ Query argument and header show rules work much like the path rules above but onl
 
 The environment variable names are `TRACEABILITY_REDACTION_QUERYARGUMENT_SHOW`, `TRACEABILITY_REDACTION_REQUESTHEADER_SHOW`, and `TRACEABILITY_REDACTION_RESPONSEHEADER_SHOW`
 
-```ini
+```bash
 # Send only query arguments with the key 'id'
 TRACEABILITY_REDACTION_QUERYARGUMENT_SHOW=[{keyMatch:"^id$"}]
 
@@ -65,21 +65,21 @@ Much like the show rules, the sanitization rules have a keyMatch which is used t
 
 The following examples assume that the key has already passed one or more show rules. Also assume all path values are allowed.
 
-```ini
+```bash
 # Sanitize the whole value of the `id` query argument
 TRACEABILITY_REDACTION_QUERYARGUMENT_SANITIZE=[{keyMatch:"^id$",valueMatch:".*"}]
 ```
 
 Ex. `https://somehost.com/api?id=12345` is sanitized to `https://somehost.com/api?id={*}`
 
-```ini
+```bash
 # Sanitize the first five characters of any header with a key that has 'header' in it
 TRACEABILITY_REDACTION_REQUESTHEADER_SANITIZE=[{keyMatch:"header",valueMatch:"^.*{0,5}"}]
 ```
 
 Ex. `x-header-example=header-value` is sanitized to `x-header-example={*}r-value`
 
-```ini
+```bash
 # Sanitize the word password, wherever it is found, of any header that starts with 'response'
 TRACEABILITY_REDACTION_RESPONSEHEADER_SANITIZE=[{keyMatch:"^response",valueMatch:"password"}]
 ```
