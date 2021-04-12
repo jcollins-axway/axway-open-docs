@@ -74,7 +74,7 @@ Ex. `https://somehost.com/api?id=12345` is sanitized to `https://somehost.com/ap
 
 ```bash
 # Sanitize the first five characters of any header with a key that has 'header' in it
-TRACEABILITY_REDACTION_REQUESTHEADER_SANITIZE=[{keyMatch:"header",valueMatch:"^.*{0,5}"}]
+TRACEABILITY_REDACTION_REQUESTHEADER_SANITIZE=[{keyMatch:"header",valueMatch:"^.{0,5}"}]
 ```
 
 Ex. `x-header-example=header-value` is sanitized to `x-header-example={*}r-value`
@@ -120,7 +120,7 @@ TRACEABILITY_REDACTION_REQUESTHEADER_SHOW=[{keyMatch:".*"}]
 # send all response headers
 TRACEABILITY_REDACTION_RESPONSEHEADER_SHOW=[{keyMatch:".*"}]
 # sanitize Authorization request header to mask the ten first characters or less
-TRACEABILITY_REDACTION_REQUESTHEADER_SANITIZE=[{keyMatch:"Authorization",valueMatch:"^.*{0,10}"}]
+TRACEABILITY_REDACTION_REQUESTHEADER_SANITIZE=[{keyMatch:"Authorization",valueMatch:"^.{0,10}"}]
 # sanitize client response header to mask last ten values or less
 TRACEABILITY_REDACTION_RESPONSEHEADER_SANITIZE=[{keyMatch:"client",valueMatch:".{0,10}$"}]
 ```
