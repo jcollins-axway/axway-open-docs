@@ -14,13 +14,13 @@ description: "Understand how the Traceability Agent will redact and sanitize
 
 ## Objectives
 
-Learn how to to set up redaction and sanitization rules used to ALLOW transaction path, query arguments, request headers, and response headers when sending data to Amplify Central.
+Learn how to to set up redaction and sanitization rules used to ALLOW transaction path, query arguments, request headers, and response headers when sending data to Amplify Central. With the agent default configuration, these information will not be sent to Amplify.
 
 ## Path show rules
 
-Parts of the URI path will be redacted before the info is sent to Amplify Central.  When this is done the Traceability Agent replaces the path value with "{*}" in the transaction details.
+Parts of the URI path will be redacted before the info is sent to Amplify Central. When this is done the Traceability Agent replaces the path value with "{*}" in the transaction details.
 
-By default all things are redacted and rules must be set to show the path elements.  When using environment variables the variable name is `TRACEABILITY_REDACTION_PATH_SHOW`.
+By default everything is redacted and rules must be set to show the path elements. When using environment variables the variable name is `TRACEABILITY_REDACTION_PATH_SHOW`.
 
 ```bash
 # Send all path values, no redactions
@@ -40,7 +40,7 @@ Ex. `https://somehost.com/pathof/my/api/uses/thispath` is redacted to `https://s
 
 ## Query argument and header show rules
 
-Query argument and header show rules work much like the path rules above but only match the key portion and not the value.  When a key does not match a show rule that key and value is completely removed from the transaction details.
+Query argument and header show rules work like the path rules above but only match the key portion and not the value. When a key does not match a show rule that key and value is completely removed from the transaction details.
 
 The environment variable names are `TRACEABILITY_REDACTION_QUERYARGUMENT_SHOW`, `TRACEABILITY_REDACTION_REQUESTHEADER_SHOW`, and `TRACEABILITY_REDACTION_RESPONSEHEADER_SHOW`
 
@@ -85,3 +85,43 @@ TRACEABILITY_REDACTION_RESPONSEHEADER_SANITIZE=[{keyMatch:"^response",valueMatch
 ```
 
 Ex. `response-header=mypasswordissafe` is sanitized to `response-header=my{*}issafe`
+
+## Redaction configuration samples
+
+### Send path, headers and query parameters to Amplify platform without restriction
+
+```bash
+# path
+TRACEABILITY_REDACTION_PATH_SHOW=[{keyMatch:".*"}]
+# query parameters
+TRACEABILITY_REDACTION_QUERYARGUMENT_SHOW=[{keyMatch:".*"}]
+# request header
+TRACEABILITY_REDACTION_REQUESTHEADER_SHOW=[{keyMatch:".*"}]
+# response header
+TRACEABILITY_REDACTION_RESPONSEHEADER_SHOW=[{keyMatch:".*"}]
+```
+
+### Send path and query paramters only to Amplify platform without restriction
+
+```bash
+# path
+TRACEABILITY_REDACTION_PATH_SHOW=[{keyMatch:".*"}]
+# query parameters
+TRACEABILITY_REDACTION_QUERYARGUMENT_SHOW=[{keyMatch:".*"}]
+```
+
+### Send path and sanitize headers to hide
+
+```bash
+# send all paths
+TRACEABILITY_REDACTION_PATH_SHOW=[{keyMatch:".*"}]
+# send all request headers
+TRACEABILITY_REDACTION_REQUESTHEADER_SHOW=[{keyMatch:".*"}]
+# send all response headers
+TRACEABILITY_REDACTION_RESPONSEHEADER_SHOW=[{keyMatch:".*"}]
+# sanitize Authorization request header to mask the ten first characters or less
+TRACEABILITY_REDACTION_REQUESTHEADER_SANITIZE=[{keyMatch:"Authorization",valueMatch:"^.*{0,10}"}]
+# sanitize client response header to mask last ten values or less
+TRACEABILITY_REDACTION_RESPONSEHEADER_SANITIZE=[{keyMatch:"client",valueMatch:".{0,10}$"}]
+```
+
