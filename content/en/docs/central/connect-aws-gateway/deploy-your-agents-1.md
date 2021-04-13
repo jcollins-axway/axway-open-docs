@@ -113,7 +113,7 @@ The configuration of the AWS_QUEUENAME is not used in this mode.
 
 ### Customizing email servers
 
-The `host`, which represents the email server, can be configured with minimal setup. This section represents the email servers that have been currently tested. Please note, that all testing has been set up on port 587 signifying TLS support.
+The `host`, which represents the email server, can be configured with minimal setup. This section represents the email servers that have been currently tested. Please note that all testing has been set up on port 587 signifying TLS support.
 
 ```
 # Google/Gmail server
@@ -205,7 +205,7 @@ CENTRAL_SUBSCRIPTIONS_NOTIFICATIONS_SMTP_SUBSCRIBE_APIKEYS=Your API is secured u
 
 ```
 
-The agent will fill in the appropriate data for the variables specified, ie \${catalogItemUrl}, ${keyHeaderName} and ${authtemplate} before sending the SMTP message. The variables that may be used are the keys for the JSON data sent to the webhook endpoint, see [Subscription webhook notifications](#subscription-webhook-notifications).
+The agent will fill in the appropriate data for the variables specified, i.e., \${catalogItemUrl}, ${keyHeaderName} and ${authtemplate} before sending the SMTP message. The variables that may be used are the keys for the JSON data sent to the webhook endpoint, see [Subscription webhook notifications](#subscription-webhook-notifications).
 
 ### Create your Discovery Agent environment file
 
@@ -252,9 +252,9 @@ LOG_PATH=logs
    docker pull axway.jfrog.io/ampc-public-docker-release/agent/aws-apigw-discovery-agent:latest
    ```
 
-3. Start the Discovery Agent pointing to the `env_vars` file and the keys directory
+3. Start the Discovery Agent pointing to the `env_vars` file and the keys directory:
 
-    * Continuous Discovery mode
+    * Continuous Discovery mode:
 
         ```
        docker run --env-file ./env_vars -v <pwd>/keys:/keys  axway.jfrog.io/ampc-public-docker-release/agent/aws-apigw-discovery-agent:latest
@@ -262,7 +262,7 @@ LOG_PATH=logs
 
         `pwd` relates to the local directory where the docker command is run. For Windows, the absolute path is preferred.
 
-    * Synchronous Discovery mode
+    * Synchronous Discovery mode:
   
         ```
         docker run --env-file ./env_vars -v <pwd>/keys:/keys  axway.jfrog.io/ampc-public-docker-release/agent/aws-apigw-discovery-agent:latest --synchronize
